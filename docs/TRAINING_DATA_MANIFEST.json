@@ -1,0 +1,99 @@
+﻿{
+  "manifest_metadata": {
+    "system": "HazardGuard / SIH26080 Scientific ML Training Data Manifest",
+    "version": "1.0.0",
+    "author": "Sayan",
+    "recipient": "Ronak",
+    "date": "2026-09-03",
+    "status": "AUTHORITATIVE_PROVENANCE_VERIFIED"
+  },
+  "authoritative_model": {
+    "lead_hours": 24,
+    "model_id": "hazardguard_v7_24h",
+    "model_type": "Residual",
+    "artifact_path": "ml/models/candidates/24h_residual.json",
+    "artifact_sha256": "dbe2a46cd05221ab98fb54484a65a10951e39d914cd3815d05d26993bbb6f816",
+    "artifact_size_bytes": 538286,
+    "producing_training_script": "ml/train_final.py",
+    "hyperparameters": {
+      "tree_method": "hist",
+      "max_depth": 5,
+      "learning_rate": 0.05,
+      "subsample": 0.8,
+      "colsample_bytree": 0.8,
+      "seed": 42,
+      "weight_chosen": 3.0,
+      "target_transform": "Residual"
+    },
+    "split_row_counts": {
+      "train": 7521,
+      "val": 2139,
+      "test": 2070
+    }
+  },
+  "datasets": [
+    {
+      "logical_name": "dataset_v7_corrected",
+      "status": "REQUIRED_FOR_REPRODUCTION",
+      "runtime_role": "NOT_RUNTIME_REQUIRED",
+      "original_path": "D:\\HazardGuard-ML\\datasets\\dataset_v7_corrected.parquet",
+      "package_path": "training_data/dataset_v7_corrected.parquet",
+      "sha256": "e0bc0aff14b1c441bd41f87978ada6246e263e26fd090eb50546b13703e382a0",
+      "size_bytes": 1229891,
+      "row_count": 35190,
+      "lead_times": [24.0, 48.0, 72.0],
+      "valid_time_min": "2024-03-14T00:00:00Z",
+      "valid_time_max": "2024-08-30T00:00:00Z",
+      "grid_count": 69,
+      "geographic_bounds": {
+        "lat_min": 8.5,
+        "lat_max": 34.3,
+        "lon_min": 71.93,
+        "lon_max": 93.9
+      },
+      "producing_script": "ml/data/builder_v7.py",
+      "consuming_script": "ml/train_final.py",
+      "dependent_models": [
+        "hazardguard_v7_24h (DEPLOY_CORRECTED)",
+        "hazardguard_v7_48h (benchmark metrics)",
+        "hazardguard_v7_72h (benchmark metrics)"
+      ],
+      "columns": [
+        "provider_id", "model_id", "valid_time", "lead_time_hours",
+        "latitude", "longitude", "day_of_year", "forecast_precip_mm",
+        "forecast_temperature", "forecast_relative_humidity",
+        "forecast_surface_pressure", "forecast_wind_speed",
+        "forecast_cloud_cover", "reference_precip_mm", "wind_u", "wind_v"
+      ]
+    },
+    {
+      "logical_name": "final_historical_dataset",
+      "status": "OPTIONAL_CONTEXT",
+      "runtime_role": "NOT_RUNTIME_REQUIRED",
+      "original_path": "D:\\HazardGuard-ML\\datasets\\final_historical_dataset.parquet",
+      "package_path": "training_data/final_historical_dataset.parquet",
+      "sha256": "7bcd06521a205bc64f88c49c5b440ff6ee1e492bd599b71c87ed505bd052f53b",
+      "size_bytes": 621451,
+      "row_count": 35190,
+      "lead_times": [24.0, 48.0, 72.0],
+      "valid_time_min": "2024-03-14T00:00:00Z",
+      "valid_time_max": "2024-08-30T00:00:00Z",
+      "producing_script": "ml/data/builder_v6.py",
+      "consuming_script": "ml/data/builder_v7.py",
+      "description": "Baseline matched dataset before u, v wind vector decomposition"
+    },
+    {
+      "logical_name": "serious_training_data",
+      "status": "HISTORICAL",
+      "runtime_role": "NOT_RUNTIME_REQUIRED",
+      "original_path": "C:\\Users\\Lenovo\\Hazard-guard\\ml\\data\cache\\serious_training_data.parquet",
+      "package_path": "training_data/serious_training_data.parquet",
+      "sha256": "7339939de23f1dd1cda623a4849247cf4fad649d90d954041fd30faec995b408",
+      "size_bytes": 137889,
+      "row_count": 5900,
+      "producing_script": "ml/data/build_serious_dataset.py",
+      "consuming_script": "ml/train_serious_models.py",
+      "description": "Early research prototype dataset from Phase 6"
+    }
+  ]
+}

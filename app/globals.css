@@ -1,0 +1,155 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg-primary: #0B0B0D;
+    --panel-bg: #111115;
+    --panel-elevated: #18181F;
+    --border-dim: #282732;
+    --border-rule: #32313D;
+    --text-primary: #F1EEE8;
+    --text-dim: #C7C2BC;
+    --text-smoke: #8D8B97;
+    --signal-red: #FF3B30;
+    --chartreuse: #C8FF3D;
+    --violet: #7968FF;
+    --amber: #FFB347;
+  }
+}
+
+body {
+  background-color: #0B0B0D;
+  color: #F1EEE8;
+  font-family: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
+  background-image: 
+    radial-gradient(rgba(121, 104, 255, 0.03) 1px, transparent 0),
+    linear-gradient(to right, rgba(255, 255, 255, 0.01) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.01) 1px, transparent 1px);
+  background-size: 24px 24px, 48px 48px, 48px 48px;
+}
+
+/* Tactical clipped corners */
+.clip-tactical {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 10px) 0,
+    100% 10px,
+    100% 100%,
+    10px 100%,
+    0 calc(100% - 10px)
+  );
+}
+
+.clip-chamfer-sm {
+  clip-path: polygon(
+    0 0,
+    calc(100% - 6px) 0,
+    100% 6px,
+    100% 100%,
+    6px 100%,
+    0 calc(100% - 6px)
+  );
+}
+
+/* Technical corner markers */
+.corner-ticks {
+  position: relative;
+}
+.corner-ticks::before,
+.corner-ticks::after {
+  content: '';
+  position: absolute;
+  width: 6px;
+  height: 6px;
+  pointer-events: none;
+}
+.corner-ticks::before {
+  top: 0;
+  left: 0;
+  border-top: 1.5px solid #C8FF3D;
+  border-left: 1.5px solid #C8FF3D;
+}
+.corner-ticks::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 1.5px solid #C8FF3D;
+  border-right: 1.5px solid #C8FF3D;
+}
+
+/* Red hazard stripes */
+.hazard-stripe-red {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FF3B30,
+    #FF3B30 8px,
+    #111115 8px,
+    #111115 16px
+  );
+}
+
+.hazard-stripe-amber {
+  background: repeating-linear-gradient(
+    -45deg,
+    #FFB347,
+    #FFB347 8px,
+    #111115 8px,
+    #111115 16px
+  );
+}
+
+/* Precision scrollbar */
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0D;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #282732;
+  border-radius: 0px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4A4956;
+}
+
+/* MapLibre popup style overrides */
+.maplibregl-popup-content {
+  background: transparent !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+.maplibregl-popup-tip {
+  border-top-color: #111115 !important;
+}
+
+/* ── Global Select / Dropdown dark theme fix ─────────────────────────────── */
+/* Prevents OS-default white background on <option> elements */
+select {
+  background-color: #111115;
+  color: #F1EEE8;
+  border-color: #32313D;
+}
+
+select option {
+  background-color: #111115 !important;
+  color: #F1EEE8 !important;
+}
+
+select option:checked,
+select option:hover {
+  background-color: #202026 !important;
+  color: #C8FF3D !important;
+}
+
+/* No-scrollbar utility */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+

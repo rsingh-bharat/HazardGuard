@@ -1,0 +1,26 @@
+{
+  "simulationId": "sim_pune_20260901_p50",
+  "forecastId": "forecast_20260901_00z",
+  "districtId": "MH_PUNE",
+  "rainfallMm": 143.0,
+  "water": {
+    "riskGeoJsonUrl": "/data/geojson/pune_water_risk.geojson",
+    "flowGeoJsonUrl": "/data/geojson/pune_flow_vectors.geojson",
+    "accumulationRasterUrl": "/data/terrain/pune_accumulation.png"
+  },
+  "exposure": {
+    "roadsKm": 48.6,
+    "buildingsCount": 1840,
+    "hospitalsAtRisk": 4,
+    "schoolsAtRisk": 19,
+    "powerStationsAtRisk": 2,
+    "populationExposed": 64200
+  },
+  "severity": {
+    "overall": "HIGH"
+  },
+  "provenance": {
+    "terrainVersion": "SRTM-30m-v4.1",
+    "simulationVersion": "impact-hydro-v1.4"
+  }
+}

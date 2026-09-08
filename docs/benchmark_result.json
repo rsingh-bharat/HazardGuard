@@ -1,0 +1,350 @@
+{
+  "benchmark_id": "bench_80f57b378f93",
+  "evaluation_start": "2026-01-02T00:00:00+00:00",
+  "evaluation_end": "2026-01-03T00:00:00+00:00",
+  "number_of_complete_windows": 2,
+  "providers": [
+    "ecmwf",
+    "weathernext3_statistics"
+  ],
+  "reference_source": "era5",
+  "grid": "0.25_degree_regular_lat_lon",
+  "accumulation_window_hours": 24.0,
+  "sample_count": 8,
+  "coverage_statistics": {
+    "total_candidate_windows": 3,
+    "raw_records_before_intersection": {
+      "ecmwf": 8,
+      "weathernext": 8,
+      "era5": 8
+    },
+    "aligned_records": 8,
+    "rejected_vintage_records": 0,
+    "rejected_incomplete_window_records": 0,
+    "retained_benchmark_records": 8,
+    "number_of_complete_windows": 2,
+    "evaluation_start": "2026-01-02T00:00:00+00:00",
+    "evaluation_end": "2026-01-03T00:00:00+00:00",
+    "expected_windows": 3,
+    "missing_windows": [
+      "2026-01-01T00:00:00+00:00"
+    ],
+    "coverage_ratio": 0.6666666666666666,
+    "coverage_status": "coverage_incomplete",
+    "reference_cutoff_utc": "2026-01-03T00:00:00+00:00"
+  },
+  "metrics": {
+    "ecmwf": {
+      "pooled": {
+        "mae": 0.09999999999999999,
+        "rmse": 0.282842712474619,
+        "mbe": -0.09999999999999999,
+        "pearson_r": 0.10762440050012632,
+        "sample_count": 8,
+        "aggregation": "overall_pooled_records"
+      },
+      "spatial": {
+        "mean_mae": 0.09999999999999999,
+        "median_mae": 0.0,
+        "min_mae": 0.0,
+        "max_mae": 0.39999999999999997,
+        "mean_rmse": 0.1414213562373095,
+        "median_rmse": 0.0,
+        "min_rmse": 0.0,
+        "max_rmse": 0.565685424949238,
+        "mean_mbe": -0.09999999999999999,
+        "mean_pearson_r": 1.0,
+        "num_grid_cells": 4,
+        "per_cell_metrics": {
+          "grid_25.2500_90.2500": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "mbe": 0.0,
+            "pearson_r": null,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.2500_90.2500_time_series"
+          },
+          "grid_25.2500_91.7500": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "mbe": 0.0,
+            "pearson_r": null,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.2500_91.7500_time_series"
+          },
+          "grid_25.7500_90.2500": {
+            "mae": 0.39999999999999997,
+            "rmse": 0.565685424949238,
+            "mbe": -0.39999999999999997,
+            "pearson_r": null,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.7500_90.2500_time_series"
+          },
+          "grid_25.7500_91.7500": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "mbe": 0.0,
+            "pearson_r": 1.0,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.7500_91.7500_time_series"
+          }
+        },
+        "aggregation_description": "Per-grid-cell time-series verification, then aggregated spatially"
+      },
+      "temporal": {
+        "mean_mae": 0.09999999999999999,
+        "median_mae": 0.09999999999999999,
+        "min_mae": 0.0,
+        "max_mae": 0.19999999999999998,
+        "mean_rmse": 0.19999999999999998,
+        "median_rmse": 0.19999999999999998,
+        "min_rmse": 0.0,
+        "max_rmse": 0.39999999999999997,
+        "mean_mbe": -0.09999999999999999,
+        "mean_pearson_r": -0.08804509063256233,
+        "num_time_steps": 2,
+        "per_time_metrics": {
+          "2026-01-03T00:00:00+00:00": {
+            "mae": 0.19999999999999998,
+            "rmse": 0.39999999999999997,
+            "mbe": -0.19999999999999998,
+            "pearson_r": -0.08804509063256233,
+            "sample_count": 4,
+            "aggregation": "time_2026-01-03T00:00:00+00:00_spatial_field"
+          },
+          "2026-01-02T00:00:00+00:00": {
+            "mae": 0.0,
+            "rmse": 0.0,
+            "mbe": 0.0,
+            "pearson_r": null,
+            "sample_count": 4,
+            "aggregation": "time_2026-01-02T00:00:00+00:00_spatial_field"
+          }
+        },
+        "aggregation_description": "Per-valid-time spatial verification, then aggregated temporally"
+      }
+    },
+    "weathernext": {
+      "pooled": {
+        "mae": 0.14526722078435245,
+        "rmse": 0.21387664309770316,
+        "mbe": 0.029673425981415563,
+        "pearson_r": 0.5993854382304603,
+        "sample_count": 8,
+        "aggregation": "overall_pooled_records"
+      },
+      "spatial": {
+        "mean_mae": 0.14526722078435247,
+        "median_mae": 0.14362800808151507,
+        "min_mae": 0.02374868615788514,
+        "max_mae": 0.2700641808164946,
+        "mean_rmse": 0.1760950961519434,
+        "median_rmse": 0.1736543906037836,
+        "min_rmse": 0.02553249279051796,
+        "max_rmse": 0.33153911060968855,
+        "mean_mbe": 0.029673425981415567,
+        "mean_pearson_r": 1.0,
+        "num_grid_cells": 4,
+        "per_cell_metrics": {
+          "grid_25.2500_90.2500": {
+            "mae": 0.07670626383571137,
+            "rmse": 0.09590129083578369,
+            "mbe": 0.07670626383571137,
+            "pearson_r": null,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.2500_90.2500_time_series"
+          },
+          "grid_25.2500_91.7500": {
+            "mae": 0.02374868615788514,
+            "rmse": 0.02553249279051796,
+            "mbe": 0.02374868615788514,
+            "pearson_r": null,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.2500_91.7500_time_series"
+          },
+          "grid_25.7500_90.2500": {
+            "mae": 0.2700641808164946,
+            "rmse": 0.33153911060968855,
+            "mbe": -0.19231099839525304,
+            "pearson_r": 0.9999999999999999,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.7500_90.2500_time_series"
+          },
+          "grid_25.7500_91.7500": {
+            "mae": 0.2105497523273188,
+            "rmse": 0.2514074903717835,
+            "mbe": 0.2105497523273188,
+            "pearson_r": 1.0,
+            "sample_count": 2,
+            "aggregation": "cell_grid_25.7500_91.7500_time_series"
+          }
+        },
+        "aggregation_description": "Per-grid-cell time-series verification, then aggregated spatially"
+      },
+      "temporal": {
+        "mean_mae": 0.14526722078435245,
+        "median_mae": 0.14526722078435245,
+        "min_mae": 0.046109223304423144,
+        "max_mae": 0.24442521826428176,
+        "mean_rmse": 0.17609323712093772,
+        "median_rmse": 0.17609323712093772,
+        "min_rmse": 0.054707940222954644,
+        "max_rmse": 0.29747853401892077,
+        "mean_mbe": 0.029673425981415563,
+        "mean_pearson_r": 0.4493673040148126,
+        "num_time_steps": 2,
+        "per_time_metrics": {
+          "2026-01-03T00:00:00+00:00": {
+            "mae": 0.24442521826428176,
+            "rmse": 0.29747853401892077,
+            "mbe": 0.013237628658407982,
+            "pearson_r": 0.4493673040148126,
+            "sample_count": 4,
+            "aggregation": "time_2026-01-03T00:00:00+00:00_spatial_field"
+          },
+          "2026-01-02T00:00:00+00:00": {
+            "mae": 0.046109223304423144,
+            "rmse": 0.054707940222954644,
+            "mbe": 0.046109223304423144,
+            "pearson_r": null,
+            "sample_count": 4,
+            "aggregation": "time_2026-01-02T00:00:00+00:00_spatial_field"
+          }
+        },
+        "aggregation_description": "Per-valid-time spatial verification, then aggregated temporally"
+      }
+    }
+  },
+  "categorical_metrics": {
+    "64.5mm": {
+      "ecmwf": {
+        "threshold_mm": 64.5,
+        "pod": null,
+        "far": null,
+        "csi": null,
+        "hits": 0,
+        "misses": 0,
+        "false_alarms": 0,
+        "correct_negatives": 8,
+        "total_samples": 8,
+        "metric_type": "deterministic rainfall threshold metrics",
+        "disclaimer": "categorical performance is deterministic threshold classification, not probabilistic exceedance forecasting or flood/landslide hazard threshold."
+      },
+      "weathernext": {
+        "threshold_mm": 64.5,
+        "pod": null,
+        "far": null,
+        "csi": null,
+        "hits": 0,
+        "misses": 0,
+        "false_alarms": 0,
+        "correct_negatives": 8,
+        "total_samples": 8,
+        "metric_type": "deterministic rainfall threshold metrics",
+        "disclaimer": "categorical performance is deterministic threshold classification, not probabilistic exceedance forecasting or flood/landslide hazard threshold."
+      }
+    }
+  },
+  "statistical_comparison": {
+    "mae": {
+      "metric_name": "mae",
+      "ecmwf_score": 0.09999999999999999,
+      "weathernext_score": 0.14526722078435245,
+      "difference": 0.045267220784352455,
+      "ci_lower": 0.04442521826428178,
+      "ci_upper": 0.046109223304423144,
+      "confidence_level": 0.95,
+      "p_value": 0.0,
+      "bootstrap_resamples": 1000,
+      "random_seed": 42,
+      "block_type": "daily_date_blocks",
+      "clustering_description": "Resampled 2 whole daily forecast dates with replacement (1000 valid resamples). Spatial cells on the same date kept together."
+    },
+    "rmse": {
+      "metric_name": "rmse",
+      "ecmwf_score": 0.282842712474619,
+      "weathernext_score": 0.21387664309770316,
+      "difference": -0.06896606937691585,
+      "ci_lower": -0.1025214659810792,
+      "ci_upper": 0.054707940222954644,
+      "confidence_level": 0.95,
+      "p_value": 0.504,
+      "bootstrap_resamples": 1000,
+      "random_seed": 42,
+      "block_type": "daily_date_blocks",
+      "clustering_description": "Resampled 2 whole daily forecast dates with replacement (1000 valid resamples). Spatial cells on the same date kept together."
+    },
+    "mbe": {
+      "metric_name": "mbe",
+      "ecmwf_score": -0.09999999999999999,
+      "weathernext_score": 0.029673425981415563,
+      "difference": 0.12967342598141557,
+      "ci_lower": 0.046109223304423144,
+      "ci_upper": 0.21323762865840795,
+      "confidence_level": 0.95,
+      "p_value": 0.0,
+      "bootstrap_resamples": 1000,
+      "random_seed": 42,
+      "block_type": "daily_date_blocks",
+      "clustering_description": "Resampled 2 whole daily forecast dates with replacement (1000 valid resamples). Spatial cells on the same date kept together."
+    },
+    "csi_64.5mm": {
+      "metric_name": "csi",
+      "ecmwf_score": null,
+      "weathernext_score": null,
+      "difference": null,
+      "ci_lower": null,
+      "ci_upper": null,
+      "confidence_level": 0.95,
+      "p_value": null,
+      "bootstrap_resamples": 1000,
+      "random_seed": 42,
+      "block_type": "daily_date_blocks",
+      "clustering_description": "Insufficient data to compute point estimates."
+    }
+  },
+  "probabilistic_benchmark_available": false,
+  "provenance": {
+    "evaluation_created_at_utc": "2026-09-05T19:47:11.585320+00:00",
+    "target_grid": "0.25_degree_regular_lat_lon",
+    "regridding_method": "conservative_remapping_0.1_to_0.25",
+    "accumulation_method": "24h_sum_00Z_to_00Z",
+    "reference_source": "era5",
+    "lead_time_hours": 24.0,
+    "primary_threshold_mm": 64.5,
+    "bootstrap_seed": 42,
+    "bootstrap_resamples": 1000,
+    "confidence_level": 0.95,
+    "grid_cell_count": 4,
+    "grid_cells": [
+      "grid_25.2500_90.2500",
+      "grid_25.2500_91.7500",
+      "grid_25.7500_90.2500",
+      "grid_25.7500_91.7500"
+    ],
+    "models": {
+      "ecmwf": "ecmwf_ifs",
+      "weathernext": "weathernext_3_0_0_statistics",
+      "reference": "era5_reanalysis"
+    },
+    "run_ids": {
+      "ecmwf": [
+        "ecmwf_ifs_00Z_2026-01-01",
+        "ecmwf_ifs_00Z_2026-01-02"
+      ],
+      "weathernext": [
+        "20260101_00hr_01_preds",
+        "20260102_00hr_01_preds"
+      ]
+    }
+  },
+  "limitations": [
+    "WeatherNext 3 probabilistic scoring is unavailable (probabilistic_benchmark_available = false). No ensemble quantiles, CRPS, Brier score, or reliability diagrams are computed.",
+    "Deterministic rainfall threshold metrics evaluate point/grid classification skill, not flood/landslide impact thresholds or probabilistic exceedance forecasts.",
+    "Spatial alignment uses conservative area-weighted remapping (0.1 deg to 0.25 deg) to preserve rainfall volume across grid boundaries.",
+    "Statistical comparisons employ a paired daily block bootstrap to account for spatial autocorrelation across grid cells.",
+    "Strict intersection was enforced with zero temporal forward filling, spatial interpolation, or synthetic imputation.",
+    "Neither model is designated as an overall winner; verification provides multidimensional diagnostic evidence.",
+    "Temporal coverage incomplete: 1 of 3 expected 24h accumulation windows were missing (66.7% coverage). Missing windows: 2026-01-01T00:00:00+00:00."
+  ]
+}

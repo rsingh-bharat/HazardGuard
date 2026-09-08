@@ -1,0 +1,48 @@
+{
+  "_comment": "SAMPLE PAYLOAD FOR RONAK: Impact Engine Decoupled Hazard State",
+  "endpoint": "POST /ml/impact",
+  "status_code": 200,
+  "payload": {
+    "snapshot_id": "8c7c5f1e-7273-4a38-b425-df1315c047dc",
+    "timestamp": "2026-09-03T03:27:37.114487+00:00",
+    "latitude": 25.467,
+    "longitude": 91.366,
+    "lead_hours": 24,
+    "rainfall_mm": 13.87,
+    "event_probability": 0.02,
+    "event_threshold_mm": 15.6,
+    "model_id": "hazardguard_v7_24h",
+    "model_status": "DEPLOY_CORRECTED",
+    "fallback": false,
+    "fallback_reason": null,
+    "verification_status": "VERIFIED",
+    "meteorological_intensity": {
+      "risk_level": "LOW",
+      "status": "COMPUTED_METEOROLOGICAL_ONLY"
+    },
+    "flood_risk": {
+      "risk_level": "UNKNOWN",
+      "status": "FLOOD_MODEL_UNAVAILABLE"
+    },
+    "landslide_risk": {
+      "risk_level": "UNKNOWN",
+      "status": "LANDSLIDE_MODEL_UNAVAILABLE"
+    },
+    "road_risk": {
+      "risk_level": "UNKNOWN",
+      "status": "DATA_UNAVAILABLE"
+    },
+    "infrastructure_risk": {
+      "risk_level": "UNKNOWN",
+      "status": "DATA_UNAVAILABLE"
+    },
+    "population_risk": {
+      "risk_level": "UNKNOWN",
+      "status": "DATA_UNAVAILABLE"
+    },
+    "overall_hazard_level": {
+      "risk_level": "LOW",
+      "status": "METEOROLOGICAL_SIGNAL_ONLY_NO_MULTI_HAZARD_SYNTHESIS"
+    }
+  }
+}

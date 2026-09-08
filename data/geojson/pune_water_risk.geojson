@@ -1,0 +1,85 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Ambil Odha Catchment - Lower Basin",
+        "risk_level": "CRITICAL",
+        "inundation_depth_m": 2.4,
+        "flood_velocity_mps": 2.1,
+        "fill_color": "#dc2626"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [[73.845, 18.490], [73.860, 18.490], [73.865, 18.510], [73.850, 18.515], [73.845, 18.490]]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Mutha Riverbank - Deccan Gymkhana / Pulachi Wadi",
+        "risk_level": "HIGH",
+        "inundation_depth_m": 1.6,
+        "flood_velocity_mps": 1.4,
+        "fill_color": "#ea580c"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [[73.835, 18.510], [73.855, 18.515], [73.860, 18.530], [73.840, 18.528], [73.835, 18.510]]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Sangam Bridge Mula-Mutha Confluence",
+        "risk_level": "HIGH",
+        "inundation_depth_m": 1.8,
+        "flood_velocity_mps": 1.7,
+        "fill_color": "#ea580c"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [[73.860, 18.528], [73.885, 18.530], [73.890, 18.545], [73.865, 18.540], [73.860, 18.528]]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Khadakwasla Downstream Spillway Channel",
+        "risk_level": "CRITICAL",
+        "inundation_depth_m": 2.9,
+        "flood_velocity_mps": 2.8,
+        "fill_color": "#dc2626"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [[73.760, 18.435], [73.785, 18.440], [73.790, 18.460], [73.765, 18.455], [73.760, 18.435]]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "zone": "Aundh-Baner Pawana Floodplain",
+        "risk_level": "MODERATE",
+        "inundation_depth_m": 0.8,
+        "flood_velocity_mps": 0.6,
+        "fill_color": "#ca8a04"
+      },
+      "geometry": {
+        "type": "Polygon",
+        "coordinates": [
+          [[73.780, 18.555], [73.815, 18.560], [73.820, 18.580], [73.785, 18.575], [73.780, 18.555]]
+        ]
+      }
+    }
+  ]
+}

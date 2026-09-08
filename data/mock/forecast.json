@@ -1,0 +1,1400 @@
+[
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "OR",
+      "districtId": "OR_PURI",
+      "districtName": "Puri",
+      "stateName": "Odisha",
+      "lat": 19.8135,
+      "lon": 85.8312
+    },
+    "rainfall": {
+      "rawNwpMm": 178.4,
+      "correctedMm": 245.8,
+      "p10Mm": 195.0,
+      "p50Mm": 245.8,
+      "p90Mm": 310.2,
+      "alertLevel": "RED",
+      "alertHex": "#ef4444",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "MONSOON_DEPRESSION",
+      "confidence": 0.94,
+      "description": "Deep depression over Northwest Bay of Bengal tracking West-Northwestwards with intense moisture flux."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.99,
+      "veryHeavy_115mm": 0.91,
+      "extremelyHeavy_204mm": 0.78
+    },
+    "riversAtRisk": [
+      { "riverName": "Mahanadi", "basin": "Mahanadi Basin", "dangerLevel": "SEVERE" },
+      { "riverName": "Bhargavi", "basin": "Mahanadi Delta", "dangerLevel": "SEVERE" },
+      { "riverName": "Daya", "basin": "Mahanadi Delta", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "KL",
+      "districtId": "KL_WAYANAD",
+      "districtName": "Wayanad",
+      "stateName": "Kerala",
+      "lat": 11.6854,
+      "lon": 76.1320
+    },
+    "rainfall": {
+      "rawNwpMm": 162.0,
+      "correctedMm": 228.6,
+      "p10Mm": 180.5,
+      "p50Mm": 228.6,
+      "p90Mm": 288.4,
+      "alertLevel": "RED",
+      "alertHex": "#ef4444",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "OROGRAPHIC",
+      "confidence": 0.92,
+      "description": "Strong low-level westerly monsoon jet forced over Western Ghats crest with continuous condensation."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.98,
+      "veryHeavy_115mm": 0.88,
+      "extremelyHeavy_204mm": 0.72
+    },
+    "riversAtRisk": [
+      { "riverName": "Kabini", "basin": "Cauvery Basin", "dangerLevel": "SEVERE" },
+      { "riverName": "Chaliyar", "basin": "Chaliyar Basin", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "AS",
+      "districtId": "AS_CACHAR",
+      "districtName": "Cachar",
+      "stateName": "Assam",
+      "lat": 24.8333,
+      "lon": 92.7789
+    },
+    "rainfall": {
+      "rawNwpMm": 155.0,
+      "correctedMm": 216.4,
+      "p10Mm": 172.0,
+      "p50Mm": 216.4,
+      "p90Mm": 275.0,
+      "alertLevel": "RED",
+      "alertHex": "#ef4444",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.89,
+      "description": "Monsoon trough shifted towards Himalayan foothills with intense moisture convergence over Northeast India."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.97,
+      "veryHeavy_115mm": 0.85,
+      "extremelyHeavy_204mm": 0.68
+    },
+    "riversAtRisk": [
+      { "riverName": "Barak", "basin": "Barak Basin", "dangerLevel": "SEVERE" },
+      { "riverName": "Kushiyara", "basin": "Barak Basin", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "GJ",
+      "districtId": "GJ_VALSAD",
+      "districtName": "Valsad",
+      "stateName": "Gujarat",
+      "lat": 20.6100,
+      "lon": 72.9300
+    },
+    "rainfall": {
+      "rawNwpMm": 170.2,
+      "correctedMm": 234.0,
+      "p10Mm": 182.0,
+      "p50Mm": 234.0,
+      "p90Mm": 298.0,
+      "alertLevel": "RED",
+      "alertHex": "#ef4444",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "COASTAL_CONVECTION",
+      "confidence": 0.91,
+      "description": "Off-shore trough from South Gujarat to Kerala coast enhancing mesoscale convective clusters."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.98,
+      "veryHeavy_115mm": 0.89,
+      "extremelyHeavy_204mm": 0.74
+    },
+    "riversAtRisk": [
+      { "riverName": "Daman Ganga", "basin": "West Flowing Rivers", "dangerLevel": "SEVERE" },
+      { "riverName": "Auranga", "basin": "West Flowing Rivers", "dangerLevel": "SEVERE" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "MH",
+      "districtId": "MH_PUNE",
+      "districtName": "Pune",
+      "stateName": "Maharashtra",
+      "lat": 18.5204,
+      "lon": 73.8567
+    },
+    "rainfall": {
+      "rawNwpMm": 112.5,
+      "correctedMm": 143.0,
+      "p10Mm": 101.0,
+      "p50Mm": 143.0,
+      "p90Mm": 181.5,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "OROGRAPHIC",
+      "confidence": 0.88,
+      "description": "Western Ghats lee-wave moisture convergence and Ghat catchment rainfall loading."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.92,
+      "veryHeavy_115mm": 0.76,
+      "extremelyHeavy_204mm": 0.18
+    },
+    "riversAtRisk": [
+      { "riverName": "Mutha", "basin": "Krishna Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Mula", "basin": "Krishna Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Pawana", "basin": "Krishna Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "MH",
+      "districtId": "MH_MUMBAI",
+      "districtName": "Mumbai Suburban",
+      "stateName": "Maharashtra",
+      "lat": 19.0760,
+      "lon": 72.8777
+    },
+    "rainfall": {
+      "rawNwpMm": 135.0,
+      "correctedMm": 178.5,
+      "p10Mm": 130.0,
+      "p50Mm": 178.5,
+      "p90Mm": 220.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "COASTAL_CONVECTION",
+      "confidence": 0.90,
+      "description": "Mesoscale vortex coupled with strong Arabian Sea south-westerlies."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.95,
+      "veryHeavy_115mm": 0.82,
+      "extremelyHeavy_204mm": 0.38
+    },
+    "riversAtRisk": [
+      { "riverName": "Mithi", "basin": "West Coastal Basin", "dangerLevel": "DANGER" },
+      { "riverName": "Poisar", "basin": "West Coastal Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "MH",
+      "districtId": "MH_RATNAGIRI",
+      "districtName": "Ratnagiri",
+      "stateName": "Maharashtra",
+      "lat": 16.9902,
+      "lon": 73.3120
+    },
+    "rainfall": {
+      "rawNwpMm": 140.0,
+      "correctedMm": 182.0,
+      "p10Mm": 138.0,
+      "p50Mm": 182.0,
+      "p90Mm": 228.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "OROGRAPHIC",
+      "confidence": 0.93,
+      "description": "Konkan coastal orographic blocking and intense localized convective bands."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.96,
+      "veryHeavy_115mm": 0.84,
+      "extremelyHeavy_204mm": 0.41
+    },
+    "riversAtRisk": [
+      { "riverName": "Shastri", "basin": "West Coast Basin", "dangerLevel": "DANGER" },
+      { "riverName": "Vashishti", "basin": "West Coast Basin", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "UT",
+      "districtId": "UT_DEHRADUN",
+      "districtName": "Dehradun",
+      "stateName": "Uttarakhand",
+      "lat": 30.3165,
+      "lon": 78.0322
+    },
+    "rainfall": {
+      "rawNwpMm": 120.0,
+      "correctedMm": 164.0,
+      "p10Mm": 115.0,
+      "p50Mm": 164.0,
+      "p90Mm": 210.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "WESTERN_DISTURBANCE",
+      "confidence": 0.87,
+      "description": "Mid-tropospheric westerly trough interaction with low-level monsoon easterlies."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.93,
+      "veryHeavy_115mm": 0.78,
+      "extremelyHeavy_204mm": 0.32
+    },
+    "riversAtRisk": [
+      { "riverName": "Ganga", "basin": "Ganga Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Song", "basin": "Ganga Basin", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "HP",
+      "districtId": "HP_MANDI",
+      "districtName": "Mandi",
+      "stateName": "Himachal Pradesh",
+      "lat": 31.7087,
+      "lon": 76.9320
+    },
+    "rainfall": {
+      "rawNwpMm": 108.0,
+      "correctedMm": 152.0,
+      "p10Mm": 102.0,
+      "p50Mm": 152.0,
+      "p90Mm": 195.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "WESTERN_DISTURBANCE",
+      "confidence": 0.85,
+      "description": "Upper air cyclonic circulation over North Pakistan and adjoining Jammu & Himachal."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.91,
+      "veryHeavy_115mm": 0.72,
+      "extremelyHeavy_204mm": 0.24
+    },
+    "riversAtRisk": [
+      { "riverName": "Beas", "basin": "Indus Basin", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "WB",
+      "districtId": "WB_DARJEELING",
+      "districtName": "Darjeeling",
+      "stateName": "West Bengal",
+      "lat": 27.0360,
+      "lon": 88.2627
+    },
+    "rainfall": {
+      "rawNwpMm": 118.0,
+      "correctedMm": 158.0,
+      "p10Mm": 110.0,
+      "p50Mm": 158.0,
+      "p90Mm": 202.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "OROGRAPHIC",
+      "confidence": 0.91,
+      "description": "Eastern Himalayan foothills orographic lifting with high precipitable water index."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.94,
+      "veryHeavy_115mm": 0.77,
+      "extremelyHeavy_204mm": 0.28
+    },
+    "riversAtRisk": [
+      { "riverName": "Teesta", "basin": "Brahmaputra Basin", "dangerLevel": "DANGER" },
+      { "riverName": "Rangeet", "basin": "Brahmaputra Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "AP",
+      "districtId": "AP_VISAKHAPATNAM",
+      "districtName": "Visakhapatnam",
+      "stateName": "Andhra Pradesh",
+      "lat": 17.6868,
+      "lon": 83.2185
+    },
+    "rainfall": {
+      "rawNwpMm": 115.0,
+      "correctedMm": 149.0,
+      "p10Mm": 105.0,
+      "p50Mm": 149.0,
+      "p90Mm": 192.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "MONSOON_DEPRESSION",
+      "confidence": 0.89,
+      "description": "Outer rainbands of the Bay of Bengal depression grazing the North Andhra coastline."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.92,
+      "veryHeavy_115mm": 0.74,
+      "extremelyHeavy_204mm": 0.22
+    },
+    "riversAtRisk": [
+      { "riverName": "Godavari", "basin": "Godavari Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Sarada", "basin": "East Flowing Rivers", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "KL",
+      "districtId": "KL_ERNAKULAM",
+      "districtName": "Ernakulam",
+      "stateName": "Kerala",
+      "lat": 9.9816,
+      "lon": 76.2999
+    },
+    "rainfall": {
+      "rawNwpMm": 125.0,
+      "correctedMm": 168.0,
+      "p10Mm": 118.0,
+      "p50Mm": 168.0,
+      "p90Mm": 215.0,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "COASTAL_CONVECTION",
+      "confidence": 0.92,
+      "description": "Deep offshore trough causing sustained torrential bursts across Kochi port belt."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.95,
+      "veryHeavy_115mm": 0.81,
+      "extremelyHeavy_204mm": 0.35
+    },
+    "riversAtRisk": [
+      { "riverName": "Periyar", "basin": "Periyar Basin", "dangerLevel": "DANGER" },
+      { "riverName": "Muvattupuzha", "basin": "Periyar Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "BR",
+      "districtId": "BR_PATNA",
+      "districtName": "Patna",
+      "stateName": "Bihar",
+      "lat": 25.5941,
+      "lon": 85.1376
+    },
+    "rainfall": {
+      "rawNwpMm": 68.0,
+      "correctedMm": 88.5,
+      "p10Mm": 55.0,
+      "p50Mm": 88.5,
+      "p90Mm": 124.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.84,
+      "description": "Moderate convective activity along the eastern end of the monsoon trough."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.72,
+      "veryHeavy_115mm": 0.34,
+      "extremelyHeavy_204mm": 0.05
+    },
+    "riversAtRisk": [
+      { "riverName": "Ganga", "basin": "Ganga Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Son", "basin": "Ganga Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "BR",
+      "districtId": "BR_SUPAUL",
+      "districtName": "Supaul",
+      "stateName": "Bihar",
+      "lat": 26.1260,
+      "lon": 86.6053
+    },
+    "rainfall": {
+      "rawNwpMm": 76.0,
+      "correctedMm": 98.0,
+      "p10Mm": 68.0,
+      "p50Mm": 98.0,
+      "p90Mm": 135.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.86,
+      "description": "Foothill moisture inflow coupled with heavy upstream Nepal catchment discharge."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.81,
+      "veryHeavy_115mm": 0.42,
+      "extremelyHeavy_204mm": 0.08
+    },
+    "riversAtRisk": [
+      { "riverName": "Kosi", "basin": "Ganga Basin", "dangerLevel": "DANGER" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "MP",
+      "districtId": "MP_HOSHANGABAD",
+      "districtName": "Narmadapuram",
+      "stateName": "Madhya Pradesh",
+      "lat": 22.7500,
+      "lon": 77.7200
+    },
+    "rainfall": {
+      "rawNwpMm": 72.0,
+      "correctedMm": 92.0,
+      "p10Mm": 64.0,
+      "p50Mm": 92.0,
+      "p90Mm": 128.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "MONSOON_DEPRESSION",
+      "confidence": 0.83,
+      "description": "Depression track traversing Central India causing steady stratiform rains."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.78,
+      "veryHeavy_115mm": 0.38,
+      "extremelyHeavy_204mm": 0.06
+    },
+    "riversAtRisk": [
+      { "riverName": "Narmada", "basin": "Narmada Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Tawa", "basin": "Narmada Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "MP",
+      "districtId": "MP_JABALPUR",
+      "districtName": "Jabalpur",
+      "stateName": "Madhya Pradesh",
+      "lat": 23.1815,
+      "lon": 79.9864
+    },
+    "rainfall": {
+      "rawNwpMm": 65.0,
+      "correctedMm": 84.0,
+      "p10Mm": 58.0,
+      "p50Mm": 84.0,
+      "p90Mm": 115.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "MONSOON_DEPRESSION",
+      "confidence": 0.84,
+      "description": "Upper tropospheric divergence enhancing regional cloud bands."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.74,
+      "veryHeavy_115mm": 0.28,
+      "extremelyHeavy_204mm": 0.04
+    },
+    "riversAtRisk": [
+      { "riverName": "Narmada", "basin": "Narmada Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "TS",
+      "districtId": "TS_BHADRADRI",
+      "districtName": "Bhadradri Kothagudem",
+      "stateName": "Telangana",
+      "lat": 17.5500,
+      "lon": 80.6200
+    },
+    "rainfall": {
+      "rawNwpMm": 78.0,
+      "correctedMm": 104.0,
+      "p10Mm": 70.0,
+      "p50Mm": 104.0,
+      "p90Mm": 142.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.87,
+      "description": "Godavari valley convergence zone bringing localized intense spells."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.84,
+      "veryHeavy_115mm": 0.46,
+      "extremelyHeavy_204mm": 0.10
+    },
+    "riversAtRisk": [
+      { "riverName": "Godavari", "basin": "Godavari Basin", "dangerLevel": "DANGER" },
+      { "riverName": "Kinnerasani", "basin": "Godavari Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "TS",
+      "districtId": "TS_HYDERABAD",
+      "districtName": "Hyderabad",
+      "stateName": "Telangana",
+      "lat": 17.3850,
+      "lon": 78.4867
+    },
+    "rainfall": {
+      "rawNwpMm": 58.0,
+      "correctedMm": 76.0,
+      "p10Mm": 48.0,
+      "p50Mm": 76.0,
+      "p90Mm": 108.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.85,
+      "description": "Urban convective storm cells triggering short-duration high-intensity waterlogging."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.69,
+      "veryHeavy_115mm": 0.22,
+      "extremelyHeavy_204mm": 0.02
+    },
+    "riversAtRisk": [
+      { "riverName": "Musi", "basin": "Krishna Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "TN",
+      "districtId": "TN_NILGIRIS",
+      "districtName": "Nilgiris",
+      "stateName": "Tamil Nadu",
+      "lat": 11.4100,
+      "lon": 76.6950
+    },
+    "rainfall": {
+      "rawNwpMm": 72.0,
+      "correctedMm": 96.0,
+      "p10Mm": 64.0,
+      "p50Mm": 96.0,
+      "p90Mm": 132.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "OROGRAPHIC",
+      "confidence": 0.90,
+      "description": "Western slopes orographic spillover into upper catchment zones."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.82,
+      "veryHeavy_115mm": 0.39,
+      "extremelyHeavy_204mm": 0.07
+    },
+    "riversAtRisk": [
+      { "riverName": "Bhavani", "basin": "Cauvery Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Moyar", "basin": "Cauvery Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "TN",
+      "districtId": "TN_CHENNAI",
+      "districtName": "Chennai",
+      "stateName": "Tamil Nadu",
+      "lat": 13.0827,
+      "lon": 80.2707
+    },
+    "rainfall": {
+      "rawNwpMm": 55.0,
+      "correctedMm": 72.0,
+      "p10Mm": 44.0,
+      "p50Mm": 72.0,
+      "p90Mm": 102.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "COASTAL_CONVECTION",
+      "confidence": 0.82,
+      "description": "Afternoon sea-breeze frontal convergence triggering localized thundershowers."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.65,
+      "veryHeavy_115mm": 0.18,
+      "extremelyHeavy_204mm": 0.01
+    },
+    "riversAtRisk": [
+      { "riverName": "Adyar", "basin": "East Coastal Basin", "dangerLevel": "NORMAL" },
+      { "riverName": "Cooum", "basin": "East Coastal Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "KA",
+      "districtId": "KA_UDUPI",
+      "districtName": "Udupi",
+      "stateName": "Karnataka",
+      "lat": 13.3409,
+      "lon": 74.7421
+    },
+    "rainfall": {
+      "rawNwpMm": 85.0,
+      "correctedMm": 110.0,
+      "p10Mm": 76.0,
+      "p50Mm": 110.0,
+      "p90Mm": 150.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "COASTAL_CONVECTION",
+      "confidence": 0.90,
+      "description": "Coastal Karnataka active convective band with wind shear."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.88,
+      "veryHeavy_115mm": 0.48,
+      "extremelyHeavy_204mm": 0.12
+    },
+    "riversAtRisk": [
+      { "riverName": "Swarna", "basin": "West Coast Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Sita", "basin": "West Coast Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "KA",
+      "districtId": "KA_BENGALURU_URBAN",
+      "districtName": "Bengaluru Urban",
+      "stateName": "Karnataka",
+      "lat": 12.9716,
+      "lon": 77.5946
+    },
+    "rainfall": {
+      "rawNwpMm": 52.0,
+      "correctedMm": 68.0,
+      "p10Mm": 42.0,
+      "p50Mm": 68.0,
+      "p90Mm": 95.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.81,
+      "description": "Deccan plateau convergence line with evening urban flash flood potential."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.58,
+      "veryHeavy_115mm": 0.14,
+      "extremelyHeavy_204mm": 0.01
+    },
+    "riversAtRisk": [
+      { "riverName": "Vrishabhavathi", "basin": "Cauvery Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "RJ",
+      "districtId": "RJ_JAIPUR",
+      "districtName": "Jaipur",
+      "stateName": "Rajasthan",
+      "lat": 26.9124,
+      "lon": 75.7873
+    },
+    "rainfall": {
+      "rawNwpMm": 18.0,
+      "correctedMm": 24.5,
+      "p10Mm": 12.0,
+      "p50Mm": 24.5,
+      "p90Mm": 42.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.88,
+      "description": "Dry continental air intrusion suppressing convective development across Eastern Rajasthan."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.08,
+      "veryHeavy_115mm": 0.01,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Dravyavati", "basin": "Chambal Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "RJ",
+      "districtId": "RJ_JODHPUR",
+      "districtName": "Jodhpur",
+      "stateName": "Rajasthan",
+      "lat": 26.2389,
+      "lon": 73.0243
+    },
+    "rainfall": {
+      "rawNwpMm": 8.0,
+      "correctedMm": 11.2,
+      "p10Mm": 4.0,
+      "p50Mm": 11.2,
+      "p90Mm": 22.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.93,
+      "description": "Strong subsiding motion and high temperature-dewpoint spread."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.02,
+      "veryHeavy_115mm": 0.00,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Luni", "basin": "Luni Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "GJ",
+      "districtId": "GJ_AHMEDABAD",
+      "districtName": "Ahmedabad",
+      "stateName": "Gujarat",
+      "lat": 23.0225,
+      "lon": 72.5714
+    },
+    "rainfall": {
+      "rawNwpMm": 25.0,
+      "correctedMm": 32.0,
+      "p10Mm": 18.0,
+      "p50Mm": 32.0,
+      "p90Mm": 54.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.86,
+      "description": "Weak monsoon pulse with light scattered showers."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.12,
+      "veryHeavy_115mm": 0.02,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Sabarmati", "basin": "Sabarmati Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "UP",
+      "districtId": "UP_LUCKNOW",
+      "districtName": "Lucknow",
+      "stateName": "Uttar Pradesh",
+      "lat": 26.8467,
+      "lon": 80.9462
+    },
+    "rainfall": {
+      "rawNwpMm": 22.0,
+      "correctedMm": 28.0,
+      "p10Mm": 15.0,
+      "p50Mm": 28.0,
+      "p90Mm": 48.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.85,
+      "description": "Monsoon trough shifted south; dry northwesterly flow dominating upper levels."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.10,
+      "veryHeavy_115mm": 0.01,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Gomti", "basin": "Ganga Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "UP",
+      "districtId": "UP_VARANASI",
+      "districtName": "Varanasi",
+      "stateName": "Uttar Pradesh",
+      "lat": 25.3176,
+      "lon": 82.9739
+    },
+    "rainfall": {
+      "rawNwpMm": 28.0,
+      "correctedMm": 36.5,
+      "p10Mm": 20.0,
+      "p50Mm": 36.5,
+      "p90Mm": 58.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "ACTIVE_MONSOON",
+      "confidence": 0.80,
+      "description": "Light to moderate scattered monsoon showers with normal river flow."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.15,
+      "veryHeavy_115mm": 0.02,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Ganga", "basin": "Ganga Basin", "dangerLevel": "NORMAL" },
+      { "riverName": "Varuna", "basin": "Ganga Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "DL",
+      "districtId": "DL_NEW_DELHI",
+      "districtName": "New Delhi",
+      "stateName": "Delhi",
+      "lat": 28.6139,
+      "lon": 77.2090
+    },
+    "rainfall": {
+      "rawNwpMm": 15.0,
+      "correctedMm": 21.0,
+      "p10Mm": 10.0,
+      "p50Mm": 21.0,
+      "p90Mm": 38.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.89,
+      "description": "Subsidence inversion keeping rain activity minimal over NCR."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.05,
+      "veryHeavy_115mm": 0.00,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Yamuna", "basin": "Ganga Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "PB",
+      "districtId": "PB_LUDHIANA",
+      "districtName": "Ludhiana",
+      "stateName": "Punjab",
+      "lat": 30.9010,
+      "lon": 75.8573
+    },
+    "rainfall": {
+      "rawNwpMm": 12.0,
+      "correctedMm": 16.5,
+      "p10Mm": 8.0,
+      "p50Mm": 16.5,
+      "p90Mm": 30.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.91,
+      "description": "Clear skies with light variable surface breeze."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.03,
+      "veryHeavy_115mm": 0.00,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Sutlej", "basin": "Indus Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "HR",
+      "districtId": "HR_GURUGRAM",
+      "districtName": "Gurugram",
+      "stateName": "Haryana",
+      "lat": 28.4595,
+      "lon": 77.0266
+    },
+    "rainfall": {
+      "rawNwpMm": 14.0,
+      "correctedMm": 19.0,
+      "p10Mm": 9.0,
+      "p50Mm": 19.0,
+      "p90Mm": 34.0,
+      "alertLevel": "GREEN",
+      "alertHex": "#10b981",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "BREAK_MONSOON",
+      "confidence": 0.90,
+      "description": "Dry atmospheric column inhibiting sustained precipitation."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.04,
+      "veryHeavy_115mm": 0.00,
+      "extremelyHeavy_204mm": 0.00
+    },
+    "riversAtRisk": [
+      { "riverName": "Sahibi", "basin": "Yamuna Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "JH",
+      "districtId": "JH_RANCHI",
+      "districtName": "Ranchi",
+      "stateName": "Jharkhand",
+      "lat": 23.3441,
+      "lon": 85.3096
+    },
+    "rainfall": {
+      "rawNwpMm": 64.0,
+      "correctedMm": 82.0,
+      "p10Mm": 54.0,
+      "p50Mm": 82.0,
+      "p90Mm": 118.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "MONSOON_DEPRESSION",
+      "confidence": 0.86,
+      "description": "Peripheral spiral bands of depression crossing Chota Nagpur plateau."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.72,
+      "veryHeavy_115mm": 0.26,
+      "extremelyHeavy_204mm": 0.03
+    },
+    "riversAtRisk": [
+      { "riverName": "Subarnarekha", "basin": "East Flowing Rivers", "dangerLevel": "WARNING" },
+      { "riverName": "Damodar", "basin": "Ganga Basin", "dangerLevel": "NORMAL" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "CT",
+      "districtId": "CT_RAIPUR",
+      "districtName": "Raipur",
+      "stateName": "Chhattisgarh",
+      "lat": 21.2514,
+      "lon": 81.6296
+    },
+    "rainfall": {
+      "rawNwpMm": 80.0,
+      "correctedMm": 106.0,
+      "p10Mm": 72.0,
+      "p50Mm": 106.0,
+      "p90Mm": 146.0,
+      "alertLevel": "YELLOW",
+      "alertHex": "#eab308",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "MONSOON_DEPRESSION",
+      "confidence": 0.90,
+      "description": "Depression core moving across Mahanadi upper catchment."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.86,
+      "veryHeavy_115mm": 0.48,
+      "extremelyHeavy_204mm": 0.11
+    },
+    "riversAtRisk": [
+      { "riverName": "Mahanadi", "basin": "Mahanadi Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Kharun", "basin": "Mahanadi Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  }
+]

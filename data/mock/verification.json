@@ -1,0 +1,176 @@
+[
+  {
+    "scope": {
+      "regime": "ALL_REGIMES",
+      "leadHours": 0
+    },
+    "rawNwp": {
+      "rmse": 28.4,
+      "mae": 20.1,
+      "ets": 0.41,
+      "csi": 0.46,
+      "pod": 0.68,
+      "far": 0.32,
+      "fss": 0.62
+    },
+    "corrected": {
+      "rmse": 18.2,
+      "mae": 12.4,
+      "ets": 0.68,
+      "csi": 0.74,
+      "pod": 0.89,
+      "far": 0.14,
+      "fss": 0.86
+    },
+    "improvement": {
+      "rmseReductionPct": 35.9,
+      "csiGainPct": 60.8,
+      "fssGainPct": 38.7
+    }
+  },
+  {
+    "scope": {
+      "regime": "ALL_REGIMES",
+      "leadHours": 6
+    },
+    "rawNwp": {
+      "rmse": 31.2,
+      "mae": 22.8,
+      "ets": 0.39,
+      "csi": 0.44,
+      "pod": 0.65,
+      "far": 0.35,
+      "fss": 0.59
+    },
+    "corrected": {
+      "rmse": 20.8,
+      "mae": 14.2,
+      "ets": 0.64,
+      "csi": 0.70,
+      "pod": 0.86,
+      "far": 0.17,
+      "fss": 0.82
+    },
+    "improvement": {
+      "rmseReductionPct": 33.3,
+      "csiGainPct": 59.1,
+      "fssGainPct": 39.0
+    }
+  },
+  {
+    "scope": {
+      "regime": "ALL_REGIMES",
+      "leadHours": 12
+    },
+    "rawNwp": {
+      "rmse": 35.6,
+      "mae": 25.4,
+      "ets": 0.36,
+      "csi": 0.41,
+      "pod": 0.62,
+      "far": 0.38,
+      "fss": 0.55
+    },
+    "corrected": {
+      "rmse": 24.5,
+      "mae": 16.9,
+      "ets": 0.59,
+      "csi": 0.65,
+      "pod": 0.82,
+      "far": 0.20,
+      "fss": 0.78
+    },
+    "improvement": {
+      "rmseReductionPct": 31.2,
+      "csiGainPct": 58.5,
+      "fssGainPct": 41.8
+    }
+  },
+  {
+    "scope": {
+      "regime": "ALL_REGIMES",
+      "leadHours": 24
+    },
+    "rawNwp": {
+      "rmse": 42.8,
+      "mae": 30.5,
+      "ets": 0.31,
+      "csi": 0.36,
+      "pod": 0.57,
+      "far": 0.42,
+      "fss": 0.48
+    },
+    "corrected": {
+      "rmse": 30.4,
+      "mae": 21.0,
+      "ets": 0.52,
+      "csi": 0.58,
+      "pod": 0.76,
+      "far": 0.25,
+      "fss": 0.71
+    },
+    "improvement": {
+      "rmseReductionPct": 29.0,
+      "csiGainPct": 61.1,
+      "fssGainPct": 47.9
+    }
+  },
+  {
+    "scope": {
+      "regime": "ALL_REGIMES",
+      "leadHours": 48
+    },
+    "rawNwp": {
+      "rmse": 51.5,
+      "mae": 37.2,
+      "ets": 0.25,
+      "csi": 0.29,
+      "pod": 0.50,
+      "far": 0.48,
+      "fss": 0.40
+    },
+    "corrected": {
+      "rmse": 39.2,
+      "mae": 27.6,
+      "ets": 0.43,
+      "csi": 0.48,
+      "pod": 0.68,
+      "far": 0.31,
+      "fss": 0.61
+    },
+    "improvement": {
+      "rmseReductionPct": 23.9,
+      "csiGainPct": 65.5,
+      "fssGainPct": 52.5
+    }
+  },
+  {
+    "scope": {
+      "regime": "ALL_REGIMES",
+      "leadHours": 72
+    },
+    "rawNwp": {
+      "rmse": 62.0,
+      "mae": 45.1,
+      "ets": 0.19,
+      "csi": 0.22,
+      "pod": 0.43,
+      "far": 0.54,
+      "fss": 0.32
+    },
+    "corrected": {
+      "rmse": 49.5,
+      "mae": 35.8,
+      "ets": 0.34,
+      "csi": 0.38,
+      "pod": 0.59,
+      "far": 0.39,
+      "fss": 0.49
+    },
+    "improvement": {
+      "rmseReductionPct": 20.2,
+      "csiGainPct": 72.7,
+      "fssGainPct": 53.1
+    }
+  }
+]

@@ -1,0 +1,83 @@
+{
+  "forecast": {
+    "forecastId": "forecast_20260901_00z",
+    "issuedAt": "2026-09-01T00:00:00Z",
+    "validFrom": "2026-09-01T00:00:00Z",
+    "validTo": "2026-09-02T00:00:00Z",
+    "leadHours": 24,
+    "geography": {
+      "stateId": "MH",
+      "districtId": "MH_PUNE",
+      "districtName": "Pune",
+      "stateName": "Maharashtra",
+      "lat": 18.5204,
+      "lon": 73.8567
+    },
+    "rainfall": {
+      "rawNwpMm": 112.5,
+      "correctedMm": 143.0,
+      "p10Mm": 101.0,
+      "p50Mm": 143.0,
+      "p90Mm": 181.5,
+      "alertLevel": "ORANGE",
+      "alertHex": "#f97316",
+      "correctionMethod": "REGIME_AWARE_XGBOOST_QDM"
+    },
+    "regime": {
+      "label": "OROGRAPHIC",
+      "confidence": 0.88,
+      "description": "Western Ghats lee-wave moisture convergence and intense catchment loading over Khadakwasla basin."
+    },
+    "probability": {
+      "heavyRain_64mm": 0.92,
+      "veryHeavy_115mm": 0.76,
+      "extremelyHeavy_204mm": 0.18
+    },
+    "riversAtRisk": [
+      { "riverName": "Mutha", "basin": "Krishna Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Mula", "basin": "Krishna Basin", "dangerLevel": "WARNING" },
+      { "riverName": "Pawana", "basin": "Krishna Basin", "dangerLevel": "WARNING" }
+    ],
+    "metadata": {
+      "provider": "IMD/NCMRWF WeatherNext 2",
+      "modelVersion": "v2.4-regime-xgb",
+      "processingVersion": "v1.0.8"
+    }
+  },
+  "analogues": [
+    {
+      "name": "September 2019 Flash Flood Event",
+      "year": 2019,
+      "similarityPct": 94.2,
+      "peakRainfallMm": 154.0,
+      "deaths": 26,
+      "economicDamageCrores": 210,
+      "keyLearnings": "Katraj and Ambil Odha nallah overflowed in under 90 minutes. Rapid evacuation protocol required for low-lying slums."
+    },
+    {
+      "name": "July 2005 Extreme Precipitation Event",
+      "year": 2005,
+      "similarityPct": 82.5,
+      "peakRainfallMm": 178.0,
+      "deaths": 14,
+      "economicDamageCrores": 380,
+      "keyLearnings": "Khadakwasla Dam emergency gate discharge caused prolonged urban riverbank inundation."
+    },
+    {
+      "name": "August 2006 Krishna Basin Deluge",
+      "year": 2006,
+      "similarityPct": 76.8,
+      "peakRainfallMm": 138.0,
+      "deaths": 9,
+      "economicDamageCrores": 145,
+      "keyLearnings": "Inter-district coordination with Sangli/Kolhapur reservoir authorities prevented catastrophic downstream backflow."
+    }
+  ],
+  "demographics": {
+    "totalPopulation": 9429408,
+    "urbanPopulation": 5751182,
+    "ruralPopulation": 3678226,
+    "areaKm2": 15643,
+    "drainageDensityKmPerKm2": 1.42
+  }
+}

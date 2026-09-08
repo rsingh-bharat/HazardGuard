@@ -1,0 +1,7 @@
+{
+  "scenario": "P50",
+  "rainfall_mm": 85.0,
+  "duration_hours": 24,
+  "timestep_hours": 3,
+  "expected_severity": "HIGH"
+}

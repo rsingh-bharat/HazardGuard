@@ -1,0 +1,41 @@
+﻿# dependencies
+/node_modules
+/.pnp
+.pnp.js
+
+# python
+__pycache__/
+*.py[cod]
+*.class
+.venv/
+venv/
+ENV/
+env/
+.pytest_cache/
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# local env files
+.env
+.env*.local
+.env.development
+.env.production
+.env.test
+
+# Vercel
+.vercel
+
+# typescript
+*.tsbuildinfo

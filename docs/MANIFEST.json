@@ -1,0 +1,202 @@
+﻿{
+  "handoff_metadata": {
+    "system": "HazardGuard Scientific ML Subsystem",
+    "version": "1.0.0-audited",
+    "lead_engineer": "Sayan",
+    "recipient": "Ronak",
+    "date": "2026-09-03",
+    "audit_status": "SHIP-READY WITH MINOR CAVEATS",
+    "test_suite_status": "136/136 PASSING",
+    "runtime_environment": "Python 3.12.8 64-bit",
+    "primary_storage_root": "C:\\Users\\Lenovo\\Hazard-guard",
+    "training_archive_root": "D:\\HazardGuard-ML (TRAINING-ONLY / EXCLUDED FROM RUNTIME)"
+  },
+  "runtime_entry_points": {
+    "microservice_api": {
+      "path": "ml/api/main.py",
+      "category": "runtime",
+      "framework": "FastAPI / Uvicorn",
+      "endpoints": [
+        "POST /ml/forecast",
+        "POST /ml/probability",
+        "POST /ml/verification",
+        "POST /ml/impact"
+      ]
+    },
+    "impact_router": {
+      "path": "ml/api/impact.py",
+      "category": "runtime",
+      "description": "Decoupled meteorological impact router and hazard state evaluation"
+    },
+    "scientific_context_schema": {
+      "path": "ml/api/context.py",
+      "category": "contract",
+      "description": "Pydantic schema for factual grounding in external LLM / RAG reporting"
+    },
+    "model_loader": {
+      "path": "ml/model_loader.py",
+      "category": "runtime",
+      "description": "Registry-driven model loader with checksum verification and fallback routing"
+    }
+  },
+  "authoritative_model_assets": {
+    "model_registry": {
+      "path": "ml/models/model_registry.json",
+      "category": "model",
+      "status": "AUTHORITATIVE",
+      "description": "Single source of truth for deployment status, lead time mappings, and offline metrics"
+    },
+    "deployed_24h_model": {
+      "path": "ml/models/candidates/24h_residual.json",
+      "category": "model",
+      "status": "DEPLOYED",
+      "lead_hours": 24,
+      "model_id": "hazardguard_v7_24h",
+      "architecture": "Residual XGBoost",
+      "sha256_checksum": "dbe2a46cd05221ab98fb54484a65a10951e39d914cd3815d05d26993bbb6f816",
+      "size_bytes": 538286
+    },
+    "historical_metadata": {
+      "path": "ml/models/metadata.json",
+      "category": "historical",
+      "status": "SUPERSEDED",
+      "description": "Preserved strictly for training lineage; superseded by model_registry.json"
+    }
+  },
+  "training_data_and_reproduction_assets": {
+    "primary_training_dataset": {
+      "logical_name": "dataset_v7_corrected",
+      "original_source": "D:\\HazardGuard-ML\\datasets\\dataset_v7_corrected.parquet",
+      "package_location": "training_data/dataset_v7_corrected.parquet",
+      "category": "training_data",
+      "status": "REQUIRED_FOR_REPRODUCTION",
+      "size_bytes": 1229891,
+      "sha256": "e0bc0aff14b1c441bd41f87978ada6246e263e26fd090eb50546b13703e382a0",
+      "producing_script": "ml/data/builder_v7.py",
+      "training_script": "ml/train_final.py"
+    },
+    "intermediate_baseline_dataset": {
+      "logical_name": "final_historical_dataset",
+      "original_source": "D:\\HazardGuard-ML\\datasets\\final_historical_dataset.parquet",
+      "package_location": "training_data/final_historical_dataset.parquet",
+      "category": "training_data",
+      "status": "OPTIONAL_CONTEXT",
+      "size_bytes": 621451,
+      "sha256": "7bcd06521a205bc64f88c49c5b440ff6ee1e492bd599b71c87ed505bd052f53b"
+    },
+    "historical_prototype_dataset": {
+      "logical_name": "serious_training_data",
+      "original_source": "C:\\Users\\Lenovo\\Hazard-guard\\ml\\data\\cache\\serious_training_data.parquet",
+      "package_location": "training_data/serious_training_data.parquet",
+      "category": "training_data",
+      "status": "HISTORICAL",
+      "size_bytes": 137889,
+      "sha256": "7339939de23f1dd1cda623a4849247cf4fad649d90d954041fd30faec995b408"
+    }
+  },
+  "runtime_data_and_feature_modules": {
+    "feature_extractor": {
+      "path": "ml/features/extractor.py",
+      "category": "runtime",
+      "description": "Extracts causality-safe synoptic atmospheric features from NWP records"
+    },
+    "openmeteo_provider": {
+      "path": "ml/data/providers/openmeteo.py",
+      "category": "runtime",
+      "description": "Canonical ECMWF IFS / GEFS data provider with local caching"
+    },
+    "provider_factory": {
+      "path": "ml/data/providers/factory.py",
+      "category": "runtime",
+      "description": "Routes requests to default or configured provider"
+    },
+    "provider_base": {
+      "path": "ml/data/providers/base.py",
+      "category": "runtime",
+      "description": "Abstract base class and configuration structures for forecast providers"
+    },
+    "data_schema": {
+      "path": "ml/data/schema.py",
+      "category": "runtime",
+      "description": "Pydantic schemas for CanonicalForecastRecord, EnsembleStats, and ProvenanceInfo"
+    },
+    "data_normalizer": {
+      "path": "ml/data/normalizer.py",
+      "category": "runtime",
+      "description": "Grid coordinate formatting, ISO UTC parsing, and geographic boundary validation"
+    },
+    "weathernext_ingest": {
+      "path": "ml/data/weathernext_ingest.py",
+      "category": "runtime",
+      "description": "Calculates ensemble statistics and exceedance probabilities across perturbed members"
+    },
+    "config_settings": {
+      "path": "ml/config/settings.py",
+      "category": "runtime",
+      "description": "Authoritative meteorological constants and IMD rainfall intensity thresholds"
+    }
+  },
+  "research_and_offline_modules": {
+    "regime_classifier": {
+      "path": "ml/sih_pipeline/regime_classifier.py",
+      "category": "training-only",
+      "status": "NOT DEPLOYED / NOT REQUIRED FOR RUNTIME",
+      "description": "Research weather regime classifier prototype; dormant and excluded from runtime serving"
+    }
+  },
+  "contract_samples": [
+    {
+      "path": "ml/contracts/samples/sample_forecast_response.json",
+      "category": "contract",
+      "endpoint": "POST /ml/forecast"
+    },
+    {
+      "path": "ml/contracts/samples/sample_probability_response.json",
+      "category": "contract",
+      "endpoint": "POST /ml/probability"
+    },
+    {
+      "path": "ml/contracts/samples/sample_verification_response.json",
+      "category": "contract",
+      "endpoint": "POST /ml/verification"
+    },
+    {
+      "path": "ml/contracts/samples/sample_impact_response.json",
+      "category": "contract",
+      "endpoint": "POST /ml/impact"
+    },
+    {
+      "path": "ml/contracts/samples/sample_scientific_context.json",
+      "category": "contract",
+      "schema": "ScientificContext"
+    }
+  ],
+  "automated_tests": {
+    "test_root": "tests/ml/",
+    "category": "tests",
+    "total_tests": 136,
+    "key_suites": [
+      "tests/ml/api/test_audit_fixes_regression.py",
+      "tests/ml/api/test_failure_matrix.py",
+      "tests/ml/api/test_forecast.py",
+      "tests/ml/api/test_probability.py",
+      "tests/ml/api/test_verification.py",
+      "tests/ml/api/test_impact.py",
+      "tests/ml/api/test_integration_coherence.py",
+      "tests/ml/test_model_loader.py"
+    ]
+  },
+  "documentation_suite": [
+    "docs/handoff/README.md",
+    "docs/handoff/SAYAN_RONAK_ML_HANDOFF.md",
+    "docs/handoff/API_CONTRACTS.md",
+    "docs/handoff/SCIENTIFIC_SEMANTICS.md",
+    "docs/handoff/REGIME_CLASSIFIER_ROADMAP.md",
+    "docs/handoff/RUNBOOK.md",
+    "docs/handoff/HANDOFF_MANIFEST.json",
+    "docs/handoff/RUNTIME_DEPENDENCIES.md",
+    "docs/handoff/STORAGE_LAYOUT.md",
+    "docs/handoff/TRAINING_DATA_MANIFEST.md",
+    "docs/handoff/TRAINING_DATA_MANIFEST.json"
+  ]
+}

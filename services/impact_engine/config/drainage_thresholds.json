@@ -1,0 +1,43 @@
+{
+  "rules": [
+    {
+      "rule_id": "drainage_utilization_watch",
+      "target_type": "drainage",
+      "parameter": "utilization_ratio",
+      "operator": ">=",
+      "threshold": 0.70,
+      "unit": "ratio",
+      "severity": "WATCH",
+      "consequence_type": "DRAINAGE_STRESS",
+      "title": "Elevated Drainage Utilization",
+      "message": "Drainage system capacity utilization reached {value:.0%}, approaching design limits.",
+      "status": "ASSUMPTION"
+    },
+    {
+      "rule_id": "drainage_utilization_high",
+      "target_type": "drainage",
+      "parameter": "utilization_ratio",
+      "operator": ">=",
+      "threshold": 0.90,
+      "unit": "ratio",
+      "severity": "HIGH",
+      "consequence_type": "DRAINAGE_SURCHARGE",
+      "title": "Severe Drainage Surcharge",
+      "message": "Drainage trunk line experiencing backwater surcharge at {value:.0%} capacity.",
+      "status": "DATA"
+    },
+    {
+      "rule_id": "drainage_overflow_critical",
+      "target_type": "drainage",
+      "parameter": "utilization_ratio",
+      "operator": ">=",
+      "threshold": 1.05,
+      "unit": "ratio",
+      "severity": "CRITICAL",
+      "consequence_type": "POTENTIAL_OVERFLOW",
+      "title": "Potential Drainage Overflow Risk",
+      "message": "Runoff exceeds total outfall capacity ({value:.0%}). High probability of manhole backflow and street pooling.",
+      "status": "ASSUMPTION"
+    }
+  ]
+}

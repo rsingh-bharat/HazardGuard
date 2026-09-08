@@ -1,0 +1,35 @@
+{
+  "_comment": "SAMPLE PAYLOAD FOR RONAK: Numerical Forecast Endpoint Response",
+  "endpoint": "POST /ml/forecast",
+  "status_code": 200,
+  "payload": {
+    "snapshot_id": "8c7c5f1e-7273-4a38-b425-df1315c047dc",
+    "timestamp": "2026-09-03T03:27:37.114487+00:00",
+    "latitude": 25.467,
+    "longitude": 91.366,
+    "lead_hours": 24,
+    "provider": "ecmwf_ifs",
+    "provider_model": "ecmwf_ifs025",
+    "nwp_valid_time": "2026-09-04T00:00:00Z",
+    "nwp_initialization_time": null,
+    "model_id": "hazardguard_v7_24h",
+    "model_type": "Residual",
+    "rainfall_mm": 13.87,
+    "model_status": "DEPLOY_CORRECTED",
+    "fallback": false,
+    "fallback_reason": null,
+    "feature_schema": [
+      "forecast_precip_mm",
+      "forecast_temperature",
+      "forecast_relative_humidity",
+      "forecast_surface_pressure",
+      "wind_u",
+      "wind_v",
+      "forecast_cloud_cover",
+      "sin_day_of_year",
+      "cos_day_of_year",
+      "latitude",
+      "longitude"
+    ]
+  }
+}

@@ -1,0 +1,35 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": { "name": "Mutha Main Streamline", "velocity_mps": 2.2, "discharge_cumecs": 45000 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [73.765, 18.440], [73.800, 18.470], [73.835, 18.510], [73.860, 18.530], [73.910, 18.540]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Mula Tributary Streamline", "velocity_mps": 1.9, "discharge_cumecs": 32000 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [73.740, 18.580], [73.790, 18.560], [73.830, 18.545], [73.860, 18.530]
+        ]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "Ambil Odha Runoff Torrent", "velocity_mps": 2.6, "discharge_cumecs": 14000 },
+      "geometry": {
+        "type": "LineString",
+        "coordinates": [
+          [73.855, 18.450], [73.852, 18.480], [73.850, 18.505], [73.845, 18.515]
+        ]
+      }
+    }
+  ]
+}
