@@ -162,7 +162,7 @@ export default function ImpactTwinView({
     if (scenario === "LOW" || scenario === "P10") rainVal = pred.p10_mm;
     else if (scenario === "BASE" || scenario === "P50") rainVal = pred.p50_mm;
     else if (scenario === "HIGH" || scenario === "P90") rainVal = pred.p90_mm;
-    else rainVal = customRainfallMm;
+    else rainVal = customRainfallMm; // CUSTOM: use slider current value immediately
 
     await fetchSimulation(currentCity, scenario, rainVal);
   };
@@ -170,9 +170,9 @@ export default function ImpactTwinView({
   // ---- Custom Rainfall Slider Handler ----
   const handleCustomRainfallChange = (val: number) => {
     setCustomRainfallMm(val);
-    if (currentScenario === "CUSTOM") {
-      fetchSimulation(currentCity, "CUSTOM", val);
-    }
+    // Always fire simulation when slider moves — currentScenario may not have updated
+    // in state yet if this fires immediately after clicking CUSTOM, so we pass "CUSTOM" directly
+    fetchSimulation(currentCity, "CUSTOM", val);
   };
 
   // ---- Execute Simulation (Re-run) ----

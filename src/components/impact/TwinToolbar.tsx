@@ -52,12 +52,6 @@ export const TwinToolbar: React.FC<TwinToolbarProps> = ({
   onRunSimulation,
   currentCity,
   onSelectCity,
-  lowMm,
-  baseMm,
-  highMm,
-  p10Mm = 35,
-  p50Mm = 85,
-  p90Mm = 165
 }) => {
   const activeProfile = CITY_PROFILES[currentCity] || CITY_PROFILES.bengaluru;
 
@@ -94,9 +88,9 @@ export const TwinToolbar: React.FC<TwinToolbarProps> = ({
             SCENARIO:
           </div>
           {[
-            { id: "LOW", alias: "P10", val: Math.round(lowMm ?? p10Mm), color: "text-chartreuse", bg: "bg-chartreuse", border: "border-chartreuse" },
-            { id: "BASE", alias: "P50", val: Math.round(baseMm ?? p50Mm), color: "text-amber", bg: "bg-amber", border: "border-amber" },
-            { id: "HIGH", alias: "P90", val: Math.round(highMm ?? p90Mm), color: "text-signal-red", bg: "bg-signal-red", border: "border-signal-red" }
+            { id: "LOW",  alias: "P10", color: "text-chartreuse", bg: "bg-chartreuse", border: "border-chartreuse" },
+            { id: "BASE", alias: "P50", color: "text-amber",      bg: "bg-amber",      border: "border-amber"      },
+            { id: "HIGH", alias: "P90", color: "text-signal-red", bg: "bg-signal-red", border: "border-signal-red" }
           ].map(scen => {
             const isActive = currentScenario === scen.id || currentScenario === scen.alias;
             return (
@@ -111,7 +105,6 @@ export const TwinToolbar: React.FC<TwinToolbarProps> = ({
               >
                 <span className={`w-1.5 h-1.5 ${isActive ? scen.bg : "bg-smoke"}`} />
                 <span>{scen.id}</span>
-                <span className="text-[10px] opacity-60">[{scen.val}MM]</span>
               </button>
             );
           })}
@@ -125,26 +118,26 @@ export const TwinToolbar: React.FC<TwinToolbarProps> = ({
           >
             <Sliders className="w-3 h-3" />
             <span>CUSTOM</span>
-            <span className="text-[10px] opacity-60">[{Math.round(customRainfallMm)}MM]</span>
           </button>
         </div>
 
-        {/* Custom Rainfall Slider */}
+        {/* Custom Rainfall Slider — 0 to 250 mm in 5 mm steps */}
         {currentScenario === "CUSTOM" && (
           <div className="flex items-center gap-2 bg-violet-deep border border-violet/40 px-3 py-1">
             <span className="text-[10px] text-violet font-mono uppercase tracking-widest">INPUT:</span>
             <input
               type="range"
-              min="0"
-              max={Math.round((highMm ?? p90Mm) * 1.5) || 400}
-              step="5"
+              min={0}
+              max={250}
+              step={5}
               value={customRainfallMm}
               onChange={(e) => onCustomRainfallChange(Number(e.target.value))}
-              className="w-24 h-1 bg-graphite-800 appearance-none cursor-pointer accent-violet"
+              className="w-36 h-1 bg-graphite-800 appearance-none cursor-pointer accent-violet"
             />
             <span className="text-xs font-mono font-bold text-violet">{Math.round(customRainfallMm)} mm</span>
           </div>
         )}
+
 
         {/* Live / Fallback Provenance Indicator */}
         <div className="hidden md:flex items-center">
@@ -196,6 +189,10 @@ export const TwinToolbar: React.FC<TwinToolbarProps> = ({
 
         {/* Camera Presets */}
         <div className="flex items-center bg-graphite-900 border border-graphite-800 p-0.5 gap-0.5">
+          <div className="px-2 py-1 text-[10px] font-mono text-smoke uppercase tracking-widest font-semibold border-r border-graphite-800 hidden md:flex items-center gap-1">
+            <Crosshair className="w-3 h-3 text-chartreuse" />
+            <span>ANGLE</span>
+          </div>
           {activeProfile.cameraPresets.map((preset) => {
             const isSelected = cameraPreset === preset.id;
             return (
@@ -203,15 +200,13 @@ export const TwinToolbar: React.FC<TwinToolbarProps> = ({
                 key={preset.id}
                 onClick={() => onSelectCameraPreset(preset.id)}
                 title={preset.description}
-                className={`px-2 py-1 text-[10px] font-mono tracking-widest uppercase transition flex items-center gap-1 ${
+                className={`px-3 py-1 text-[11px] font-mono tracking-wider uppercase transition-all flex items-center gap-1.5 ${
                   isSelected
-                    ? "bg-warm-paper text-graphite-950 font-bold"
-                    : preset.isStreetView
-                    ? "text-chartreuse hover:bg-graphite-800"
-                    : "text-smoke hover:text-paper-dim hover:bg-graphite-800"
+                    ? "bg-graphite-800 text-chartreuse border-b-2 border-chartreuse font-bold"
+                    : "text-chartreuse opacity-70 hover:opacity-100 hover:bg-graphite-800"
                 }`}
               >
-                {preset.isStreetView && <span className="w-1.5 h-1.5 bg-chartreuse animate-pulse" />}
+                <span className={`w-1.5 h-1.5 bg-chartreuse ${preset.isStreetView && !isSelected ? "animate-pulse" : ""}`} />
                 <span>{preset.label}</span>
               </button>
             );
