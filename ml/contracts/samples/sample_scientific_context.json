@@ -1,0 +1,40 @@
+{
+  "_comment": "SAMPLE PAYLOAD FOR FUTURE RAG/LLM: Factual Grounding Context (ml/api/context.py)",
+  "schema": "ScientificContext",
+  "payload": {
+    "snapshot_id": "8c7c5f1e-7273-4a38-b425-df1315c047dc",
+    "issue_time": "2026-09-03T03:27:37.114487+00:00",
+    "latitude": 25.467,
+    "longitude": 91.366,
+    "lead_hours": 24,
+    "forecast_rainfall_mm": 13.87,
+    "event_threshold_mm": 15.6,
+    "event_probability": 0.02,
+    "provider": "ecmwf_ifs",
+    "provider_model": "ecmwf_ifs025",
+    "deployed_model_id": "hazardguard_v7_24h",
+    "model_type": "Residual",
+    "model_status": "DEPLOY_CORRECTED",
+    "fallback": false,
+    "fallback_reason": null,
+    "calibration_status": "UNCALIBRATED_RAW_ENSEMBLE",
+    "fss_status": "FSS_NOT_VALIDATED",
+    "verification_status": "VERIFIED",
+    "meteorological_intensity": "LOW",
+    "meteorological_status": "COMPUTED_METEOROLOGICAL_ONLY",
+    "unavailable_hazard_models": [
+      "FLOOD_MODEL_UNAVAILABLE",
+      "LANDSLIDE_MODEL_UNAVAILABLE",
+      "ROAD_EXPOSURE_UNAVAILABLE",
+      "INFRASTRUCTURE_EXPOSURE_UNAVAILABLE",
+      "POPULATION_EXPOSURE_UNAVAILABLE"
+    ],
+    "historical_metrics": {
+      "rmse": 11.44,
+      "mae": 7.08,
+      "heavy_csi": 0.405,
+      "heavy_pod": 0.649,
+      "heavy_far": 0.481
+    }
+  }
+}

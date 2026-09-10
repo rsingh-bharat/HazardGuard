@@ -1,0 +1,30 @@
+{
+  "_comment": "SAMPLE PAYLOAD FOR RONAK: Historical Model Verification Benchmarks",
+  "endpoint": "POST /ml/verification",
+  "status_code": 200,
+  "payload": {
+    "snapshot_id": "8c7c5f1e-7273-4a38-b425-df1315c047dc",
+    "timestamp": "2026-09-03T03:27:37.114487+00:00",
+    "latitude": 25.467,
+    "longitude": 91.366,
+    "lead_hours": 24,
+    "provider": "ecmwf_ifs",
+    "provider_model": "ecmwf_ifs025",
+    "model_id": "hazardguard_v7_24h",
+    "model_status": "DEPLOY_CORRECTED",
+    "baseline_model": "RAW_NWP",
+    "RMSE": 11.443373325397994,
+    "MAE": 7.080601991050627,
+    "Bias": 1.2708410275100102,
+    "CSI": 0.4049586776859504,
+    "POD": 0.6490066225165563,
+    "FAR": 0.48148148148148145,
+    "FSS": null,
+    "FSS_status": "FSS_NOT_VALIDATED",
+    "verification_status": "VERIFIED",
+    "sample_metadata": {
+      "heavy_events": 453,
+      "test_samples": 2070
+    }
+  }
+}

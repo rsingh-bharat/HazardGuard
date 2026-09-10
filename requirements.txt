@@ -1,0 +1,20 @@
+# HazardGuard ML Pipeline Direct Dependencies (Python 3.12 64-bit)
+numpy>=2.0.0
+pandas>=2.2.0
+scipy>=1.13.0
+pyarrow>=18.0.0
+scikit-learn>=1.5.0
+xgboost>=2.1.0
+requests>=2.31.0
+pytest>=8.0.0
+pydantic>=2.7.0
+fastapi>=0.110.0
+uvicorn>=0.29.0
+python-dotenv>=1.0.0
+
+# Storage & WeatherNext Data Dependencies
+xarray>=2024.1.0
+zarr>=2.17.0
+gcsfs>=2024.2.0
+dask>=2024.2.0
+zstandard>=0.23.0

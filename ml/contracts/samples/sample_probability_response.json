@@ -1,0 +1,24 @@
+{
+  "_comment": "SAMPLE PAYLOAD FOR RONAK: Raw Uncalibrated Ensemble Probability Response",
+  "endpoint": "POST /ml/probability",
+  "status_code": 200,
+  "payload": {
+    "snapshot_id": "8c7c5f1e-7273-4a38-b425-df1315c047dc",
+    "timestamp": "2026-09-03T03:27:37.114487+00:00",
+    "latitude": 25.467,
+    "longitude": 91.366,
+    "lead_hours": 24,
+    "event_definition": "rainfall >= 15.6 mm",
+    "threshold_mm": 15.6,
+    "probability": 0.02,
+    "calibration_status": "UNCALIBRATED_RAW_ENSEMBLE",
+    "ensemble_member_count": 50,
+    "historical_positive_event_count": null,
+    "source": "ECMWF-IFS-OpenMeteo",
+    "model_metadata": "ecmwf_ifs025",
+    "model_status": "DEPLOY_CORRECTED",
+    "fallback_status": "No validated calibration artifact available; exposing raw ensemble probability.",
+    "ensemble_cache_status": "CACHE_REUSED",
+    "ensemble_quality": "FULL"
+  }
+}
