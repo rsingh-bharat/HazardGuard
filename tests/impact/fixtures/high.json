@@ -1,0 +1,7 @@
+{
+  "scenario": "P90",
+  "rainfall_mm": 165.0,
+  "duration_hours": 24,
+  "timestep_hours": 3,
+  "expected_severity": "CRITICAL"
+}

@@ -1,0 +1,47 @@
+{
+  "rules": [
+    {
+      "rule_id": "road_water_depth_watch",
+      "target_type": "road",
+      "parameter": "water_depth_m",
+      "operator": ">=",
+      "threshold": 0.10,
+      "unit": "meters",
+      "severity": "WATCH",
+      "consequence_type": "ROAD_WATER_ON_CARRIAGEWAY",
+      "title": "Water on Carriageway",
+      "message": "Standing water depth of {value:.2f}m detected on road surface. Free flow speed reduced by ~15-25%.",
+      "capacity_reduction_factor": 0.20,
+      "status": "DATA"
+    },
+    {
+      "rule_id": "road_water_depth_high",
+      "target_type": "road",
+      "parameter": "water_depth_m",
+      "operator": ">=",
+      "threshold": 0.25,
+      "unit": "meters",
+      "severity": "HIGH",
+      "consequence_type": "ROAD_PARTIAL_DISRUPTION",
+      "title": "Severe Road Disruption",
+      "message": "Water depth reached {value:.2f}m (exceeds threshold 0.25m). Small passenger vehicles stalled; lane capacity reduced by ~50%.",
+      "capacity_reduction_factor": 0.50,
+      "status": "DATA"
+    },
+    {
+      "rule_id": "road_water_depth_critical",
+      "target_type": "road",
+      "parameter": "water_depth_m",
+      "operator": ">=",
+      "threshold": 0.40,
+      "unit": "meters",
+      "severity": "CRITICAL",
+      "consequence_type": "ROAD_CLOSURE_IMPASSABLE",
+      "title": "Road Impassable / Total Closure",
+      "message": "Critical water depth of {value:.2f}m. Road impassable for standard traffic; emergency heavy vehicles only.",
+      "capacity_reduction_factor": 0.95,
+      "status": "DATA"
+    }
+  ],
+  "speed_decay_exponent": 1.4
+}

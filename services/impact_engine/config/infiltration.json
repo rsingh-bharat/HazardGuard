@@ -1,0 +1,18 @@
+{
+  "methods": {
+    "horton_simplified": {
+      "initial_capacity_mm_hr": 25.0,
+      "ultimate_capacity_mm_hr": 4.5,
+      "decay_rate_per_hr": 0.8,
+      "status": "ASSUMPTION",
+      "description": "Simplified Horton infiltration decay curve for mixed urban soils"
+    },
+    "soil_storage_curve": {
+      "initial_abstraction_ratio": 0.2,
+      "potential_maximum_retention_mm": 45.0,
+      "status": "DATA",
+      "source": "SCS-CN curve calibration for Type C Hydrologic Soil Group"
+    }
+  },
+  "active_method": "horton_simplified"
+}

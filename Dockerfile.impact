@@ -1,0 +1,22 @@
+﻿FROM nikolaik/python-nodejs:python3.12-nodejs20
+
+WORKDIR /app
+
+# Install Node dependencies
+COPY package*.json ./
+RUN npm install
+
+# Install Python dependencies
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copy application code
+COPY . .
+
+# Set environment variables
+ENV PORT=8002
+ENV PYTHONPATH=/app
+
+EXPOSE 8002
+
+CMD ["npx", "tsx", "services/impact_engine/server.ts"]

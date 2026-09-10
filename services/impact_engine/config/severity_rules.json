@@ -1,0 +1,15 @@
+{
+  "levels": ["NORMAL", "WATCH", "HIGH", "CRITICAL"],
+  "colors": {
+    "NORMAL": "#10b981",
+    "WATCH": "#f59e0b",
+    "HIGH": "#f97316",
+    "CRITICAL": "#ef4444"
+  },
+  "priority_order": {
+    "CRITICAL": 4,
+    "HIGH": 3,
+    "WATCH": 2,
+    "NORMAL": 1
+  }
+}
