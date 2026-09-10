@@ -1,7 +1,0 @@
-{
-  "scenario": "P10",
-  "rainfall_mm": 35.0,
-  "duration_hours": 24,
-  "timestep_hours": 3,
-  "expected_severity": "WATCH"
-}
