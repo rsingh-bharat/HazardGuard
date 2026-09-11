@@ -22,7 +22,7 @@ env/
 
 # production
 /build
-
+/lo
 # misc
 .DS_Store
 *.pem
