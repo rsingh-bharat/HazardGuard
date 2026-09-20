@@ -1,43 +1,135 @@
 'use client';
 
 import React, { useState } from 'react';
-import { AlertTriangle, X, ChevronRight } from 'lucide-react';
+import { ChevronRight, X } from 'lucide-react';
 import Link from 'next/link';
+
+import { useLiveForecast } from '@/lib/state/LiveForecastContext';
 
 export const AlertBanner: React.FC = () => {
   const [isDismissed, setIsDismissed] = useState(false);
+  const { forecasts } = useLiveForecast();
+  
+  const redAlerts = forecasts.filter(f => f.rainfall.alertLevel === 'RED');
 
-  if (isDismissed) return null;
+  if (isDismissed || redAlerts.length === 0) return null;
+  
+  const alertLocations = redAlerts.map(r => `${r.geography.districtName} (${r.geography.stateName})`).join(', ');
 
   return (
-    <div className="fixed top-14 left-0 right-0 z-40 bg-signal-red text-graphite-950 px-4 py-1.5 flex items-center justify-between text-xs shadow-lg font-mono select-none">
-      <div className="flex items-center gap-2 overflow-hidden text-ellipsis whitespace-nowrap">
-        <span className="flex h-2 w-2 relative">
-          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-graphite-950 opacity-75"></span>
-          <span className="relative inline-flex rounded-full h-2 w-2 bg-graphite-950"></span>
+    <div
+      style={{
+        position:             'fixed',
+        top:                  0,
+        left:                 104,
+        right:                0,
+        zIndex:               40,
+        display:              'flex',
+        alignItems:           'center',
+        justifyContent:       'space-between',
+        padding:              '8px 16px',
+        background:           'rgba(255,59,48,0.15)',
+        borderBottom:         '1px solid rgba(255,59,48,0.30)',
+        backdropFilter:       'blur(12px)',
+        WebkitBackdropFilter: 'blur(12px)',
+      }}
+    >
+      {/* Left: pulse dot + alert text */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 10, overflow: 'hidden' }}>
+        {/* Pulsing red dot */}
+        <span
+          aria-hidden
+          style={{ position: 'relative', flexShrink: 0, width: 8, height: 8, display: 'inline-flex' }}
+        >
+          <span
+            style={{
+              position:     'absolute',
+              inset:        0,
+              borderRadius: '50%',
+              background:   '#FF3B30',
+              opacity:      0.7,
+              animation:    'radar-pulse 1.4s ease-in-out infinite',
+            }}
+          />
+          <span
+            style={{
+              position:     'relative',
+              display:      'inline-flex',
+              borderRadius: '50%',
+              width:        8,
+              height:       8,
+              background:   '#FF3B30',
+            }}
+          />
         </span>
-        <AlertTriangle className="w-3.5 h-3.5 shrink-0 text-graphite-950" />
-        <span className="font-display font-bold text-sm tracking-wider uppercase">
-          PRIORITY ESCALATION // RED ALERT ACTIVE:
+
+        {/* Label */}
+        <span style={{
+          color:         'rgba(255,255,255,0.93)',
+          fontSize:      12,
+          fontFamily:    'Inter, -apple-system, sans-serif',
+          fontWeight:    600,
+          letterSpacing: '0.04em',
+          whiteSpace:    'nowrap',
+          flexShrink:    0,
+        }}>
+          RED ALERT ACTIVE:
         </span>
-        <span className="truncate text-graphite-900 font-medium">
-          Extremely heavy precipitation (&gt;204.5 mm) detected across <b>Puri (OR), Wayanad (KL), Cachar (AS), Valsad (GJ)</b>.
+
+        {/* Body text */}
+        <span style={{
+          color:        'rgba(255,255,255,0.70)',
+          fontSize:     12,
+          fontFamily:   'Inter, -apple-system, sans-serif',
+          overflow:     'hidden',
+          textOverflow: 'ellipsis',
+          whiteSpace:   'nowrap',
+        }}>
+          Extremely heavy precipitation detected across{' '}
+          <strong style={{ color: 'rgba(255,255,255,0.93)', fontWeight: 600 }}>
+            {alertLocations}
+          </strong>
         </span>
       </div>
-      <div className="flex items-center gap-3 shrink-0 ml-3">
+
+      {/* Right: link + dismiss */}
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0, marginLeft: 12 }}>
         <Link
           href="/forecast"
-          className="flex items-center gap-1 font-bold text-graphite-950 hover:underline uppercase text-[11px] tracking-wider"
+          style={{
+            display:        'flex',
+            alignItems:     'center',
+            gap:            3,
+            fontSize:       11,
+            fontWeight:     600,
+            color:          'rgba(255,255,255,0.80)',
+            textDecoration: 'none',
+            letterSpacing:  '0.05em',
+            whiteSpace:     'nowrap',
+            transition:     'color 0.15s ease',
+          }}
+          className="hover:text-white"
         >
-          <span>OPERATIONAL TELEMETRY</span>
-          <ChevronRight className="w-3 h-3" />
+          OPERATIONAL TELEMETRY
+          <ChevronRight width={12} height={12} />
         </Link>
+
         <button
           onClick={() => setIsDismissed(true)}
-          className="p-0.5 hover:bg-graphite-950/20 transition text-graphite-950"
-          title="Acknowledge & Dismiss"
+          aria-label="Acknowledge and dismiss alert"
+          style={{
+            background: 'none',
+            border:     'none',
+            cursor:     'pointer',
+            opacity:    0.60,
+            display:    'flex',
+            alignItems: 'center',
+            padding:    2,
+            transition: 'opacity 0.15s ease',
+          }}
+          className="hover:opacity-100"
         >
-          <X className="w-3.5 h-3.5" />
+          <X width={14} height={14} color="#ffffff" />
         </button>
       </div>
     </div>

@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import { VerificationResult } from '@/lib/contracts/verification';
 import { MetricCard } from './MetricCard';
 import { SkillChart } from './SkillChart';
-import { Award, Layers, Clock, Terminal, Activity } from 'lucide-react';
+import { Award, Layers, Clock, Terminal, Activity, ChevronDown } from 'lucide-react';
 
 interface VerificationPanelProps {
   results: VerificationResult[];
@@ -18,56 +18,74 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({ results })
     results.find((r) => r.scope.leadHours === selectedLeadHours) || results[0] || null;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-6 select-none font-mono">
+    <div className="space-y-6 max-w-7xl mx-auto p-6 pt-20 select-none font-mono">
       {/* Page Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-graphite-900 border border-graphite-700 shadow-2xl">
+      <div
+        className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"
+        style={{
+          background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
+          backdropFilter: "blur(26px) saturate(118%)",
+          WebkitBackdropFilter: "blur(26px) saturate(118%)",
+          borderRadius: 20,
+          border: "1px solid rgba(255,255,255,.15)",
+        }}
+      >
         <div>
-          <div className="flex items-center gap-2">
-            <span className="p-1.5 bg-chartreuse text-graphite-950 font-bold">
-              <Award className="w-5 h-5" />
+          <div className="flex items-center gap-2 mb-1">
+            <span style={{ padding: '4px', background: 'rgba(200,255,61,.14)', border: '1px solid rgba(200,255,61,.35)', borderRadius: '8px', color: '#C8FF3D' }}>
+              <Award size={18} />
             </span>
-            <h1 className="font-display text-2xl font-bold tracking-wider text-paper uppercase">
+            <h1
+              style={{
+                fontFamily: "'Inter Tight', Inter, sans-serif",
+                fontWeight: 600,
+                fontSize: 22,
+                color: '#ffffff',
+                letterSpacing: '-0.4px',
+                textTransform: 'uppercase'
+              }}
+            >
               MODEL VERIFICATION // SCIENTIFIC SKILL MATRIX
             </h1>
           </div>
-          <p className="font-sans text-xs text-smoke mt-1">
+          <p style={{ color: "rgba(255,255,255,.55)", fontSize: 11, fontFamily: "Inter, sans-serif" }}>
             Standard WMO and IMD skill metrics benchmarked across 72-hour lead windows and synoptic regimes.
           </p>
         </div>
 
         {/* Filters */}
         <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 bg-graphite-950 border border-graphite-700 px-3 py-1.5 text-xs">
-            <Clock className="w-3.5 h-3.5 text-chartreuse" />
+          <div className="flex items-center gap-1.5 px-3 py-1.5" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}>
+            <Clock className="w-3.5 h-3.5 text-[#C8FF3D]" />
             <select
               value={selectedLeadHours}
               onChange={(e) => setSelectedLeadHours(parseInt(e.target.value, 10))}
-              className="bg-transparent text-paper font-bold focus:outline-none cursor-pointer"
+              className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer" style={{ appearance: "none" }}
             >
-              <option value={0}>T+0H ANALYSIS</option>
-              <option value={6}>T+6H FORECAST</option>
-              <option value={12}>T+12H FORECAST</option>
-              <option value={24}>T+24H FORECAST</option>
-              <option value={48}>T+48H FORECAST</option>
-              <option value={72}>T+72H FORECAST</option>
-            </select>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value={0}>T+0H ANALYSIS</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value={6}>T+6H FORECAST</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value={12}>T+12H FORECAST</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value={24}>T+24H FORECAST</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value={48}>T+48H FORECAST</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value={72}>T+72H FORECAST</option>
+            </select><ChevronDown size={14} style={{ color: "rgba(255,255,255,.40)", marginLeft: -18, pointerEvents: "none" }}/>
           </div>
 
-          <div className="flex items-center gap-1.5 bg-graphite-950 border border-graphite-700 px-3 py-1.5 text-xs">
+          <div className="flex items-center gap-1.5 px-3 py-1.5" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}>
             <Layers className="w-3.5 h-3.5 text-violet" />
             <select
               value={selectedRegime}
               onChange={(e) => setSelectedRegime(e.target.value)}
-              className="bg-transparent text-paper font-bold focus:outline-none cursor-pointer"
+              className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer" style={{ appearance: "none" }}
             >
-              <option value="ALL_REGIMES">ALL WEATHER REGIMES</option>
-              <option value="ACTIVE_MONSOON">ACTIVE MONSOON</option>
-              <option value="BREAK_MONSOON">BREAK MONSOON</option>
-              <option value="MONSOON_DEPRESSION">MONSOON DEPRESSION</option>
-              <option value="OROGRAPHIC">OROGRAPHIC GHATS</option>
-              <option value="COASTAL_CONVECTION">COASTAL CONVECTION</option>
-              <option value="WESTERN_DISTURBANCE">WESTERN DISTURBANCE</option>
-            </select>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="ALL_REGIMES">ALL WEATHER REGIMES</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="ACTIVE_MONSOON">ACTIVE MONSOON</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="BREAK_MONSOON">BREAK MONSOON</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="MONSOON_DEPRESSION">MONSOON DEPRESSION</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="OROGRAPHIC">OROGRAPHIC GHATS</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="COASTAL_CONVECTION">COASTAL CONVECTION</option>
+              <option style={{ background: "#04121b", color: "#ffffff" }} value="WESTERN_DISTURBANCE">WESTERN DISTURBANCE</option>
+            </select><ChevronDown size={14} style={{ color: "rgba(255,255,255,.40)", marginLeft: -18, pointerEvents: "none" }}/>
           </div>
         </div>
       </div>
@@ -112,78 +130,90 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({ results })
 
       {/* Comprehensive Metric Comparison Table */}
       {currentResult && (
-        <div className="bg-graphite-900 border border-graphite-700 shadow-xl overflow-hidden">
-          <div className="px-4 py-3 bg-graphite-950 border-b border-graphite-700 flex items-center justify-between">
-            <span className="font-display font-bold text-xs text-paper uppercase tracking-wider">
+        <div
+          className="shadow-xl overflow-hidden"
+          style={{
+            background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
+            backdropFilter: "blur(26px) saturate(118%)",
+            WebkitBackdropFilter: "blur(26px) saturate(118%)",
+            borderRadius: 16,
+            border: "1px solid rgba(255,255,255,.15)",
+          }}
+        >
+          <div
+            className="px-4 py-3 flex items-center justify-between"
+            style={{ background: "rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.15)" }}
+          >
+            <span style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: '#ffffff', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
               FULL METRIC EVALUATION BREAKDOWN // LEAD: T+{currentResult.scope.leadHours}H
             </span>
-            <span className="text-[11px] text-chartreuse font-bold">
+            <span style={{ fontSize: 10, fontWeight: 700, padding: '2px 8px', background: 'rgba(200,255,61,.14)', border: '1px solid rgba(200,255,61,.35)', borderRadius: 999, color: '#C8FF3D', letterSpacing: '0.05em' }}>
               MEAN ERROR REDUCTION: ~{currentResult.improvement.rmseReductionPct.toFixed(1)}%
             </span>
           </div>
 
           <div className="overflow-x-auto">
             <table className="w-full text-xs text-left font-mono">
-              <thead className="bg-graphite-950 text-smoke uppercase text-[10px] font-bold border-b border-graphite-800">
+              <thead style={{ borderBottom: "1px solid rgba(255,255,255,.12)" }}>
                 <tr>
-                  <th className="px-4 py-2.5">EVALUATION METRIC</th>
-                  <th className="px-4 py-2.5">SCIENTIFIC DEFINITION</th>
-                  <th className="px-4 py-2.5 text-right">RAW NWP BASELINE</th>
-                  <th className="px-4 py-2.5 text-right">AI CORRECTED (XGB)</th>
-                  <th className="px-4 py-2.5 text-right">SKILL DELTA</th>
+                  <th style={{ padding: "12px 16px", color: "rgba(255,255,255,.40)", fontSize: 9, letterSpacing: "0.10em", fontWeight: 600 }}>EVALUATION METRIC</th>
+                  <th style={{ padding: "12px 16px", color: "rgba(255,255,255,.40)", fontSize: 9, letterSpacing: "0.10em", fontWeight: 600 }}>SCIENTIFIC DEFINITION</th>
+                  <th style={{ padding: "12px 16px", color: "rgba(255,255,255,.40)", fontSize: 9, letterSpacing: "0.10em", fontWeight: 600, textAlign: "right" }}>RAW NWP BASELINE</th>
+                  <th style={{ padding: "12px 16px", color: "rgba(255,255,255,.40)", fontSize: 9, letterSpacing: "0.10em", fontWeight: 600, textAlign: "right" }}>AI CORRECTED (XGB)</th>
+                  <th style={{ padding: "12px 16px", color: "rgba(255,255,255,.40)", fontSize: 9, letterSpacing: "0.10em", fontWeight: 600, textAlign: "right" }}>SKILL DELTA</th>
                 </tr>
               </thead>
               <tbody>
                 {currentResult && currentResult.rawNwp && currentResult.corrected && currentResult.improvement && (
                   <>
-                    <tr className="border-b border-paper/10 hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">RMSE</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">Root Mean Square Error</td>
-                      <td className="px-4 py-2.5 text-right text-signal-red">{currentResult.rawNwp?.rmse?.toFixed(2)} mm</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.rmse?.toFixed(2)} mm</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">-{currentResult.improvement?.rmseReductionPct?.toFixed(1)}%</td>
+                    <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>RMSE</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>Root Mean Square Error</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.rmse?.toFixed(2)} mm</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.rmse?.toFixed(2)} mm</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>-{currentResult.improvement?.rmseReductionPct?.toFixed(1)}%</td>
                     </tr>
-                    <tr className="border-b border-paper/10 hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">MAE</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">Mean Absolute Error</td>
-                      <td className="px-4 py-2.5 text-right text-signal-red">{currentResult.rawNwp?.mae?.toFixed(2)} mm</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.mae?.toFixed(2)} mm</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">-31.1%</td>
+                    <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>MAE</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>Mean Absolute Error</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.mae?.toFixed(2)} mm</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.mae?.toFixed(2)} mm</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>-31.1%</td>
                     </tr>
-                    <tr className="border-b border-paper/10 hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">CSI</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">Critical Success Index (&gt;64mm)</td>
-                      <td className="px-4 py-2.5 text-right text-smoke">{currentResult.rawNwp?.csi?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.csi?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">+{currentResult.improvement?.csiGainPct?.toFixed(1)}%</td>
+                    <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>CSI</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>Critical Success Index (&gt;64mm)</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.csi?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.csi?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>+{currentResult.improvement?.csiGainPct?.toFixed(1)}%</td>
                     </tr>
-                    <tr className="border-b border-paper/10 hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">ETS</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">Equitable Threat Score</td>
-                      <td className="px-4 py-2.5 text-right text-smoke">{currentResult.rawNwp?.ets?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.ets?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">+67.7%</td>
+                    <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>ETS</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>Equitable Threat Score</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.ets?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.ets?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>+67.7%</td>
                     </tr>
-                    <tr className="border-b border-paper/10 hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">POD</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">Probability of Detection</td>
-                      <td className="px-4 py-2.5 text-right text-smoke">{currentResult.rawNwp?.pod?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.pod?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">+33.3%</td>
+                    <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>POD</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>Probability of Detection</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.pod?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.pod?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>+33.3%</td>
                     </tr>
-                    <tr className="border-b border-paper/10 hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">FAR</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">False Alarm Ratio</td>
-                      <td className="px-4 py-2.5 text-right text-signal-red">{currentResult.rawNwp?.far?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.far?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">-40.5%</td>
+                    <tr className="border-b border-white/10 hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>FAR</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>False Alarm Ratio</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.far?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.far?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>-40.5%</td>
                     </tr>
-                    <tr className="hover:bg-paper/5 transition-colors">
-                      <td className="px-4 py-2.5 font-bold text-paper">FSS</td>
-                      <td className="px-4 py-2.5 font-sans text-paper-dim">Fractions Skill Score (Spatial)</td>
-                      <td className="px-4 py-2.5 text-right text-smoke">{currentResult.rawNwp?.fss?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-paper font-bold">{currentResult.corrected?.fss?.toFixed(2)}</td>
-                      <td className="px-4 py-2.5 text-right text-chartreuse font-bold">+{currentResult.improvement?.fssGainPct?.toFixed(1)}%</td>
+                    <tr className="hover:bg-white/5 transition-colors">
+                      <td style={{ padding: "12px 16px", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff" }}>FSS</td>
+                      <td style={{ padding: "12px 16px", fontFamily: "Inter, sans-serif", fontSize: 12, color: "rgba(255,255,255,.60)" }}>Fractions Skill Score (Spatial)</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "rgba(255,255,255,.40)", fontSize: 12, textDecoration: "line-through" }}>{currentResult.rawNwp?.fss?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>{currentResult.corrected?.fss?.toFixed(2)}</td>
+                      <td style={{ padding: "12px 16px", textAlign: "right", color: "#C8FF3D", fontSize: 12, fontWeight: 700, fontFamily: "\'IBM Plex Mono\', monospace" }}>+{currentResult.improvement?.fssGainPct?.toFixed(1)}%</td>
                     </tr>
                   </>
                 )}

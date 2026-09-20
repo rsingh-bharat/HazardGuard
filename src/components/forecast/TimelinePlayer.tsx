@@ -1,7 +1,7 @@
-'use client';
+﻿"use client";
 
-import React, { useEffect, useState } from 'react';
-import { Play, Pause, Clock } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { Play, Pause, Clock } from "lucide-react";
 
 interface TimelinePlayerProps {
   activeLeadHours: 0 | 6 | 12 | 24 | 48 | 72;
@@ -25,58 +25,86 @@ export const TimelinePlayer: React.FC<TimelinePlayerProps> = ({
         onSelectLeadHours(LEAD_STEPS[nextIndex]);
       }, 2000);
     }
-    return () => {
-      if (timer) clearInterval(timer);
-    };
+    return () => { if (timer) clearInterval(timer); };
   }, [isPlaying, activeLeadHours, onSelectLeadHours]);
 
   return (
-    <div className="flex flex-col gap-2 p-3 bg-graphite-900 border border-graphite-700 shadow-xl select-none font-mono">
-      <div className="flex items-center justify-between text-xs">
-        <div className="flex items-center gap-1.5 font-display font-bold text-paper text-sm tracking-wider uppercase">
-          <Clock className="w-3.5 h-3.5 text-chartreuse" />
-          <span>72-HOUR TIMELINE CYCLE</span>
-        </div>
-        <span className="text-[10px] font-mono px-2 py-0.5 bg-graphite-950 text-chartreuse border border-chartreuse/40 font-bold tracking-wider">
-          LEAD // T+{activeLeadHours}H
+    <div className="flex items-center gap-3 select-none">
+      {/* Header label */}
+      <div className="flex items-center gap-1.5 shrink-0">
+        <Clock size={13} style={{ color: "#C8FF3D" }} />
+        <span style={{ color: "rgba(255,255,255,.65)", fontSize: 10, fontWeight: 600, letterSpacing: "0.10em", textTransform: "uppercase" }}>
+          72H CYCLE
         </span>
       </div>
 
-      <div className="flex items-center gap-1.5 pt-1">
-        <button
-          onClick={() => setIsPlaying(!isPlaying)}
-          className={`p-2 font-mono font-bold text-xs flex items-center justify-center transition-all duration-150 ${
-            isPlaying
-              ? 'bg-amber text-graphite-950 shadow-[0_0_8px_rgba(255,179,71,0.4)]'
-              : 'bg-chartreuse text-graphite-950 shadow-[0_0_8px_rgba(200,255,61,0.4)] hover:bg-chartreuse/90'
-          }`}
-          title={isPlaying ? 'Pause Auto-cycle' : 'Play 72h Timeline'}
-        >
-          {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5" />}
-        </button>
+      {/* Play/Pause */}
+      <button
+        onClick={() => setIsPlaying(!isPlaying)}
+        className="flex items-center justify-center shrink-0 transition-all hover:scale-105"
+        title={isPlaying ? "Pause" : "Play 72h Timeline"}
+        style={{
+          width: 30,
+          height: 30,
+          borderRadius: "50%",
+          background: isPlaying ? "#FFB347" : "#C8FF3D",
+          color: "#04121b",
+          border: "none",
+          cursor: "pointer",
+          boxShadow: isPlaying
+            ? "0 0 10px rgba(255,179,71,.40)"
+            : "0 0 10px rgba(200,255,61,.40)",
+        }}
+      >
+        {isPlaying ? <Pause size={13} /> : <Play size={13} />}
+      </button>
 
-        <div className="grid grid-cols-6 gap-1 flex-1">
-          {LEAD_STEPS.map((h) => {
-            const isSelected = activeLeadHours === h;
-            return (
-              <button
-                key={h}
-                onClick={() => {
-                  setIsPlaying(false);
-                  onSelectLeadHours(h);
-                }}
-                className={`py-1.5 px-1 font-mono text-[11px] font-bold transition-all duration-150 flex flex-col items-center justify-center ${
-                  isSelected
-                    ? 'bg-graphite-950 text-chartreuse border-b-2 border-chartreuse shadow-[inset_0_-1px_0_rgba(200,255,61,0.6)]'
-                    : 'bg-graphite-950/80 text-smoke hover:text-paper hover:bg-graphite-800 border border-graphite-800'
-                }`}
-              >
-                <span>{h === 0 ? 'NOW' : `+${h}H`}</span>
-              </button>
-            );
-          })}
-        </div>
+      {/* Step buttons */}
+      <div className="flex items-center gap-1 flex-1">
+        {LEAD_STEPS.map((h) => {
+          const isSelected = activeLeadHours === h;
+          return (
+            <button
+              key={h}
+              onClick={() => { setIsPlaying(false); onSelectLeadHours(h); }}
+              className="flex-1 flex items-center justify-center transition-all duration-150 hover:brightness-110"
+              style={{
+                height: 32,
+                borderRadius: 8,
+                fontSize: 11,
+                fontWeight: isSelected ? 700 : 500,
+                cursor: "pointer",
+                background: isSelected ? "rgba(200,255,61,.20)" : "rgba(255,255,255,.06)",
+                border: `1px solid ${isSelected ? "rgba(200,255,61,.50)" : "rgba(255,255,255,.12)"}`,
+                color: isSelected ? "#C8FF3D" : "rgba(255,255,255,.60)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+              }}
+            >
+              {h === 0 ? "NOW" : `+${h}H`}
+            </button>
+          );
+        })}
       </div>
+
+      {/* Active label */}
+      <span
+        style={{
+          padding: "2px 10px",
+          borderRadius: 999,
+          background: "rgba(200,255,61,.14)",
+          border: "1px solid rgba(200,255,61,.35)",
+          color: "#C8FF3D",
+          fontSize: 10,
+          fontWeight: 700,
+          letterSpacing: "0.08em",
+          whiteSpace: "nowrap",
+          
+        }}
+      >
+        T+{activeLeadHours}H
+      </span>
     </div>
   );
 };
+

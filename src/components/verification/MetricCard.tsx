@@ -23,35 +23,85 @@ export const MetricCard: React.FC<MetricCardProps> = ({
   const isPositiveGain = isReductionBetter ? improvementPct > 0 : improvementPct > 0;
 
   return (
-    <div className="p-3.5 bg-graphite-900 border border-graphite-700 shadow-sm flex flex-col justify-between select-none font-mono">
-      <div className="flex items-center justify-between">
-        <span className="font-display font-bold text-xs text-paper uppercase tracking-wider">
+    <div
+      className="p-4 flex flex-col justify-between select-none"
+      style={{
+        background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
+        backdropFilter: "blur(26px) saturate(118%)",
+        WebkitBackdropFilter: "blur(26px) saturate(118%)",
+        border: "1px solid rgba(255,255,255,.15)",
+        borderRadius: 16,
+      }}
+    >
+      <div className="flex items-center justify-between mb-4">
+        <span
+          style={{
+            fontFamily: "'Inter Tight', Inter, sans-serif",
+            fontWeight: 600,
+            fontSize: 13,
+            color: '#ffffff',
+            letterSpacing: '-0.2px',
+          }}
+        >
           {label}
         </span>
         <div
-          className={`flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-mono font-extrabold ${
-            isPositiveGain
-              ? 'bg-chartreuse/20 text-chartreuse border border-chartreuse/40'
-              : 'bg-signal-red/20 text-signal-red border border-signal-red/40'
-          }`}
+          className="flex items-center gap-1"
+          style={{
+            padding: '2px 8px',
+            borderRadius: 999,
+            background: isPositiveGain ? 'rgba(200,255,61,.14)' : 'rgba(255,59,48,.14)',
+            border: isPositiveGain ? '1px solid rgba(200,255,61,.35)' : '1px solid rgba(255,59,48,.35)',
+            color: isPositiveGain ? '#C8FF3D' : '#FF3B30',
+            fontSize: 10,
+            fontWeight: 700,
+            fontFamily: "'IBM Plex Mono', monospace",
+          }}
         >
-          {isReductionBetter ? <ArrowDownRight className="w-3 h-3" /> : <ArrowUpRight className="w-3 h-3" />}
+          {isReductionBetter ? <ArrowDownRight size={12} /> : <ArrowUpRight size={12} />}
           {isReductionBetter ? `-${improvementPct.toFixed(1)}%` : `+${improvementPct.toFixed(1)}%`}
         </div>
       </div>
 
-      <div className="grid grid-cols-2 gap-2 mt-3 pt-2 border-t border-graphite-800">
+      <div className="grid grid-cols-2 gap-2 mt-auto pt-3" style={{ borderTop: "1px solid rgba(255,255,255,.12)" }}>
         <div>
-          <span className="text-[9px] text-smoke uppercase font-bold">RAW NWP</span>
-          <div className="text-xs font-mono font-bold text-smoke line-through">
-            {rawValue.toFixed(2)} {unit}
+          <p style={{ color: "rgba(255,255,255,.50)", fontSize: 10, letterSpacing: "0.10em", textTransform: "uppercase", marginBottom: 4 }}>
+            RAW NWP
+          </p>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 3 }}>
+            <span
+              style={{
+                fontFamily: "'Inter Tight', Inter, sans-serif",
+                fontWeight: 500,
+                fontSize: 18,
+                color: "rgba(255,255,255,.40)",
+                textDecoration: "line-through",
+              }}
+            >
+              {rawValue.toFixed(2)}
+            </span>
+            {unit && <span style={{ color: "rgba(255,255,255,.40)", fontSize: 11 }}>{unit}</span>}
           </div>
         </div>
 
         <div className="text-right">
-          <span className="text-[9px] text-chartreuse uppercase font-bold">AI CORRECTED</span>
-          <div className="text-sm font-mono font-extrabold text-paper">
-            {correctedValue.toFixed(2)} {unit}
+          <p style={{ color: "#C8FF3D", fontSize: 10, letterSpacing: "0.10em", textTransform: "uppercase", marginBottom: 4 }}>
+            AI CORRECTED
+          </p>
+          <div style={{ display: "flex", alignItems: "baseline", gap: 3, justifyContent: 'flex-end' }}>
+            <span
+              style={{
+                fontFamily: "'Inter Tight', Inter, sans-serif",
+                fontWeight: 600,
+                fontSize: 24,
+                color: "#ffffff",
+                letterSpacing: "-0.5px",
+                lineHeight: 1,
+              }}
+            >
+              {correctedValue.toFixed(2)}
+            </span>
+            {unit && <span style={{ color: "rgba(255,255,255,.60)", fontSize: 12 }}>{unit}</span>}
           </div>
         </div>
       </div>

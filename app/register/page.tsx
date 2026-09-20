@@ -120,250 +120,315 @@ export default function RegisterPage() {
 
   if (submitted) {
     return (
-      <div className="min-h-[calc(100vh-56px)] bg-graphite-950 flex items-center justify-center p-6">
-        <div className="max-w-md w-full bg-graphite-900 border border-chartreuse/40 shadow-[0_0_30px_rgba(200,255,61,0.15)] p-8 space-y-6 font-mono text-center">
-          <div className="flex flex-col items-center gap-3">
-            <div className="w-16 h-16 bg-graphite-950 border-2 border-chartreuse flex items-center justify-center shadow-[0_0_20px_rgba(200,255,61,0.3)]">
-              <CheckCircle2 className="w-8 h-8 text-chartreuse" />
+      <div className="h-screen overflow-y-auto w-full font-mono">
+        <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-16">
+          <div className="p-8 space-y-6 font-mono text-center shadow-2xl" style={{
+            background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
+            backdropFilter: "blur(26px) saturate(118%)",
+            WebkitBackdropFilter: "blur(26px) saturate(118%)",
+            border: "1px solid rgba(255,255,255,.15)",
+            borderRadius: 20,
+          }}>
+            <div className="flex flex-col items-center gap-3">
+              <div className="w-16 h-16 flex items-center justify-center rounded-full" style={{ background: "rgba(200,255,61,.14)", border: "1px solid rgba(200,255,61,.35)", color: "#C8FF3D" }}>
+                <CheckCircle2 className="w-8 h-8" />
+              </div>
+              <h2 style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 600, fontSize: 22, color: "#ffffff", letterSpacing: "-0.4px", textTransform: "uppercase" }}>
+                Registration Confirmed
+              </h2>
             </div>
-            <h2 className="font-display font-bold text-xl text-chartreuse tracking-wider uppercase">
-              Registration Confirmed
-            </h2>
-          </div>
 
-          <div className="text-xs text-paper-dim space-y-2 text-left bg-graphite-950 border border-graphite-700 p-4">
-            <div className="flex justify-between">
-              <span className="text-smoke">Official:</span>
-              <span className="text-paper font-bold">{form.name}</span>
+            <div className="space-y-2 text-left p-4" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 12 }}>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-[10px] font-bold text-white/55 uppercase tracking-widest">Official:</span>
+                <span className="text-xs text-white font-bold">{form.name}</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-[10px] font-bold text-white/55 uppercase tracking-widest">District:</span>
+                <span className="text-xs text-white font-bold">{form.district}, {STATES.find(s => s.id === form.state)?.name}</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-[10px] font-bold text-white/55 uppercase tracking-widest">Alert Channel:</span>
+                <span className="text-xs text-white font-bold">{form.phone} — {form.email}</span>
+              </div>
+              <div className="flex justify-between items-center py-1">
+                <span className="text-[10px] font-bold text-white/55 uppercase tracking-widest">Role:</span>
+                <span className="text-xs text-white font-bold">{form.role}</span>
+              </div>
             </div>
-            <div className="flex justify-between">
-              <span className="text-smoke">District:</span>
-              <span className="text-paper font-bold">{form.district}, {STATES.find(s => s.id === form.state)?.name}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-smoke">Alert Channel:</span>
-              <span className="text-paper font-bold">{form.phone} · {form.email}</span>
-            </div>
-            <div className="flex justify-between">
-              <span className="text-smoke">Role:</span>
-              <span className="text-paper font-bold">{form.role}</span>
-            </div>
-          </div>
 
-          <div className="text-xs font-sans text-paper-dim leading-relaxed text-left">
-            <p>
-              Your district ({form.district}) has been registered for automated hazard alert dispatch.
-              Whenever a <span className="text-signal-red font-bold">RED</span> or <span className="text-amber font-bold">ORANGE</span> alert
-              is forecasted for your jurisdiction, HazardGuard will send an automated advisory to your registered contact details.
-            </p>
-          </div>
+            <div className="text-xs text-white/70 leading-relaxed text-left">
+              <p>
+                Your district ({form.district}) has been registered for automated hazard alert dispatch.
+                Whenever a <span style={{ color: "#FF3B30", fontWeight: "bold" }}>RED</span> or <span style={{ color: "#FFB347", fontWeight: "bold" }}>ORANGE</span> alert
+                is forecasted for your jurisdiction, HazardGuard will send an automated advisory to your registered contact details.
+              </p>
+            </div>
 
-          <div className="px-3 py-2 bg-graphite-950 border border-graphite-700 text-[10px] font-mono text-smoke text-left">
-            <span className="text-chartreuse font-bold">SYSTEM:</span> Alert pipeline activated for district perimeter.
-            Monitoring 72-hour ensemble forecast cycle.
-          </div>
+            <div className="px-4 py-3 text-[10px] font-mono text-left" style={{ background: "rgba(0,0,0,.25)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10, color: "rgba(255,255,255,.55)" }}>
+              <span style={{ color: "#C8FF3D", fontWeight: "bold" }}>SYSTEM:</span> Alert pipeline activated for district perimeter.
+              Monitoring 72-hour ensemble forecast cycle.
+            </div>
 
-          <button
-            onClick={() => { setSubmitted(false); setForm({ name: '', designation: '', role: '', state: '', district: '', phone: '', email: '', empId: '' }); }}
-            className="w-full py-2.5 bg-graphite-800 hover:bg-graphite-700 border border-graphite-600 text-paper text-xs font-mono font-bold tracking-wider transition-all"
-          >
-            REGISTER ANOTHER OFFICIAL
-          </button>
+            <button
+              onClick={() => { setSubmitted(false); setForm({ name: '', designation: '', role: '', state: '', district: '', phone: '', email: '', empId: '' }); }}
+              className="w-full py-3.5 flex items-center justify-center transition-all"
+              style={{
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.15)",
+                borderRadius: 12,
+                color: "#ffffff",
+                fontSize: 12,
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase"
+              }}
+            >
+              REGISTER ANOTHER OFFICIAL
+            </button>
+          </div>
         </div>
       </div>
     );
   }
 
+  const selectStyle = {
+    background: "rgba(255,255,255,.08)", 
+    border: "1px solid rgba(255,255,255,.15)", 
+    borderRadius: 10,
+    color: "#ffffff"
+  };
+
+  const inputStyle = {
+    background: "rgba(0,0,0,.2)", 
+    border: "1px solid rgba(255,255,255,.12)", 
+    borderRadius: 10,
+    color: "#ffffff"
+  };
+
   return (
-    <div className="min-h-[calc(100vh-56px)] bg-graphite-950 py-8 px-4 font-mono">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="h-screen overflow-y-auto w-full font-mono">
+      <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-16">
 
-        {/* Header */}
-        <div className="p-5 bg-graphite-900 border border-graphite-700 shadow-2xl space-y-2">
-          <div className="flex items-center gap-3">
-            <div className="p-2 bg-graphite-950 border border-chartreuse/60 text-chartreuse">
-              <ShieldAlert className="w-6 h-6" />
+        {/* Header Panel */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"
+          style={{
+            background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
+            backdropFilter: "blur(26px) saturate(118%)",
+            WebkitBackdropFilter: "blur(26px) saturate(118%)",
+            border: "1px solid rgba(255,255,255,.15)",
+            borderRadius: 20,
+          }}>
+          <div>
+            <div className="flex items-center gap-3">
+              <span style={{ padding: "8px", background: "rgba(200,255,61,.14)", border: "1px solid rgba(200,255,61,.35)", borderRadius: "10px", color: "#C8FF3D" }}>
+                <ShieldAlert className="w-5 h-5" />
+              </span>
+              <div>
+                <h1 style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 600, fontSize: 22, color: "#ffffff", letterSpacing: "-0.4px", textTransform: "uppercase" }}>
+                  OFFICIAL REGISTRATION
+                </h1>
+                <p style={{ color: "rgba(255,255,255,.55)", fontSize: 11, fontFamily: "Inter, sans-serif", marginTop: 4 }}>
+                  NDMA / SDMA District Disaster Management Officer Portal
+                </p>
+              </div>
             </div>
-            <div>
-              <h1 className="font-display font-bold text-2xl text-paper tracking-wider uppercase">
-                Official Registration
-              </h1>
-              <p className="text-[11px] text-smoke mt-0.5">
-                NDMA / SDMA District Disaster Management Officer Portal
-              </p>
-            </div>
-          </div>
-
-          <div className="flex items-start gap-2 p-3 bg-graphite-950 border border-amber/30 text-xs text-amber-300">
-            <AlertTriangle className="w-3.5 h-3.5 mt-0.5 shrink-0 text-amber" />
-            <span className="font-sans leading-relaxed">
-              Registering your contact here enables automated hazard alerts for your district when rainfall forecasts trigger
-              <span className="text-signal-red font-bold"> RED </span> or
-              <span className="text-amber font-bold"> ORANGE </span> alert thresholds.
-              Only verified government officials should register.
-            </span>
           </div>
         </div>
 
-        {/* Form */}
-        <form onSubmit={handleSubmit} className="p-5 bg-graphite-900 border border-graphite-700 shadow-xl space-y-5">
-
-          {/* Personal Info */}
-          <div>
-            <h2 className="text-[10px] font-bold text-chartreuse uppercase tracking-widest mb-3 flex items-center gap-1.5">
-              <User className="w-3.5 h-3.5" /> OFFICIAL IDENTITY
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">Full Name <span className="text-signal-red">*</span></label>
-                <input
-                  type="text"
-                  value={form.name}
-                  onChange={(e) => handleChange('name', e.target.value)}
-                  placeholder="Eg. Amit Kumar Sharma"
-                  className="w-full bg-graphite-950 border border-graphite-700 focus:border-chartreuse px-3 py-2.5 text-xs text-paper placeholder-smoke focus:outline-none transition"
-                />
-              </div>
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">Employee / Badge ID</label>
-                <input
-                  type="text"
-                  value={form.empId}
-                  onChange={(e) => handleChange('empId', e.target.value)}
-                  placeholder="Govt. Employee ID (Optional)"
-                  className="w-full bg-graphite-950 border border-graphite-700 focus:border-chartreuse px-3 py-2.5 text-xs text-paper placeholder-smoke focus:outline-none transition"
-                />
-              </div>
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">Designation</label>
-                <input
-                  type="text"
-                  value={form.designation}
-                  onChange={(e) => handleChange('designation', e.target.value)}
-                  placeholder="Eg. IAS, IPS, NDRF..."
-                  className="w-full bg-graphite-950 border border-graphite-700 focus:border-chartreuse px-3 py-2.5 text-xs text-paper placeholder-smoke focus:outline-none transition"
-                />
-              </div>
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">DM Role <span className="text-signal-red">*</span></label>
-                <div className="relative">
-                  <select
-                    value={form.role}
-                    onChange={(e) => handleChange('role', e.target.value)}
-                    className="w-full appearance-none bg-graphite-950 border border-graphite-700 focus:border-chartreuse px-3 py-2.5 text-xs text-paper focus:outline-none transition pr-8"
-                  >
-                    <option value="" className="bg-graphite-950 text-smoke">Select role...</option>
-                    {ROLES.map((r) => (
-                      <option key={r} value={r} className="bg-graphite-950 text-paper">{r}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
-            </div>
+        {/* Form Panel */}
+        <div className="p-6 shadow-xl space-y-6" style={{
+            background: "rgba(255,255,255,.06)",
+            backdropFilter: "blur(20px) saturate(115%)",
+            WebkitBackdropFilter: "blur(20px) saturate(115%)",
+            border: "1px solid rgba(255,255,255,.12)",
+            borderRadius: 16,
+          }}>
+          
+          <div className="flex items-start gap-2 p-3" style={{ background: "rgba(255, 179, 71, 0.15)", border: "1px solid rgba(255, 179, 71, 0.3)", borderRadius: 10, color: "#FFB347" }}>
+            <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" />
+            <span className="text-[11px] font-sans leading-relaxed">
+              Registering your contact here enables automated hazard alerts for your district when rainfall forecasts trigger
+              severe risk criteria (RED/ORANGE). Keep this information updated.
+            </span>
           </div>
 
-          {/* Jurisdiction */}
-          <div>
-            <h2 className="text-[10px] font-bold text-chartreuse uppercase tracking-widest mb-3 flex items-center gap-1.5">
-              <MapPin className="w-3.5 h-3.5" /> JURISDICTIONAL AREA
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">State / UT <span className="text-signal-red">*</span></label>
-                <div className="relative">
-                  <select
-                    value={form.state}
-                    onChange={(e) => handleChange('state', e.target.value)}
-                    className="w-full appearance-none bg-graphite-950 border border-graphite-700 focus:border-chartreuse px-3 py-2.5 text-xs text-paper focus:outline-none transition pr-8"
-                  >
-                    <option value="" className="bg-graphite-950 text-smoke">Select state...</option>
-                    {STATES.map((s) => (
-                      <option key={s.id} value={s.id} className="bg-graphite-950 text-paper">{s.name} ({s.id})</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">District <span className="text-signal-red">*</span></label>
-                <div className="relative">
-                  <select
-                    value={form.district}
-                    onChange={(e) => handleChange('district', e.target.value)}
-                    disabled={!form.state}
-                    className="w-full appearance-none bg-graphite-950 border border-graphite-700 focus:border-chartreuse px-3 py-2.5 text-xs text-paper focus:outline-none transition pr-8 disabled:opacity-40 disabled:cursor-not-allowed"
-                  >
-                    <option value="" className="bg-graphite-950 text-smoke">{form.state ? 'Select district...' : 'Select state first'}</option>
-                    {districts.map((d) => (
-                      <option key={d} value={d} className="bg-graphite-950 text-paper">{d}</option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2 top-1/2 -translate-y-1/2 pointer-events-none" />
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {/* Contact Info */}
-          <div>
-            <h2 className="text-[10px] font-bold text-chartreuse uppercase tracking-widest mb-3 flex items-center gap-1.5">
-              <Phone className="w-3.5 h-3.5" /> ALERT CONTACT DETAILS
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">Phone / WhatsApp <span className="text-signal-red">*</span></label>
-                <div className="relative">
-                  <Phone className="w-3.5 h-3.5 text-smoke absolute left-3 top-1/2 -translate-y-1/2" />
+          <form onSubmit={handleSubmit} className="space-y-8">
+            
+            {/* Personnel Details */}
+            <div>
+              <h2 className="text-[11px] font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8 }}>
+                <User className="w-4 h-4 text-[#C8FF3D]" /> PERSONNEL IDENTIFICATION
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">Full Name <span style={{ color: "#FF3B30" }}>*</span></label>
                   <input
-                    type="tel"
-                    value={form.phone}
-                    onChange={(e) => handleChange('phone', e.target.value)}
-                    placeholder="+91 98765 43210"
-                    className="w-full bg-graphite-950 border border-graphite-700 focus:border-chartreuse pl-9 pr-3 py-2.5 text-xs text-paper placeholder-smoke focus:outline-none transition"
+                    type="text"
+                    value={form.name}
+                    onChange={(e) => handleChange('name', e.target.value)}
+                    placeholder="Eg. Dr. A. Kumar"
+                    className="w-full px-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition placeholder:text-white/20"
+                    style={inputStyle}
                   />
                 </div>
-              </div>
-              <div>
-                <label className="block text-[10px] text-smoke mb-1.5 uppercase font-bold">Official Email <span className="text-signal-red">*</span></label>
-                <div className="relative">
-                  <Mail className="w-3.5 h-3.5 text-smoke absolute left-3 top-1/2 -translate-y-1/2" />
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">Employee / Badge ID</label>
                   <input
-                    type="email"
-                    value={form.email}
-                    onChange={(e) => handleChange('email', e.target.value)}
-                    placeholder="official@nic.in"
-                    className="w-full bg-graphite-950 border border-graphite-700 focus:border-chartreuse pl-9 pr-3 py-2.5 text-xs text-paper placeholder-smoke focus:outline-none transition"
+                    type="text"
+                    value={form.empId}
+                    onChange={(e) => handleChange('empId', e.target.value)}
+                    placeholder="Govt. Employee ID (Optional)"
+                    className="w-full px-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition placeholder:text-white/20"
+                    style={inputStyle}
                   />
+                </div>
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">Designation</label>
+                  <input
+                    type="text"
+                    value={form.designation}
+                    onChange={(e) => handleChange('designation', e.target.value)}
+                    placeholder="Eg. IAS, IPS, NDRF..."
+                    className="w-full px-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition placeholder:text-white/20"
+                    style={inputStyle}
+                  />
+                </div>
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">DM Role <span style={{ color: "#FF3B30" }}>*</span></label>
+                  <div className="relative">
+                    <select
+                      value={form.role}
+                      onChange={(e) => handleChange('role', e.target.value)}
+                      className="w-full appearance-none px-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition pr-8 cursor-pointer"
+                      style={selectStyle}
+                    >
+                      <option value="" style={{ background: "#04121b", color: "rgba(255,255,255,0.6)" }}>Select role...</option>
+                      {ROLES.map((r) => (
+                        <option key={r} value={r} style={{ background: "#04121b", color: "#ffffff" }}>{r}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-white/40 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* Authority badge */}
-          <div className="flex items-center gap-2 p-3 bg-graphite-950 border border-graphite-700">
-            <Building2 className="w-3.5 h-3.5 text-violet shrink-0" />
-            <p className="text-[10px] font-sans text-smoke leading-relaxed">
-              This registration is for authorized government disaster management officials only.
-              By submitting, you confirm you are a verified NDMA/SDMA operative with jurisdiction over the selected district.
-            </p>
-          </div>
-
-          {/* Error */}
-          {error && (
-            <div className="p-3 bg-signal-red/10 border border-signal-red/60 text-signal-red text-xs font-mono">
-              ⚠ {error}
+            {/* Jurisdiction */}
+            <div>
+              <h2 className="text-[11px] font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8 }}>
+                <MapPin className="w-4 h-4 text-[#C8FF3D]" /> JURISDICTIONAL AREA
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">State / UT <span style={{ color: "#FF3B30" }}>*</span></label>
+                  <div className="relative">
+                    <select
+                      value={form.state}
+                      onChange={(e) => handleChange('state', e.target.value)}
+                      className="w-full appearance-none px-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition pr-8 cursor-pointer"
+                      style={selectStyle}
+                    >
+                      <option value="" style={{ background: "#04121b", color: "rgba(255,255,255,0.6)" }}>Select state...</option>
+                      {STATES.map((s) => (
+                        <option key={s.id} value={s.id} style={{ background: "#04121b", color: "#ffffff" }}>{s.name} ({s.id})</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-white/40 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">District <span style={{ color: "#FF3B30" }}>*</span></label>
+                  <div className="relative">
+                    <select
+                      value={form.district}
+                      onChange={(e) => handleChange('district', e.target.value)}
+                      disabled={!form.state}
+                      className="w-full appearance-none px-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition pr-8 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer"
+                      style={selectStyle}
+                    >
+                      <option value="" style={{ background: "#04121b", color: "rgba(255,255,255,0.6)" }}>{form.state ? 'Select district...' : 'Select state first'}</option>
+                      {districts.map((d) => (
+                        <option key={d} value={d} style={{ background: "#04121b", color: "#ffffff" }}>{d}</option>
+                      ))}
+                    </select>
+                    <ChevronDown className="w-3.5 h-3.5 text-white/40 absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none" />
+                  </div>
+                </div>
+              </div>
             </div>
-          )}
 
-          {/* Submit */}
-          <button
-            type="submit"
-            className="w-full py-3 bg-chartreuse hover:bg-chartreuse/90 text-graphite-950 font-display font-bold text-sm tracking-wider uppercase transition-all shadow-[0_0_15px_rgba(200,255,61,0.3)] hover:shadow-[0_0_25px_rgba(200,255,61,0.5)]"
-          >
-            ACTIVATE DISTRICT ALERT SUBSCRIPTION
-          </button>
-        </form>
+            {/* Contact Info */}
+            <div>
+              <h2 className="text-[11px] font-bold text-white uppercase tracking-widest mb-4 flex items-center gap-2" style={{ borderBottom: "1px solid rgba(255,255,255,0.1)", paddingBottom: 8 }}>
+                <Phone className="w-4 h-4 text-[#C8FF3D]" /> ALERT CONTACT DETAILS
+              </h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">Phone / WhatsApp <span style={{ color: "#FF3B30" }}>*</span></label>
+                  <div className="relative">
+                    <Phone className="w-3.5 h-3.5 text-white/40 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="tel"
+                      value={form.phone}
+                      onChange={(e) => handleChange('phone', e.target.value)}
+                      placeholder="+91 98765 43210"
+                      className="w-full pl-9 pr-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition placeholder:text-white/20"
+                      style={inputStyle}
+                    />
+                  </div>
+                </div>
+                <div>
+                  <label className="block text-[10px] text-white/55 mb-1.5 uppercase font-bold">Official Email <span style={{ color: "#FF3B30" }}>*</span></label>
+                  <div className="relative">
+                    <Mail className="w-3.5 h-3.5 text-white/40 absolute left-3 top-1/2 -translate-y-1/2" />
+                    <input
+                      type="email"
+                      value={form.email}
+                      onChange={(e) => handleChange('email', e.target.value)}
+                      placeholder="official@nic.in"
+                      className="w-full pl-9 pr-3 py-2.5 text-xs focus:outline-none focus:ring-1 focus:ring-[#C8FF3D] transition placeholder:text-white/20"
+                      style={inputStyle}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Authority badge */}
+            <div className="flex items-center gap-3 p-4" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 12 }}>
+              <Building2 className="w-5 h-5 text-white/50 shrink-0" />
+              <p className="text-[10px] font-sans text-white/60 leading-relaxed">
+                This registration is for authorized government disaster management officials only.
+                By submitting, you confirm you are a verified NDMA/SDMA operative with jurisdiction over the selected district.
+              </p>
+            </div>
+
+            {/* Error */}
+            {error && (
+              <div className="p-3 text-xs font-mono" style={{ background: "rgba(255,59,48,0.15)", border: "1px solid rgba(255,59,48,0.3)", borderRadius: 10, color: "#FF3B30" }}>
+                ⚠ {error}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              className="w-full py-3.5 flex items-center justify-center transition-all hover:opacity-90"
+              style={{
+                background: "#C8FF3D",
+                borderRadius: 12,
+                color: "#000000",
+                fontSize: 13,
+                fontWeight: 700,
+                letterSpacing: "0.05em",
+                textTransform: "uppercase"
+              }}
+            >
+              ACTIVATE DISTRICT ALERT SUBSCRIPTION
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

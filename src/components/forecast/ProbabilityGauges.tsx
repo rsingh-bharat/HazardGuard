@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 
@@ -20,7 +20,7 @@ const GaugeItem: React.FC<GaugeItemProps> = ({ label, threshold, probability, co
   const strokeDashoffset = 100 - percentage;
 
   return (
-    <div className="flex flex-col items-center p-2.5 bg-graphite-900 border border-graphite-700 flex-1 select-none">
+    <div className="flex flex-col items-center p-2.5  border border-white/15 flex-1 select-none">
       <div className="relative w-14 h-14 flex items-center justify-center">
         <svg className="w-full h-full transform -rotate-90" viewBox="0 0 36 36">
           <path
@@ -40,10 +40,10 @@ const GaugeItem: React.FC<GaugeItemProps> = ({ label, threshold, probability, co
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
           />
         </svg>
-        <span className="absolute font-mono font-bold text-xs text-paper">{percentage}%</span>
+        <span className="absolute font-mono font-bold text-xs text-white">{percentage}%</span>
       </div>
-      <span className="font-display font-bold text-xs text-paper uppercase tracking-wider mt-1.5">{label}</span>
-      <span className="font-mono text-[9px] text-smoke">{threshold}</span>
+      <span className="font-tight font-bold text-xs text-white uppercase tracking-wider mt-1.5">{label}</span>
+      <span className="font-mono text-[9px] text-white/50">{threshold}</span>
     </div>
   );
 };
@@ -55,11 +55,11 @@ export const ProbabilityGauges: React.FC<ProbabilityGaugesProps> = ({
 }) => {
   return (
     <div className="space-y-1.5 font-mono">
-      <div className="flex items-center justify-between text-xs font-bold text-paper-dim">
-        <span className="font-display text-xs tracking-wider uppercase text-paper">
+      <div className="flex items-center justify-between text-xs font-bold text-white/70">
+        <span className="font-tight text-xs tracking-wider uppercase text-white">
           EXCEEDANCE PROBABILITY (P &gt; THRESHOLD)
         </span>
-        <span className="text-[9px] text-smoke">RAW ENSEMBLE</span>
+        <span className="text-[9px] text-white/50">RAW ENSEMBLE</span>
       </div>
       <div className="flex items-center gap-2">
         <GaugeItem

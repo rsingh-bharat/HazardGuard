@@ -102,49 +102,63 @@ export default function ReportsPage() {
   ];
 
   return (
-    <div className="max-w-6xl mx-auto p-6 space-y-6 select-none pb-16 font-mono">
+    <div className="h-screen overflow-y-auto w-full font-mono">
+      <div className="max-w-6xl mx-auto p-6 pt-20 space-y-6 select-none pb-16">
       {/* Header */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 bg-graphite-900 border border-graphite-700 shadow-2xl">
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"
+        style={{
+          background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
+          backdropFilter: "blur(26px) saturate(118%)",
+          WebkitBackdropFilter: "blur(26px) saturate(118%)",
+          border: "1px solid rgba(255,255,255,.15)",
+          borderRadius: 20,
+        }}>
         <div>
           <div className="flex items-center gap-2">
-            <span className="p-1.5 bg-chartreuse text-graphite-950 font-bold">
+            <span style={{ padding: "4px", background: "rgba(200,255,61,.14)", border: "1px solid rgba(200,255,61,.35)", borderRadius: "8px", color: "#C8FF3D" }}>
               <FileText className="w-5 h-5" />
             </span>
-            <h1 className="font-display text-2xl font-bold tracking-wider text-paper uppercase">
+            <h1 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 22, color: "#ffffff", letterSpacing: "-0.4px", textTransform: "uppercase" }}>
               OFFICIAL DISASTER BULLETIN COMPILER
             </h1>
           </div>
-          <p className="font-sans text-xs text-smoke mt-1">
+          <p style={{ color: "rgba(255,255,255,.55)", fontSize: 11, fontFamily: "Inter, sans-serif", marginTop: 4 }}>
             Automated compilation of 5-page district bulletins compliant with NDMA and Ministry of Earth Sciences guidelines.
           </p>
         </div>
 
         <div className="flex items-center gap-2">
           <Shield className="w-4 h-4 text-chartreuse" />
-          <span className="text-xs text-chartreuse font-bold uppercase tracking-wider">AUTHORIZED NDMA/SDMA RELEASE</span>
+          <span style={{ fontSize: 10, fontWeight: 700, padding: "2px 8px", background: "rgba(200,255,61,.14)", border: "1px solid rgba(200,255,61,.35)", borderRadius: 999, color: "#C8FF3D", letterSpacing: "0.05em", textTransform: "uppercase" }}>AUTHORIZED NDMA/SDMA RELEASE</span>
         </div>
       </div>
 
       {/* Generator Configuration Card */}
-      <div className="p-5 bg-graphite-900 border border-graphite-700 shadow-xl space-y-4">
-        <h2 className="font-display text-sm font-bold text-paper uppercase tracking-wider">
+      <div className="p-5 shadow-xl space-y-4" style={{
+          background: "rgba(255,255,255,.10)",
+          backdropFilter: "blur(20px) saturate(115%)",
+          WebkitBackdropFilter: "blur(20px) saturate(115%)",
+          border: "1px solid rgba(255,255,255,.18)",
+          borderRadius: 16,
+        }}>
+        <h2 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
           BULLETIN PARAMETERS — STATE &amp; DISTRICT SELECTION
         </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {/* State Selection */}
           <div>
-            <label className="block text-[10px] text-smoke mb-1.5 font-bold uppercase">
+            <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
               TARGET STATE / UT
             </label>
             <div className="relative">
               <select
                 value={selectedStateId}
                 onChange={(e) => handleStateChange(e.target.value)}
-                className="w-full appearance-none bg-graphite-950 border border-graphite-700 p-2.5 text-xs text-paper font-bold focus:outline-none focus:border-chartreuse pr-8"
+                className="w-full appearance-none p-2.5 text-xs text-white font-bold focus:outline-none pr-8 cursor-pointer" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}
               >
                 {states.map((s) => (
-                  <option key={s.id} value={s.id} className="bg-graphite-950 text-paper">
+                  <option key={s.id} value={s.id} style={{ background: "#04121b", color: "#ffffff" }}>
                     {s.name.toUpperCase()} ({s.id})
                   </option>
                 ))}
@@ -155,21 +169,21 @@ export default function ReportsPage() {
 
           {/* District Selection */}
           <div>
-            <label className="block text-[10px] text-smoke mb-1.5 font-bold uppercase">
+            <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
               TARGET DISTRICT
             </label>
             <div className="relative">
               <select
                 value={selectedDistrictId}
                 onChange={(e) => setSelectedDistrictId(e.target.value)}
-                className="w-full appearance-none bg-graphite-950 border border-graphite-700 p-2.5 text-xs text-paper font-bold focus:outline-none focus:border-chartreuse pr-8 disabled:opacity-40"
+                className="w-full appearance-none p-2.5 text-xs text-white font-bold focus:outline-none pr-8 disabled:opacity-40 cursor-pointer" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}
                 disabled={availableDistricts.length === 0}
               >
-                <option value="" className="bg-graphite-950 text-smoke">
+                <option value="" style={{ background: "#04121b", color: "rgba(255,255,255,0.6)" }}>
                   {availableDistricts.length > 0 ? 'ENTIRE STATE (ALL DISTRICTS)' : 'No districts in mock data'}
                 </option>
                 {availableDistricts.map((d) => (
-                  <option key={d.id} value={d.id} className="bg-graphite-950 text-paper">
+                  <option key={d.id} value={d.id} style={{ background: "#04121b", color: "#ffffff" }}>
                     {d.name.toUpperCase()}
                   </option>
                 ))}
@@ -180,14 +194,14 @@ export default function ReportsPage() {
 
           {/* Forecast Window */}
           <div>
-            <label className="block text-[10px] text-smoke mb-1.5 font-bold uppercase">
+            <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
               FORECAST CYCLE WINDOW
             </label>
             <input
               type="text"
               disabled
               value="72-HOUR ENSEMBLE (forecast_20260901_00z)"
-              className="w-full bg-graphite-950 border border-graphite-700 p-2.5 text-xs text-smoke font-mono"
+              className="w-full p-2.5 text-xs text-white/50 font-mono" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10 }}
             />
           </div>
 
@@ -207,7 +221,7 @@ export default function ReportsPage() {
         </div>
 
         {/* Selected scope indicator */}
-        <div className="flex items-center gap-2 p-2 bg-graphite-950 border border-graphite-800 text-[10px] font-mono">
+        <div className="flex items-center gap-2 p-2.5 text-[10px] font-mono mt-4" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10 }}>
           <span className="text-smoke">BULLETIN SCOPE:</span>
           <span className="text-chartreuse font-bold">
             {selectedDistrictId && selectedDistrictName
@@ -217,7 +231,7 @@ export default function ReportsPage() {
         </div>
 
         {/* Section Inclusions */}
-        <div className="flex items-center gap-6 pt-3 border-t border-graphite-800 text-xs text-paper-dim">
+        <div className="flex items-center gap-6 pt-3 border-t border-white/10 text-xs text-white/75">
           <label className="flex items-center gap-2 cursor-pointer">
             <input
               type="checkbox"
@@ -247,29 +261,29 @@ export default function ReportsPage() {
       />
 
       {/* Audit History */}
-      <div className="bg-graphite-900 border border-graphite-700 shadow-xl overflow-hidden">
-        <div className="px-5 py-3.5 bg-graphite-950 border-b border-graphite-700 flex items-center justify-between">
+      <div className="shadow-xl overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)", backdropFilter: "blur(26px) saturate(118%)", WebkitBackdropFilter: "blur(26px) saturate(118%)", borderRadius: 20, border: "1px solid rgba(255,255,255,.15)" }}>
+        <div className="px-5 py-3.5 flex items-center justify-between" style={{ background: "rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.15)" }}>
           <div className="flex items-center gap-2">
             <Clock className="w-4 h-4 text-chartreuse" />
-            <h3 className="font-display text-xs font-bold text-paper uppercase tracking-wider">
+            <h3 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
               OFFICIAL BULLETIN ARCHIVE // REPOSITORY
             </h3>
           </div>
           <span className="text-[10px] text-smoke font-mono">03 ARCHIVED PUBLICATIONS</span>
         </div>
 
-        <div className="divide-y divide-graphite-800 text-xs">
+        <div className="text-xs">
           {samplePastReports.map((rep) => (
             <div
               key={rep.id}
-              className="p-4 flex items-center justify-between hover:bg-graphite-850 transition"
+              className="p-4 flex items-center justify-between hover:bg-white/5 transition" style={{ borderBottom: "1px solid rgba(255,255,255,.10)" }}
             >
               <div className="flex items-center gap-3">
-                <div className="p-2 bg-graphite-950 border border-graphite-700 text-chartreuse">
+                <div className="p-2 border border-chartreuse/30 text-chartreuse rounded-lg">
                   <FileText className="w-4 h-4" />
                 </div>
                 <div>
-                  <div className="font-bold text-paper text-sm">
+                  <div style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>
                     {rep.district}, {rep.state.toUpperCase()} — MONSOON OUTLOOK BULLETIN
                   </div>
                   <div className="text-[10px] text-smoke font-mono">
@@ -284,7 +298,7 @@ export default function ReportsPage() {
                 </span>
                 <button
                   onClick={() => alert(`Downloading archived bulletin: ${rep.id}`)}
-                  className="p-2 bg-graphite-950 hover:bg-graphite-800 border border-graphite-700 text-smoke hover:text-paper transition"
+                  className="p-2 hover:bg-white/10 border border-white/20 text-white/60 hover:text-white transition rounded-lg"
                   title="Download Archived Bulletin"
                 >
                   <Download className="w-3.5 h-3.5" />
@@ -294,6 +308,7 @@ export default function ReportsPage() {
           ))}
         </div>
       </div>
+    </div>
     </div>
   );
 }

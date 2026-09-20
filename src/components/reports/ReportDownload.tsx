@@ -53,7 +53,8 @@ export const ReportDownload: React.FC<ReportDownloadProps> = ({
       });
 
       if (!response.ok) {
-        throw new Error('Failed to generate PDF bulletin');
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || 'Failed to generate PDF bulletin');
       }
 
       const blob = await response.blob();
@@ -70,7 +71,8 @@ export const ReportDownload: React.FC<ReportDownloadProps> = ({
       setTimeout(() => setDownloadSuccess(false), 4000);
     } catch (err: unknown) {
       console.error('PDF Download Error:', err);
-      alert('Report generation failed. Please check server connection.');
+      const msg = err instanceof Error ? err.message : 'Report generation failed.';
+      alert(msg);
     } finally {
       setIsGenerating(false);
     }
@@ -80,7 +82,7 @@ export const ReportDownload: React.FC<ReportDownloadProps> = ({
     <button
       onClick={handleDownload}
       disabled={isGenerating}
-      className={`py-3 px-6 font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all duration-150 select-none uppercase tracking-wider w-full ${
+      className={`py-3 px-6 font-mono font-bold text-xs flex items-center justify-center gap-2 transition-all duration-150 select-none uppercase tracking-wider w-full rounded-xl ${
         downloadSuccess
           ? 'bg-chartreuse text-graphite-950 shadow-[0_0_15px_rgba(200,255,61,0.5)]'
           : 'bg-chartreuse hover:bg-chartreuse/90 text-graphite-950 shadow-[0_0_15px_rgba(200,255,61,0.3)] disabled:opacity-50'

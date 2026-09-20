@@ -7,18 +7,18 @@ import nextDynamic from 'next/dynamic';
 import { useShareableState } from '@/lib/state/useShareableState';
 import { CityId, ScenarioType } from '@/lib/contracts/impact';
 
-// Dynamic import with SSR disabled — CRITICAL to prevent Three.js / window crash.
+// Dynamic import with SSR disabled â€” CRITICAL to prevent Three.js / window crash.
 // Three.js accesses the DOM on import; Next.js SSR has no DOM.
 const ImpactTwinView = nextDynamic(
   () => import('@/components/impact/ImpactTwinView'),
   {
     ssr: false,
     loading: () => (
-      <div className="flex-1 flex items-center justify-center bg-graphite-950 h-full">
+      <div className="flex-1 flex items-center justify-center h-full" style={{ background: "#04121b" }}>
         <div className="flex flex-col items-center gap-4">
           <div className="w-16 h-16 border-2 border-chartreuse/40 border-t-chartreuse rounded-full animate-spin" />
           <p className="text-[11px] font-mono text-smoke uppercase tracking-widest">
-            INITIALISING 3D TWIN ENGINE…
+            INITIALISING 3D TWIN ENGINEâ€¦
           </p>
         </div>
       </div>
@@ -26,7 +26,7 @@ const ImpactTwinView = nextDynamic(
   }
 );
 
-// District → City mapping for the 3D Twin city switcher
+// District â†’ City mapping for the 3D Twin city switcher
 const DISTRICT_TO_CITY: Record<string, CityId> = {
   'KA_BLR_URBAN':          'bengaluru',
   'KA_BLR_RURAL':          'bengaluru',
@@ -52,10 +52,10 @@ export default function ImpactPage() {
   const resolvedScenario: ScenarioType = activeScenario || 'P90';
 
   return (
-    <div className="w-full h-[calc(100vh-56px)] overflow-hidden bg-graphite-950">
+    <div className="w-full h-screen overflow-hidden ">
       <Suspense fallback={
-        <div className="flex-1 flex items-center justify-center bg-graphite-950 h-full">
-          <p className="text-smoke font-mono text-[11px] uppercase tracking-widest">Loading…</p>
+        <div className="flex-1 flex items-center justify-center h-full" style={{ background: "#04121b" }}>
+          <p style={{ color: "rgba(255,255,255,.55)", fontFamily: "monospace", fontSize: 11, letterSpacing: "0.1em", textTransform: "uppercase" }}>Loading...</p>
         </div>
       }>
         <ImpactTwinView
@@ -67,3 +67,4 @@ export default function ImpactPage() {
     </div>
   );
 }
+

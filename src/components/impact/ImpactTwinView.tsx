@@ -208,35 +208,36 @@ export default function ImpactTwinView({
   const highMm = comp?.HIGH?.rainfall_mm ?? comp?.P90?.rainfall_mm ?? pred.p90_mm;
 
 
-
   return (
-    <div className="relative w-full h-full overflow-hidden bg-graphite-950 font-sans text-paper-dim flex flex-col select-none">
-
-      {/* TwinToolbar: city switcher, scenarios, camera presets, telemetry */}
-      <TwinToolbar
-        currentScenario={currentScenario}
-        customRainfallMm={customRainfallMm}
-        onSelectScenario={handleSelectScenario}
-        onCustomRainfallChange={handleCustomRainfallChange}
-        summary={simulation.summary}
-        provenance={simulation.provenance}
-        cameraPreset={cameraPreset}
-        onSelectCameraPreset={setCameraPreset}
-        onOpenProvenance={() => setIsProvenanceOpen(true)}
-        isSimulating={isSimulating}
-        onRunSimulation={handleRunSimulation}
-        currentCity={currentCity}
-        onSelectCity={handleSelectCity}
-        lowMm={lowMm}
-        baseMm={baseMm}
-        highMm={highMm}
-        p10Mm={pred.p10_mm}
-        p50Mm={pred.p50_mm}
-        p90Mm={pred.p90_mm}
-      />
+    <div className="absolute inset-y-0 left-[104px] right-0 w-[calc(100vw-104px)] h-full overflow-hidden font-sans text-white flex flex-col select-none">
+      
+      {/* Top command bar wrapper for Aurora layout */}
+      <div className="w-full px-4 pt-4 z-30 shrink-0 pointer-events-none">
+        <TwinToolbar
+          currentScenario={currentScenario}
+          customRainfallMm={customRainfallMm}
+          onSelectScenario={handleSelectScenario}
+          onCustomRainfallChange={handleCustomRainfallChange}
+          summary={simulation.summary}
+          provenance={simulation.provenance}
+          cameraPreset={cameraPreset}
+          onSelectCameraPreset={setCameraPreset}
+          onOpenProvenance={() => setIsProvenanceOpen(true)}
+          isSimulating={isSimulating}
+          onRunSimulation={handleRunSimulation}
+          currentCity={currentCity}
+          onSelectCity={handleSelectCity}
+          lowMm={lowMm}
+          baseMm={baseMm}
+          highMm={highMm}
+          p10Mm={pred.p10_mm}
+          p50Mm={pred.p50_mm}
+          p90Mm={pred.p90_mm}
+        />
+      </div>
 
       {/* Main 3D Canvas Area */}
-      <main className="relative flex-1 w-full h-full overflow-hidden">
+      <main className="absolute inset-0 w-full h-full overflow-hidden">
         <DigitalTwinCanvas
           currentState={currentState}
           layers={layers}

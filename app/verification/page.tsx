@@ -30,8 +30,10 @@ export default function VerificationPage() {
   }, []);
 
   return (
-    <div className="min-h-[calc(100vh-56px)] bg-graphite-950 pb-12 font-mono">
+    <div className="h-screen overflow-y-auto font-mono">
       <VerificationPanel results={results} />
     </div>
   );
 }
+
+

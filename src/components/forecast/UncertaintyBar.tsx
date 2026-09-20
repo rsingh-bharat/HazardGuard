@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 
 import React from 'react';
 
@@ -13,19 +13,19 @@ export const UncertaintyBar: React.FC<UncertaintyBarProps> = ({ p10, p50, p90 })
 
   if (isUnavailable) {
     return (
-      <div className="space-y-2 p-3 bg-graphite-900 border border-graphite-700 select-none font-mono">
-        <div className="flex items-center justify-between text-xs text-paper">
-          <span className="font-display font-bold text-xs tracking-wider uppercase text-smoke">
+      <div className="space-y-2 p-3  border border-white/15 select-none font-mono">
+        <div className="flex items-center justify-between text-xs text-white">
+          <span className="font-tight font-bold text-xs tracking-wider uppercase text-white/50">
             RAW ENSEMBLE UNCERTAINTY
           </span>
-          <span className="text-[9px] px-1.5 py-0.5 bg-graphite-950 border border-graphite-800 text-smoke font-bold">
+          <span className="text-[9px] px-1.5 py-0.5  border border-white/10 text-white/50 font-bold">
             UNAVAILABLE
           </span>
         </div>
-        <div className="p-2 bg-graphite-950/80 border border-graphite-800 text-[10px] text-smoke leading-relaxed">
+        <div className="p-2 /80 border border-white/10 text-[10px] text-white/50 leading-relaxed">
           Statistical ensemble percentiles are unavailable for this provider run. Cumulative quantiles cannot be synthesized from hourly statistics or single-value NWP.
           {typeof p50 === 'number' && (
-            <div className="mt-1 text-paper-dim">
+            <div className="mt-1 text-white/70">
               Deterministic forecast: <strong className="text-chartreuse font-bold">{p50.toFixed(1)} mm</strong>
             </div>
           )}
@@ -40,15 +40,15 @@ export const UncertaintyBar: React.FC<UncertaintyBarProps> = ({ p10, p50, p90 })
   const p90Pct = (p90! / maxRain) * 100;
 
   return (
-    <div className="space-y-2 p-3 bg-graphite-900 border border-graphite-700 select-none font-mono">
-      <div className="flex items-center justify-between text-xs text-paper">
-        <span className="font-display font-bold text-xs tracking-wider uppercase">
+    <div className="space-y-2 p-3  border border-white/15 select-none font-mono">
+      <div className="flex items-center justify-between text-xs text-white">
+        <span className="font-tight font-bold text-xs tracking-wider uppercase">
           RAW ENSEMBLE QUANTILES (P10 · P50 · P90)
         </span>
-        <span className="text-[9px] text-smoke">RAW ENSEMBLE</span>
+        <span className="text-[9px] text-white/50">RAW ENSEMBLE</span>
       </div>
 
-      <div className="relative h-3.5 bg-graphite-950 rounded-none overflow-hidden mt-2 border border-graphite-700">
+      <div className="relative h-3.5  rounded-none overflow-hidden mt-2 border border-white/15">
         {/* P10 to P90 Range Fill with Violet tint */}
         <div
           className="absolute top-0 bottom-0 bg-violet/25 border-x border-violet"
@@ -61,17 +61,17 @@ export const UncertaintyBar: React.FC<UncertaintyBarProps> = ({ p10, p50, p90 })
         />
       </div>
 
-      <div className="flex items-center justify-between text-[10px] text-paper-dim pt-1 border-t border-graphite-800">
+      <div className="flex items-center justify-between text-[10px] text-white/70 pt-1 border-t border-white/10">
         <div>
-          <span className="text-smoke">P10 (RAW LOW): </span>
+          <span className="text-white/50">P10 (RAW LOW): </span>
           <b className="text-chartreuse font-bold">{p10.toFixed(1)} mm</b>
         </div>
         <div>
-          <span className="text-smoke">P50 (RAW MEDIAN): </span>
-          <b className="text-paper font-bold">{p50.toFixed(1)} mm</b>
+          <span className="text-white/50">P50 (RAW MEDIAN): </span>
+          <b className="text-white font-bold">{p50.toFixed(1)} mm</b>
         </div>
         <div>
-          <span className="text-smoke">P90 (RAW HIGH): </span>
+          <span className="text-white/50">P90 (RAW HIGH): </span>
           <b className="text-signal-red font-bold">{p90.toFixed(1)} mm</b>
         </div>
       </div>

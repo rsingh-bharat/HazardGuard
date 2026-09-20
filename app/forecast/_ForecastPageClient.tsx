@@ -1,16 +1,40 @@
-'use client';
+"use client";
 
-import React, { useState, useEffect } from 'react';
-import { Map } from '@/components/map/Map';
-import { RainfallLayer } from '@/components/map/RainfallLayer';
-import { ProbabilityLayer } from '@/components/map/ProbabilityLayer';
-import { RegimeLayer } from '@/components/map/RegimeLayer';
-import { DistrictForecast } from '@/components/forecast/DistrictForecast';
-import { LayerControl } from '@/components/map/LayerControl';
-import { useShareableState } from '@/lib/state/useShareableState';
-import { ForecastSnapshot } from '@/lib/contracts/forecast';
-import mockForecasts from '@/data/mock/forecast.json';
-import { Search, Filter, MapPin, ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
+import React, { useState, useEffect } from "react";
+import { Map } from "@/components/map/Map";
+import { RainfallLayer } from "@/components/map/RainfallLayer";
+import { ProbabilityLayer } from "@/components/map/ProbabilityLayer";
+import { RegimeLayer } from "@/components/map/RegimeLayer";
+import { DistrictForecast } from "@/components/forecast/DistrictForecast";
+import { TimelinePlayer } from "@/components/forecast/TimelinePlayer";
+import { LayerControl } from "@/components/map/LayerControl";
+import { useShareableState } from "@/lib/state/useShareableState";
+import { useLiveForecast } from "@/lib/state/LiveForecastContext";
+import { OfficialBoundaryLayer } from "@/components/map/OfficialBoundaryLayer";
+import { Layers } from "lucide-react";
+import { Search, Filter, MapPin, ChevronDown, X, SlidersHorizontal } from "lucide-react";
+
+// --- glass helpers ---------------------------------------------
+const glassCard: React.CSSProperties = {
+  background:
+    "linear-gradient(180deg,rgba(255,255,255,.20) 0%,rgba(255,255,255,.258) 24%,rgba(255,255,255,.252) 78%,rgba(255,255,255,.232) 100%)",
+  backdropFilter: "blur(26px) saturate(118%)",
+  WebkitBackdropFilter: "blur(26px) saturate(118%)",
+  border: "1px solid rgba(255,255,255,.20)",
+};
+const glassSoft: React.CSSProperties = {
+  background: "rgba(255,255,255,.09)",
+  backdropFilter: "blur(16px) saturate(115%)",
+  WebkitBackdropFilter: "blur(16px) saturate(115%)",
+  border: "1px solid rgba(255,255,255,.13)",
+};
+
+const ALERT_COLOR: Record<string, string> = {
+  RED: "#FF3B30",
+  ORANGE: "#FFB347",
+  YELLOW: "#FFD60A",
+  GREEN: "#C8FF3D",
+};
 
 export default function ForecastPageClient() {
   const {
@@ -23,229 +47,308 @@ export default function ForecastPageClient() {
     toggleLayer,
   } = useShareableState();
 
-  const [forecasts, setForecasts] = useState<ForecastSnapshot[]>(mockForecasts as ForecastSnapshot[]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedState, setSelectedState] = useState<string>(selectedStateId || 'ALL');
-  const [leftOpen, setLeftOpen] = useState(true);
-  const [rightOpen, setRightOpen] = useState(true);
-
-  useEffect(() => {
-    async function fetchForecasts() {
-      try {
-        const queryParams = new URLSearchParams();
-        queryParams.set('leadHours', activeLeadHours.toString());
-        if (selectedState !== 'ALL') queryParams.set('stateId', selectedState);
-
-        const res = await fetch(`/api/forecast?${queryParams.toString()}`);
-        if (res.ok) {
-          const json = await res.json();
-          if (json.data) setForecasts(json.data);
-        }
-      } catch (e) {
-        console.warn('Forecast fetch fallback:', e);
-      }
-    }
-    fetchForecasts();
-  }, [activeLeadHours, selectedState]);
+  const { forecasts } = useLiveForecast();
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedState, setSelectedState] = useState<string>(
+    selectedStateId || "ALL"
+  );
+  const [showList, setShowList] = useState(true);
+  const [showLayerPanel, setShowLayerPanel] = useState(false);
 
   const states = [
-    { id: 'ALL', name: 'ALL STATES & UTS' },
-    { id: 'MH', name: 'MAHARASHTRA' },
-    { id: 'KL', name: 'KERALA' },
-    { id: 'OR', name: 'ODISHA' },
-    { id: 'GJ', name: 'GUJARAT' },
-    { id: 'AS', name: 'ASSAM' },
-    { id: 'UT', name: 'UTTARAKHAND' },
-    { id: 'HP', name: 'HIMACHAL PRADESH' },
-    { id: 'WB', name: 'WEST BENGAL' },
-    { id: 'AP', name: 'ANDHRA PRADESH' },
-    { id: 'TS', name: 'TELANGANA' },
-    { id: 'TN', name: 'TAMIL NADU' },
-    { id: 'KA', name: 'KARNATAKA' },
-    { id: 'BR', name: 'BIHAR' },
-    { id: 'MP', name: 'MADHYA PRADESH' },
-    { id: 'RJ', name: 'RAJASTHAN' },
-    { id: 'UP', name: 'UTTAR PRADESH' },
+    { id: "ALL", name: "ALL STATES & UTs" },
+    { id: "MH", name: "MAHARASHTRA" },
+    { id: "KL", name: "KERALA" },
+    { id: "OR", name: "ODISHA" },
+    { id: "GJ", name: "GUJARAT" },
+    { id: "AS", name: "ASSAM" },
+    { id: "UT", name: "UTTARAKHAND" },
+    { id: "HP", name: "HIMACHAL PRADESH" },
+    { id: "WB", name: "WEST BENGAL" },
+    { id: "AP", name: "ANDHRA PRADESH" },
+    { id: "TS", name: "TELANGANA" },
+    { id: "TN", name: "TAMIL NADU" },
+    { id: "KA", name: "KARNATAKA" },
+    { id: "BR", name: "BIHAR" },
   ];
 
   const filteredForecasts = forecasts.filter((f) => {
     const matchesSearch =
       f.geography.districtName.toLowerCase().includes(searchQuery.toLowerCase()) ||
       f.geography.stateName.toLowerCase().includes(searchQuery.toLowerCase());
-    const matchesState = selectedState === 'ALL' || f.geography.stateId.toUpperCase() === selectedState.toUpperCase();
+    const matchesState =
+      selectedState === "ALL" ||
+      f.geography.stateId.toUpperCase() === selectedState;
     return matchesSearch && matchesState;
   });
 
+  const sortedForecasts = [...filteredForecasts].sort(
+    (a, b) => b.rainfall.correctedMm - a.rainfall.correctedMm
+  );
+
   const selectedDistrict = selectedDistrictId
     ? forecasts.find(
-        (f) => f.geography.districtId.toLowerCase() === selectedDistrictId.toLowerCase()
+        (f) =>
+          f.geography.districtId.toLowerCase() === selectedDistrictId.toLowerCase()
       ) || null
     : null;
 
   return (
-    <div className="flex flex-col lg:flex-row w-full h-[calc(100vh-56px)] overflow-hidden bg-graphite-950 select-none font-mono">
-      {/* Left Panel: Map */}
-      <div
-        className={`relative h-[50vh] lg:h-full border-r border-graphite-700 transition-all duration-300 ease-in-out flex-shrink-0 ${
-          !leftOpen
-            ? 'w-full lg:w-12'
-            : !rightOpen
-              ? 'w-full lg:flex-1'
-              : 'w-full lg:w-[55%]'
-        }`}
-      >
-        <button
-          onClick={() => setLeftOpen(!leftOpen)}
-          className="absolute top-3 right-3 z-30 w-7 h-7 bg-graphite-900/90 border border-graphite-700 hover:border-chartreuse/60 text-smoke hover:text-chartreuse flex items-center justify-center transition-all backdrop-blur-sm"
-          title={leftOpen ? 'Collapse map' : 'Expand map'}
+    <div className="relative w-full overflow-hidden" style={{ height: "100vh" }}>
+      {/* -- Full-screen Map Stage ----------------- */}
+      <div className="absolute inset-0 z-0">
+        <Map
+          activeLayers={activeLayers}
+          selectedDistrictId={selectedDistrictId}
         >
-          {leftOpen ? <ChevronLeft className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
-        </button>
-
-        {!leftOpen && (
-          <div className="hidden lg:flex flex-col items-center justify-center h-full">
-            <span className="text-[9px] font-mono text-smoke tracking-widest uppercase" style={{ writingMode: 'vertical-rl' }}>
-              MAP
-            </span>
-          </div>
-        )}
-
-        {leftOpen && (
-          <Map
-            activeLayers={activeLayers}
-            selectedDistrictId={selectedDistrictId}
+          <OfficialBoundaryLayer />
+          <RainfallLayer
+            forecasts={forecasts}
+            visible={activeLayers.includes("rainfall")}
+            showAnimation={showAnimation && activeLayers.includes("rainfall")}
             onDistrictClick={(id) => updateState({ selectedDistrictId: id })}
-          >
-            <RainfallLayer
-              forecasts={forecasts}
-              visible={true}
-              showAnimation={showAnimation && activeLayers.includes('rainfall')}
-              onDistrictClick={(id) => updateState({ selectedDistrictId: id })}
-            />
-            <ProbabilityLayer forecasts={forecasts} visible={activeLayers.includes('heavyRainProbability')} />
-            <RegimeLayer forecasts={forecasts} visible={activeLayers.includes('weatherRegime')} />
-            <LayerControl activeLayers={activeLayers} onToggleLayer={toggleLayer} />
-          </Map>
-        )}
+          />
+          <ProbabilityLayer
+            forecasts={forecasts}
+            visible={activeLayers.includes("heavyRainProbability")}
+          />
+          <RegimeLayer
+            forecasts={forecasts}
+            visible={activeLayers.includes("weatherRegime")}
+          />
+        </Map>
       </div>
 
-      {/* Right Panel: Forecast Intelligence List */}
-      <div
-        className={`relative h-[50vh] lg:h-full flex flex-col bg-graphite-900 overflow-hidden transition-all duration-300 ease-in-out flex-shrink-0 ${
-          rightOpen ? 'w-full lg:flex-1' : 'w-full lg:w-12'
-        }`}
+      {showLayerPanel && (
+        <LayerControl
+          activeLayers={activeLayers}
+          onToggleLayer={toggleLayer}
+          bottomOffset={130}
+          leftOffset={16}
+        />
+      )}
+
+      <button
+        className="absolute z-30 flex items-center gap-2 transition hover:brightness-110"
+        style={{
+          bottom: 76,
+          left: 16,
+          ...glassSoft,
+          borderRadius: 14,
+          padding: "9px 14px",
+          color: showLayerPanel ? "#C8FF3D" : "rgba(255,255,255,.80)",
+          fontSize: 11,
+          fontWeight: 600,
+          cursor: "pointer",
+          border: showLayerPanel ? "1px solid rgba(200,255,61,.40)" : "1px solid rgba(255,255,255,.14)",
+          background: showLayerPanel ? "rgba(200,255,61,.10)" : "rgba(255,255,255,.09)",
+        }}
+        onClick={() => setShowLayerPanel(!showLayerPanel)}
       >
-        <button
-          onClick={() => setRightOpen(!rightOpen)}
-          className="absolute top-3 left-3 z-30 w-7 h-7 bg-graphite-900/90 border border-graphite-700 hover:border-chartreuse/60 text-smoke hover:text-chartreuse flex items-center justify-center transition-all backdrop-blur-sm"
-          title={rightOpen ? 'Collapse forecast list' : 'Expand forecast list'}
+        <Layers size={13} style={{ color: showLayerPanel ? "#C8FF3D" : "rgba(255,255,255,.70)" }} />
+        LAYERS
+        {showLayerPanel && <X size={11} />}
+      </button>
+
+      {/* -- TOP: Page header strip ---------------- */}
+      <div
+        className="absolute z-20 flex items-center justify-between px-5 py-3"
+        style={{ top: 0, left: 0, right: 0, ...glassSoft, borderBottom: "1px solid rgba(255,255,255,.13)" }}
+      >
+        <div>
+          <h1
+            style={{
+              fontFamily: "'Inter Tight', Inter, sans-serif",
+              fontWeight: 500,
+              fontSize: 18,
+              color: "#ffffff",
+              letterSpacing: "-0.3px",
+            }}
+          >
+            FORECAST INTELLIGENCE
+          </h1>
+          <p style={{ color: "rgba(255,255,255,.55)", fontSize: 11 }}>
+            RAW ENSEMBLE - 72-HOUR DISTRICT OUTLOOK
+          </p>
+        </div>
+        <div className="flex items-center gap-3">
+          {/* Lead hours badge */}
+          <span
+            style={{
+              padding: "3px 10px",
+              borderRadius: 999,
+              background: "rgba(200,255,61,.14)",
+              border: "1px solid rgba(200,255,61,.35)",
+              color: "#C8FF3D",
+              fontSize: 11,
+              fontWeight: 600,
+              letterSpacing: "0.08em",
+            }}
+          >
+            T+{activeLeadHours}H
+          </span>
+          {/* Toggle list */}
+          <button
+            onClick={() => setShowList(!showList)}
+            className="flex items-center gap-1.5 transition hover:brightness-110"
+            style={{
+              padding: "5px 12px",
+              borderRadius: 10,
+              background: "rgba(255,255,255,.12)",
+              border: "1px solid rgba(255,255,255,.18)",
+              color: "rgba(255,255,255,.80)",
+              fontSize: 11,
+              fontWeight: 500,
+              cursor: "pointer",
+            }}
+          >
+            <SlidersHorizontal size={12} />
+            {showList ? "Hide Panel" : "Show Panel"}
+          </button>
+        </div>
+      </div>
+
+      {/* -- RIGHT: District list glass panel ----- */}
+      {showList && (
+        <div
+          className="absolute z-20 flex flex-col overflow-hidden"
+          style={{ top: 72, right: 16, bottom: 80, width: 340, ...glassCard, borderRadius: 20 }}
         >
-          {rightOpen ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
-        </button>
+          {/* Search + filter header */}
+          <div
+            className="p-3 space-y-2"
+            style={{ borderBottom: "1px solid rgba(255,255,255,.13)", flexShrink: 0 }}
+          >
+            {/* Search */}
+            <div className="relative">
+              <Search
+                size={13}
+                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                style={{ color: "rgba(255,255,255,.40)" }}
+              />
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search districts..."
+                style={{
+                  width: "100%",
+                  paddingLeft: 32,
+                  paddingRight: 12,
+                  paddingTop: 8,
+                  paddingBottom: 8,
+                  background: "rgba(255,255,255,.08)",
+                  border: "1px solid rgba(255,255,255,.15)",
+                  borderRadius: 10,
+                  color: "#ffffff",
+                  fontSize: 12,
+                  outline: "none",
+                }}
+              />
+            </div>
 
-        {!rightOpen && (
-          <div className="hidden lg:flex flex-col items-center justify-center h-full">
-            <span className="text-[9px] font-mono text-smoke tracking-widest uppercase" style={{ writingMode: 'vertical-rl' }}>
-              FORECAST
-            </span>
-          </div>
-        )}
-
-        {rightOpen && (
-          <>
-            <div className="pl-10 pr-3 pt-3 pb-3 bg-graphite-950 border-b border-graphite-700 space-y-2">
-              <div className="flex items-center gap-2">
-                <div className="relative flex-1">
-                  <Search className="w-3.5 h-3.5 text-smoke absolute left-3 top-1/2 -translate-y-1/2" />
-                  <input
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Query Indian districts by name or state code..."
-                    className="w-full bg-graphite-900 border border-graphite-700 pl-8 pr-3 py-2 text-xs text-paper placeholder-smoke focus:outline-none focus:border-chartreuse font-mono"
-                  />
-                </div>
-
-                <div className="relative flex items-center gap-1 bg-graphite-900 border border-graphite-700 px-2 py-1.5 min-w-[130px]">
-                  <Filter className="w-3.5 h-3.5 text-chartreuse shrink-0" />
-                  <select
-                    value={selectedState}
-                    onChange={(e) => {
-                      setSelectedState(e.target.value);
-                      updateState({ selectedStateId: e.target.value === 'ALL' ? null : e.target.value });
-                    }}
-                    className="appearance-none bg-transparent text-xs text-paper font-bold focus:outline-none cursor-pointer uppercase flex-1 pr-4"
-                  >
-                    {states.map((s) => (
-                      <option key={s.id} value={s.id} className="bg-graphite-950 text-paper">
-                        {s.name}
-                      </option>
-                    ))}
-                  </select>
-                  <ChevronDown className="w-3 h-3 text-smoke absolute right-2 pointer-events-none" />
-                </div>
+            {/* State filter + count */}
+            <div className="flex items-center gap-2">
+              <div className="relative flex items-center flex-1" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10, padding: "6px 10px" }}>
+                <Filter size={11} style={{ color: "#C8FF3D", flexShrink: 0 }} />
+                <select
+                  value={selectedState}
+                  onChange={(e) => {
+                    setSelectedState(e.target.value);
+                    updateState({ selectedStateId: e.target.value === "ALL" ? null : e.target.value });
+                  }}
+                  style={{ background: "transparent", color: "#ffffff", fontSize: 11, fontWeight: 600, border: "none", outline: "none", cursor: "pointer", flex: 1, marginLeft: 6 }}
+                >
+                  {states.map((s) => (
+                    <option key={s.id} value={s.id}>{s.name}</option>
+                  ))}
+                </select>
+                <ChevronDown size={11} style={{ color: "rgba(255,255,255,.40)", flexShrink: 0 }} />
               </div>
+              <span style={{ color: "rgba(255,255,255,.50)", fontSize: 11, whiteSpace: "nowrap" }}>
+                {filteredForecasts.length} districts
+              </span>
             </div>
+          </div>
 
-            <div className="flex-1 p-4 overflow-y-auto space-y-4">
-              {selectedDistrict ? (
-                <DistrictForecast
-                  district={selectedDistrict}
-                  onBack={() => updateState({ selectedDistrictId: null })}
-                />
-              ) : (
-                <div className="space-y-4">
-                  <div className="flex items-center justify-between text-xs text-paper-dim font-bold px-1 border-b border-graphite-800 pb-1.5">
-                    <div className="flex items-center gap-1.5 text-chartreuse">
-                      <MapPin className="w-3.5 h-3.5" />
-                      <span className="font-display tracking-wider uppercase">MATCHING DISTRICT ARRAY ({filteredForecasts.length})</span>
-                    </div>
-                    <span className="text-[9px] text-smoke font-normal">ENGAGE TO INSPECT</span>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    {filteredForecasts.map((d) => {
-                      const isRed = d.rainfall.alertLevel === 'RED';
-                      return (
-                        <div
-                          key={d.geography.districtId}
-                          onClick={() => updateState({ selectedDistrictId: d.geography.districtId })}
-                          className="flex items-center justify-between p-2.5 bg-graphite-950 hover:bg-graphite-850 border border-graphite-800 hover:border-chartreuse/60 transition-all duration-150 cursor-pointer"
-                        >
-                          <div>
-                            <div className="font-display font-bold text-paper text-sm uppercase tracking-wide">
-                              {d.geography.districtName}, {d.geography.stateName}
-                            </div>
-                            <div className="text-[9px] text-smoke">
-                              SYNOPTIC: {d.regime.label} · P(&gt;64MM): {(d.probability.heavyRain_64mm * 100).toFixed(0)}%
-                            </div>
-                          </div>
-
-                          <div className="text-right">
-                            <div className={`font-mono font-bold text-xs ${isRed ? 'text-signal-red' : 'text-amber'}`}>
-                              {d.rainfall.correctedMm.toFixed(1)} mm
-                            </div>
-                            <span className={`text-[9px] font-mono font-extrabold px-1.5 tracking-wider ${
-                              isRed
-                                ? 'bg-signal-red text-graphite-950'
-                                : d.rainfall.alertLevel === 'ORANGE'
-                                ? 'bg-amber text-graphite-950'
-                                : d.rainfall.alertLevel === 'YELLOW'
-                                ? 'bg-amber-300 text-graphite-950'
-                                : 'bg-chartreuse text-graphite-950'
-                            }`}>
-                              {d.rainfall.alertLevel}
-                            </span>
-                          </div>
+          {/* District list or detail */}
+          <div className="flex-1 overflow-y-auto no-scrollbar p-2">
+            {selectedDistrict ? (
+              <DistrictForecast
+                district={selectedDistrict}
+                onBack={() => updateState({ selectedDistrictId: null })}
+              />
+            ) : (
+              <div className="space-y-1">
+                {filteredForecasts.length === 0 && (
+                  <p style={{ color: "rgba(255,255,255,.40)", fontSize: 12, textAlign: "center", padding: "20px 0" }}>
+                    No districts match your filter.
+                  </p>
+                )}
+                {sortedForecasts.map((d) => {
+                  const ac = ALERT_COLOR[d.rainfall.alertLevel] || "#C8FF3D";
+                  return (
+                    <div
+                      key={d.geography.districtId}
+                      onClick={() => updateState({ selectedDistrictId: d.geography.districtId })}
+                      className="flex items-center justify-between cursor-pointer transition-all duration-150"
+                      style={{
+                        padding: "10px 12px",
+                        borderRadius: 12,
+                        background: "rgba(255,255,255,.05)",
+                        border: "1px solid rgba(255,255,255,.10)",
+                        marginBottom: 2,
+                      }}
+                      onMouseEnter={(e) => { (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,.10)"; }}
+                      onMouseLeave={(e) => { (e.currentTarget as HTMLDivElement).style.background = "rgba(255,255,255,.05)"; }}
+                    >
+                      <div>
+                        <div style={{ color: "#ffffff", fontSize: 12, fontWeight: 600 }}>
+                          {d.geography.districtName}
                         </div>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          </>
-        )}
+                        <div style={{ color: "rgba(255,255,255,.50)", fontSize: 10, marginTop: 2 }}>
+                          {d.geography.stateName} - {d.regime.label.replace(/_/g, " ")}
+                        </div>
+                      </div>
+                      <div className="text-right">
+                        <div style={{ color: ac, fontSize: 13, fontWeight: 700 }}>
+                          {d.rainfall.correctedMm.toFixed(1)} mm
+                        </div>
+                        <span
+                          style={{
+                            fontSize: 9,
+                            fontWeight: 700,
+                            padding: "1px 6px",
+                            borderRadius: 999,
+                            background: `${ac}22`,
+                            border: `1px solid ${ac}66`,
+                            color: ac,
+                            letterSpacing: "0.06em",
+                          }}
+                        >
+                          {d.rainfall.alertLevel}
+                        </span>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+      )}
+
+      {/* -- BOTTOM: Timeline strip -- */}
+      <div
+        className="absolute z-20"
+        style={{ left: 16, right: 80, bottom: 16 }}
+      >
+        <div style={{ ...glassSoft, borderRadius: 16, padding: "10px 16px" }}>
+          <TimelinePlayer
+            activeLeadHours={activeLeadHours}
+            onSelectLeadHours={(h) => updateState({ activeLeadHours: h })}
+          />
+        </div>
       </div>
     </div>
   );

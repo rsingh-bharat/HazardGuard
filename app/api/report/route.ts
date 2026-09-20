@@ -13,7 +13,14 @@ import mockImpact from '@/data/mock/impact.json';
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
-    const { stateId = 'MH', districtId = null, forecastId = 'forecast_20260901_00z', includeImpact = true, includeVerification = true, forecasts: clientForecasts } = body;
+    const { 
+      stateId = 'MH', 
+      districtId = null, 
+      forecastId = 'forecast_20260901_00z', 
+      includeImpact = true, 
+      includeVerification = true, 
+      forecasts: clientForecasts 
+    } = body;
 
     const stateMap: Record<string, string> = {
       MH: 'Maharashtra',
@@ -36,25 +43,29 @@ export async function POST(request: NextRequest) {
 
     const stateName = stateMap[stateId.toUpperCase()] || stateId;
 
-    let forecasts = clientForecasts && clientForecasts.length > 0 
-      ? clientForecasts 
-      : (districtId
-        ? (mockForecasts as ForecastSnapshot[]).filter(
-            (f) => f.geography.districtId.toUpperCase() === districtId.toUpperCase()
-          )
-        : (mockForecasts as ForecastSnapshot[]).filter(
-            (f) => f.geography.stateId.toUpperCase() === stateId.toUpperCase()
-          ));
+    // Source of truth: clientForecasts if valid, else mock data.
+    let baseForecasts = (clientForecasts && clientForecasts.length > 0)
+      ? clientForecasts
+      : (mockForecasts as ForecastSnapshot[]);
 
-    if (forecasts.length === 0) {
-      forecasts = mockForecasts as ForecastSnapshot[];
+    // 1. MUST FILTER BY STATE ID ALWAYS
+    let scopedForecasts = baseForecasts.filter(
+      (f: ForecastSnapshot) => f.geography.stateId.toUpperCase() === stateId.toUpperCase()
+    );
+
+    // 2. IF DISTRICT IS SELECTED, FILTER TO JUST THAT DISTRICT
+    if (districtId) {
+      scopedForecasts = scopedForecasts.filter(
+        (f: ForecastSnapshot) => f.geography.districtId.toUpperCase() === districtId.toUpperCase()
+      );
+    }
+
+    if (scopedForecasts.length === 0) {
+      return NextResponse.json({ error: 'No data available for the selected scope.' }, { status: 400 });
     }
     
-    // Filter by district if we received full state forecasts from client
-    if (clientForecasts && clientForecasts.length > 0 && districtId) {
-       forecasts = forecasts.filter((f: ForecastSnapshot) => f.geography.districtId.toUpperCase() === districtId.toUpperCase());
-       if (forecasts.length === 0) forecasts = clientForecasts; // fallback if filtering fails
-    }
+    // Find district name if available
+    const districtName = districtId ? scopedForecasts[0].geography.districtName : undefined;
 
     const verification = includeVerification ? (mockVerification as VerificationResult[]) : [];
     const impact = includeImpact ? (mockImpact as ImpactResult) : null;
@@ -64,15 +75,18 @@ export async function POST(request: NextRequest) {
     const pdfBuffer = await renderToBuffer(
       React.createElement(ReportDocument, {
         stateName,
+        districtName,
         forecastId,
-        forecasts,
+        forecasts: scopedForecasts,
         verification,
         impact,
       }) as any
     );
 
     const reportId = `rep_${stateId}_${Date.now()}`;
-    const filename = `${stateName.replace(/\s+/g, '_')}_Rainfall_Outlook.pdf`;
+    const filename = districtName
+      ? `${districtName.replace(/\s+/g, '_')}_${stateName.replace(/\s+/g, '_')}_Bulletin.pdf`
+      : `${stateName.replace(/\s+/g, '_')}_Rainfall_Outlook.pdf`;
 
     // Optionally audit report in Supabase
     if (isSupabaseConfigured()) {
@@ -81,6 +95,7 @@ export async function POST(request: NextRequest) {
           {
             id: reportId,
             state_id: stateId,
+            district_id: districtId,
             forecast_id: forecastId,
             page_count: 5,
             file_size_bytes: pdfBuffer.byteLength,
@@ -91,7 +106,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Convert Buffer → Uint8Array for NextResponse (BodyInit compatibility)
+    // Convert Buffer -> Uint8Array for NextResponse (BodyInit compatibility)
     return new NextResponse(new Uint8Array(pdfBuffer), {
       status: 200,
       headers: {

@@ -2,77 +2,204 @@
 
 import React, { useState } from 'react';
 import { LayerId } from '@/lib/layers/layerRegistry';
-import { Layers, Cloud, ShieldAlert, CloudRain, Wind, Flame, Activity, ChevronDown, ChevronUp, Zap } from 'lucide-react';
+import { Layers, Cloud, ShieldAlert, CloudRain, Wind, Flame, Activity, Zap } from 'lucide-react';
 import { useShareableState } from '@/lib/state/useShareableState';
 
 interface LayerControlProps {
   activeLayers: LayerId[];
   onToggleLayer: (layerId: LayerId) => void;
+  /** Bottom position offset (px) so the panel sits above the trigger button */
+  bottomOffset?: number;
+  /** Left position offset (px) */
+  leftOffset?: number;
 }
 
-export const LayerControl: React.FC<LayerControlProps> = ({ activeLayers, onToggleLayer }) => {
+// ── Aurora toggle switch ─────────────────────────────────────────
+function AuroraToggle({
+  checked,
+  onChange,
+  accent = 'chartreuse',
+}: {
+  checked: boolean;
+  onChange: () => void;
+  accent?: 'chartreuse' | 'violet' | 'red' | 'amber';
+}) {
+  const trackColor = checked
+    ? accent === 'chartreuse' ? 'rgba(200,255,61,.70)'
+    : accent === 'violet'    ? 'rgba(121,104,255,.70)'
+    : accent === 'red'       ? 'rgba(255,59,48,.70)'
+    :                          'rgba(255,179,71,.70)'
+    : 'rgba(255,255,255,.18)';
+
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); onChange(); }}
+      role="switch"
+      aria-checked={checked}
+      style={{
+        width: 36,
+        height: 20,
+        borderRadius: 999,
+        background: trackColor,
+        border: '1px solid rgba(255,255,255,.20)',
+        position: 'relative',
+        flexShrink: 0,
+        cursor: 'pointer',
+        transition: 'background 0.20s ease',
+      }}
+    >
+      <span
+        style={{
+          position: 'absolute',
+          top: 2,
+          left: checked ? 17 : 2,
+          width: 14,
+          height: 14,
+          borderRadius: '50%',
+          background: '#ffffff',
+          boxShadow: '0 1px 3px rgba(0,0,0,.30)',
+          transition: 'left 0.20s ease',
+        }}
+      />
+    </button>
+  );
+}
+
+// ── Aurora checkbox ──────────────────────────────────────────────
+function AuroraCheckbox({
+  checked,
+  onChange,
+  accent = 'chartreuse',
+}: {
+  checked: boolean;
+  onChange: () => void;
+  accent?: 'chartreuse' | 'violet' | 'red' | 'amber';
+}) {
+  const fillColor =
+    accent === 'violet' ? '#7968FF'
+    : accent === 'red'  ? '#FF3B30'
+    : accent === 'amber'? '#FFB347'
+    :                     '#C8FF3D';
+
+  return (
+    <button
+      onClick={(e) => { e.stopPropagation(); onChange(); }}
+      style={{
+        width: 18,
+        height: 18,
+        borderRadius: 5,
+        border: checked ? `1.5px solid ${fillColor}` : '1.5px solid rgba(255,255,255,.30)',
+        background: checked ? `${fillColor}28` : 'rgba(255,255,255,.06)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        cursor: 'pointer',
+        flexShrink: 0,
+        transition: 'all 0.15s ease',
+      }}
+    >
+      {checked && (
+        <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+          <path d="M1 4L3.5 6.5L9 1" stroke={fillColor} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
+        </svg>
+      )}
+    </button>
+  );
+}
+
+export const LayerControl: React.FC<LayerControlProps> = ({
+  activeLayers,
+  onToggleLayer,
+  bottomOffset = 60,
+  leftOffset = 16,
+}) => {
   const [activeTier1, setActiveTier1] = useState<'hazard' | 'weather'>('hazard');
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const { showAnimation, updateState } = useShareableState();
 
   const isLayerActive = (id: LayerId) => activeLayers.includes(id);
 
-  const Toggle = ({ checked, onChange, accent = 'chartreuse' }: { checked: boolean; onChange: () => void; accent?: string }) => (
-    <label className="relative inline-flex items-center cursor-pointer" onClick={(e) => e.stopPropagation()}>
-      <input type="checkbox" checked={checked} onChange={onChange} className="sr-only peer" />
-      <div className={`w-7 h-3.5 bg-graphite-800 border border-graphite-600 peer-focus:outline-none rounded-none peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[1px] after:left-[1px] after:bg-paper after:rounded-none after:h-3 after:w-3 after:transition-all ${
-        accent === 'signal-red' ? 'peer-checked:bg-signal-red' :
-        accent === 'amber' ? 'peer-checked:bg-amber' :
-        accent === 'violet' ? 'peer-checked:bg-violet' :
-        'peer-checked:bg-chartreuse'
-      }`} />
-    </label>
-  );
-
   return (
-    <div className="absolute bottom-6 left-6 z-30 flex flex-col bg-graphite-900/95 backdrop-blur-md border border-graphite-700 shadow-2xl w-72 overflow-hidden transition-all duration-150 select-none">
-      {/* Header */}
-      <div className="flex items-center justify-between px-3.5 py-2 bg-graphite-950 border-b border-graphite-700">
-        <div className="flex items-center gap-2">
-          <Layers className="w-3.5 h-3.5 text-chartreuse" />
-          <span className="text-[11px] font-mono font-bold text-paper tracking-wider uppercase">
-            LAYER ARRAY // MATRIX
+    <div
+      className="absolute z-40 select-none"
+      style={{
+        bottom: bottomOffset,
+        left: leftOffset,
+        width: 280,
+      }}
+    >
+      {/* Panel — opens above the trigger button */}
+      <div
+        style={{
+          background: 'linear-gradient(180deg, rgba(4,18,27,.94) 0%, rgba(8,22,34,.96) 100%)',
+          backdropFilter: 'blur(28px) saturate(140%)',
+          WebkitBackdropFilter: 'blur(28px) saturate(140%)',
+          border: '1px solid rgba(200,255,61,.25)',
+          borderRadius: 18,
+          overflow: 'hidden',
+          boxShadow: '0 16px 48px rgba(0,0,0,.55), 0 0 0 1px rgba(200,255,61,.08)',
+        }}
+      >
+        {/* Header */}
+        <div
+          className="flex items-center gap-2 px-4 py-3"
+          style={{
+            background: 'rgba(200,255,61,.06)',
+            borderBottom: '1px solid rgba(200,255,61,.15)',
+          }}
+        >
+          <Layers size={13} style={{ color: '#C8FF3D' }} />
+          <span
+            style={{
+              fontFamily: "'Inter Tight', Inter, sans-serif",
+              fontSize: 11,
+              fontWeight: 700,
+              color: '#C8FF3D',
+              letterSpacing: '0.10em',
+              textTransform: 'uppercase',
+            }}
+          >
+            Map Layers
           </span>
         </div>
-        <button
-          onClick={() => setIsCollapsed(!isCollapsed)}
-          className="p-1 text-smoke hover:text-paper hover:bg-graphite-800 transition"
-          title={isCollapsed ? 'Expand Layer Matrix' : 'Collapse Layer Matrix'}
-        >
-          {isCollapsed ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
-        </button>
-      </div>
 
-      {!isCollapsed && (
-        <div className="p-3 space-y-3 font-mono">
-          {/* Satellite Cloud Radar toggle */}
-          <div className="flex items-center justify-between p-2 bg-graphite-950 border border-graphite-700">
+        <div className="p-3 space-y-2">
+          {/* Satellite Cloud Radar */}
+          <div
+            className="flex items-center justify-between px-3 py-2.5 transition hover:brightness-110"
+            style={{
+              background: 'rgba(121,104,255,.08)',
+              border: '1px solid rgba(121,104,255,.18)',
+              borderRadius: 10,
+            }}
+          >
             <div className="flex items-center gap-2">
-              <Cloud className="w-3.5 h-3.5 text-violet" />
-              <span className="text-[11px] font-bold text-paper">SATELLITE CLOUD RADAR</span>
+              <Cloud size={13} style={{ color: '#a89fff' }} />
+              <span style={{ fontSize: 11, fontWeight: 600, color: '#ffffff' }}>Satellite Cloud Radar</span>
             </div>
-            <Toggle
+            <AuroraToggle
               checked={isLayerActive('rainviewerCloud')}
               onChange={() => onToggleLayer('rainviewerCloud')}
               accent="violet"
             />
           </div>
 
-          {/* Show Animation toggle */}
-          <div className="flex items-center justify-between p-2 bg-graphite-950 border border-chartreuse/30">
+          {/* Show Animation */}
+          <div
+            className="flex items-center justify-between px-3 py-2.5 transition hover:brightness-110"
+            style={{
+              background: 'rgba(200,255,61,.08)',
+              border: '1px solid rgba(200,255,61,.22)',
+              borderRadius: 10,
+            }}
+          >
             <div className="flex items-center gap-2">
-              <Zap className="w-3.5 h-3.5 text-chartreuse" />
+              <Zap size={13} style={{ color: '#C8FF3D' }} />
               <div>
-                <span className="text-[11px] font-bold text-chartreuse">SHOW ANIMATION</span>
-                <div className="text-[9px] text-smoke">Rain & wind vectors on alert zones</div>
+                <span style={{ fontSize: 11, fontWeight: 700, color: '#C8FF3D' }}>Animations</span>
+                <div style={{ fontSize: 9, color: 'rgba(255,255,255,.45)', marginTop: 1 }}>Rain &amp; wind vectors</div>
               </div>
             </div>
-            <Toggle
+            <AuroraToggle
               checked={!!showAnimation}
               onChange={() => updateState({ showAnimation: !showAnimation })}
               accent="chartreuse"
@@ -80,149 +207,95 @@ export const LayerControl: React.FC<LayerControlProps> = ({ activeLayers, onTogg
           </div>
 
           {/* Tier 1 Switcher */}
-          <div className="grid grid-cols-2 p-0.5 bg-graphite-950 border border-graphite-700 gap-1 text-[11px]">
+          <div
+            className="grid grid-cols-2 gap-1 p-1"
+            style={{ background: 'rgba(255,255,255,.05)', borderRadius: 10 }}
+          >
             <button
               onClick={() => setActiveTier1('hazard')}
-              className={`flex items-center justify-center gap-1.5 py-1.5 px-2 font-bold transition-all duration-150 ${
-                activeTier1 === 'hazard'
-                  ? 'bg-graphite-800 text-signal-red border-b border-signal-red shadow-[0_1px_4px_rgba(255,59,48,0.2)]'
-                  : 'text-smoke hover:text-paper hover:bg-graphite-900'
-              }`}
+              className="flex items-center justify-center gap-1.5 py-1.5 transition"
+              style={{
+                borderRadius: 8,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '0.04em',
+                background: activeTier1 === 'hazard' ? 'rgba(255,59,48,.18)' : 'transparent',
+                border: activeTier1 === 'hazard' ? '1px solid rgba(255,59,48,.40)' : '1px solid transparent',
+                color: activeTier1 === 'hazard' ? '#FF3B30' : 'rgba(255,255,255,.45)',
+                cursor: 'pointer',
+              }}
             >
-              <ShieldAlert className="w-3.5 h-3.5" />
-              HAZARD MAP
+              <ShieldAlert size={11} />
+              HAZARD
             </button>
             <button
               onClick={() => setActiveTier1('weather')}
-              className={`flex items-center justify-center gap-1.5 py-1.5 px-2 font-bold transition-all duration-150 ${
-                activeTier1 === 'weather'
-                  ? 'bg-graphite-800 text-chartreuse border-b border-chartreuse shadow-[0_1px_4px_rgba(200,255,61,0.2)]'
-                  : 'text-smoke hover:text-paper hover:bg-graphite-900'
-              }`}
+              className="flex items-center justify-center gap-1.5 py-1.5 transition"
+              style={{
+                borderRadius: 8,
+                fontSize: 11,
+                fontWeight: 700,
+                letterSpacing: '0.04em',
+                background: activeTier1 === 'weather' ? 'rgba(200,255,61,.12)' : 'transparent',
+                border: activeTier1 === 'weather' ? '1px solid rgba(200,255,61,.35)' : '1px solid transparent',
+                color: activeTier1 === 'weather' ? '#C8FF3D' : 'rgba(255,255,255,.45)',
+                cursor: 'pointer',
+              }}
             >
-              <CloudRain className="w-3.5 h-3.5" />
-              WEATHER MAP
+              <CloudRain size={11} />
+              WEATHER
             </button>
           </div>
 
-          {/* Tier 2 Layers */}
-          <div className="space-y-1 text-xs">
+          {/* Layer rows */}
+          <div className="space-y-1 pt-1">
             {activeTier1 === 'hazard' ? (
               <>
-                {/* Rain Alert */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <CloudRain className="w-3.5 h-3.5 text-signal-red" />
-                    <div>
-                      <span className="text-[11px]">Rain Alert</span>
-                      {showAnimation && isLayerActive('rainfall') && (
-                        <div className="text-[9px] text-chartreuse">▶ rain animation active</div>
-                      )}
+                {[
+                  { id: 'rainfall' as LayerId, icon: <CloudRain size={12} style={{ color: '#FF3B30' }} />, label: 'Rain Alert', accent: 'red' as const },
+                  { id: 'waterRisk' as LayerId, icon: <Activity size={12} style={{ color: '#FFB347' }} />, label: 'Flood Risk', accent: 'amber' as const },
+                  { id: 'earthquake' as LayerId, icon: <Activity size={12} style={{ color: '#a89fff' }} />, label: 'Earthquake', accent: 'violet' as const },
+                  { id: 'wildfire' as LayerId, icon: <Flame size={12} style={{ color: '#FFB347' }} />, label: 'Wildfire', accent: 'amber' as const },
+                ].map(({ id, icon, label, accent }) => (
+                  <div
+                    key={id}
+                    className="flex items-center justify-between px-3 py-2 cursor-pointer transition hover:bg-white/5"
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onToggleLayer(id)}
+                  >
+                    <div className="flex items-center gap-2">
+                      {icon}
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,.80)' }}>{label}</span>
                     </div>
+                    <AuroraCheckbox checked={isLayerActive(id)} onChange={() => onToggleLayer(id)} accent={accent} />
                   </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('rainfall')}
-                    onChange={() => onToggleLayer('rainfall')}
-                    className="accent-signal-red rounded-none cursor-pointer"
-                  />
-                </label>
-
-                {/* Flood */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <Activity className="w-3.5 h-3.5 text-amber" />
-                    <span className="text-[11px]">Flood</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('waterRisk')}
-                    onChange={() => onToggleLayer('waterRisk')}
-                    className="accent-amber rounded-none cursor-pointer"
-                  />
-                </label>
-
-                {/* Earthquake */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <Activity className="w-3.5 h-3.5 text-violet" />
-                    <span className="text-[11px]">Earthquake</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('earthquake')}
-                    onChange={() => onToggleLayer('earthquake')}
-                    className="accent-violet rounded-none cursor-pointer"
-                  />
-                </label>
-
-                {/* Wildfire */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <Flame className="w-3.5 h-3.5 text-amber" />
-                    <span className="text-[11px]">Wildfire</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('wildfire')}
-                    onChange={() => onToggleLayer('wildfire')}
-                    className="accent-amber rounded-none cursor-pointer"
-                  />
-                </label>
+                ))}
               </>
             ) : (
               <>
-                {/* Wind */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <Wind className="w-3.5 h-3.5 text-chartreuse" />
-                    <div>
-                      <span className="text-[11px]">Wind</span>
-                      {showAnimation && isLayerActive('windStreamlines') && (
-                        <div className="text-[9px] text-chartreuse">▶ streamline animation active</div>
-                      )}
+                {[
+                  { id: 'windStreamlines' as LayerId, icon: <Wind size={12} style={{ color: '#C8FF3D' }} />, label: 'Wind Streamlines', accent: 'chartreuse' as const },
+                  { id: 'heavyRainProbability' as LayerId, icon: <CloudRain size={12} style={{ color: '#FFB347' }} />, label: 'Heavy Rain Probability', accent: 'amber' as const },
+                  { id: 'weatherRegime' as LayerId, icon: <Layers size={12} style={{ color: '#a89fff' }} />, label: 'Weather Regime Zones', accent: 'violet' as const },
+                ].map(({ id, icon, label, accent }) => (
+                  <div
+                    key={id}
+                    className="flex items-center justify-between px-3 py-2 cursor-pointer transition hover:bg-white/5"
+                    style={{ borderRadius: 8 }}
+                    onClick={() => onToggleLayer(id)}
+                  >
+                    <div className="flex items-center gap-2">
+                      {icon}
+                      <span style={{ fontSize: 11, color: 'rgba(255,255,255,.80)' }}>{label}</span>
                     </div>
+                    <AuroraCheckbox checked={isLayerActive(id)} onChange={() => onToggleLayer(id)} accent={accent} />
                   </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('windStreamlines')}
-                    onChange={() => onToggleLayer('windStreamlines')}
-                    className="accent-chartreuse rounded-none cursor-pointer"
-                  />
-                </label>
-
-                {/* Heavy Rain Probability */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <CloudRain className="w-3.5 h-3.5 text-amber" />
-                    <span className="text-[11px]">Heavy Rain Probability</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('heavyRainProbability')}
-                    onChange={() => onToggleLayer('heavyRainProbability')}
-                    className="accent-amber rounded-none cursor-pointer"
-                  />
-                </label>
-
-                {/* Weather Regime Boundaries */}
-                <label className="flex items-center justify-between px-2 py-1.5 hover:bg-graphite-800 cursor-pointer text-paper-dim border border-transparent hover:border-graphite-700">
-                  <div className="flex items-center gap-2">
-                    <Layers className="w-3.5 h-3.5 text-violet" />
-                    <span className="text-[11px]">Weather Regime Boundaries</span>
-                  </div>
-                  <input
-                    type="checkbox"
-                    checked={isLayerActive('weatherRegime')}
-                    onChange={() => onToggleLayer('weatherRegime')}
-                    className="accent-violet rounded-none cursor-pointer"
-                  />
-                </label>
+                ))}
               </>
             )}
           </div>
         </div>
-      )}
+      </div>
     </div>
   );
 };

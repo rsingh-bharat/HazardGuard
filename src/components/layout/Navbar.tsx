@@ -1,154 +1,402 @@
 'use client';
+import { useLiveForecast } from '@/lib/state/LiveForecastContext';
 
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
-import { CloudLightning, BarChart3, ShieldAlert, FileText, Cpu, Bell, Activity, X, UserPlus } from 'lucide-react';
+import {
+  Activity,
+  CloudLightning,
+  BarChart3,
+  Cpu,
+  FileText,
+  Bell,
+  X,
+  ShieldAlert,
+  LogOut,
+  UserPlus,
+} from 'lucide-react';
 
+// ─── Route definitions ────────────────────────────────────────────────────────
+const NAV_ITEMS = [
+  { href: '/',             label: 'Command Center',        icon: Activity       },
+  { href: '/forecast',     label: 'Forecast Intelligence', icon: CloudLightning },
+  { href: '/verification', label: 'Model Verification',    icon: BarChart3      },
+  { href: '/impact',       label: '3D Impact Twin',        icon: Cpu            },
+  { href: '/reports',      label: 'Official Reports',      icon: FileText       },
+] as const;
+
+// ─── Pip geometry constants ───────────────────────────────────────────────────
+const SIDEBAR_PT = 22;   // padding-top of the flex column
+const LOGO_H     = 40;   // logo element height
+const NAV_MT     = 57;   // margin-top of the nav group below logo
+const NAV_GAP    = 43;   // centre-to-centre distance between icon items
+const ICON_H     = 23;   // icon wrapper height
+const PIP_H      = 29;   // pip height
+
+/** Top offset (px) for the active pip at nav item index `idx` */
+function pipTop(idx: number): number {
+  return SIDEBAR_PT + LOGO_H + NAV_MT + idx * NAV_GAP + ICON_H / 2 - PIP_H / 2;
+}
+
+// ─── Component ────────────────────────────────────────────────────────────────
 export const Navbar: React.FC = () => {
   const pathname = usePathname();
   const [showAlertModal, setShowAlertModal] = useState(false);
+  const [tooltip, setTooltip]               = useState<string | null>(null);
+  const [tooltipY, setTooltipY]             = useState(0);
+  const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  const navLinks = [
-    { href: '/', label: 'COMMAND CENTER', icon: Activity },
-    { href: '/forecast', label: 'FORECAST INTELLIGENCE', icon: CloudLightning },
-    { href: '/verification', label: 'MODEL VERIFICATION', icon: BarChart3 },
-    { href: '/impact', label: '3D IMPACT TWIN', icon: Cpu },
-    { href: '/reports', label: 'OFFICIAL REPORTS', icon: FileText },
-  ];
+  const { forecasts } = useLiveForecast();
+  
+  const activeAlerts = forecasts.filter(f => 
+    f.rainfall.alertLevel === 'RED' || f.rainfall.alertLevel === 'ORANGE'
+  );
+
+  // Determine which nav item is active (-1 = none matched)
+  const activeIdx = NAV_ITEMS.findIndex((item) =>
+    item.href === '/' ? pathname === '/' : pathname.startsWith(item.href)
+  );
+
+  function handleMouseEnter(label: string, idx: number) {
+    const el = itemRefs.current[idx];
+    if (el) {
+      const rect = el.getBoundingClientRect();
+      setTooltipY(rect.top + rect.height / 2);
+    }
+    setTooltip(label);
+  }
+
+  function handleMouseLeave() {
+    setTooltip(null);
+  }
 
   return (
     <>
-      <header className="fixed top-0 left-0 right-0 h-14 bg-graphite-950/95 backdrop-blur-md border-b border-graphite-700 z-50 flex items-center justify-between px-5 select-none">
-        {/* Brand Logo & Telemetry */}
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-none bg-graphite-900 border border-signal-red flex items-center justify-center text-signal-red shadow-[0_0_12px_rgba(255,59,48,0.3)] group-hover:bg-signal-red group-hover:text-graphite-950 transition-all duration-150">
-              <ShieldAlert className="w-4 h-4" />
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display font-bold text-2xl tracking-wider text-paper leading-none">
-                HAZARDGUARD
-              </span>
-              <span className="text-[8px] font-mono text-smoke tracking-widest uppercase -mt-0.5">
-                PRECIPITATION &amp; IMPACT COMMAND DECK
-              </span>
-            </div>
-          </Link>
+      {/* ── Aurora Command Rail Sidebar ──────────────────────────────────── */}
+      <aside
+        className="glass-sidebar"
+        style={{
+          position:      'fixed',
+          left:          16,
+          top:           14,
+          bottom:        7,
+          width:         72,
+          borderRadius:  26,
+          zIndex:        50,
+          display:       'flex',
+          flexDirection: 'column',
+          alignItems:    'center',
+          paddingTop:    SIDEBAR_PT,
+          paddingBottom: 52,
+          animation:     'slideL 0.92s cubic-bezier(.16,1,.3,1) 0.05s both',
+          overflow:      'visible',
+        }}
+      >
+        {/* Active pip */}
+        {activeIdx >= 0 && (
+          <span
+            aria-hidden
+            style={{
+              position:        'absolute',
+              left:            -2,
+              top:             pipTop(activeIdx),
+              width:           5,
+              height:          PIP_H,
+              borderRadius:    3,
+              background:      '#ffffff',
+              boxShadow:       '0 0 10px rgba(255,255,255,.55)',
+              animation:       'growY 0.50s cubic-bezier(.16,1,.3,1) 0.68s both',
+              transformOrigin: 'top',
+              transition:      'top 0.38s cubic-bezier(.16,1,.3,1)',
+            }}
+          />
+        )}
 
-          {/* Navigation Items (Mission Rail Style) */}
-          <nav className="hidden md:flex items-center gap-1">
-            {navLinks.map((item) => {
-              const Icon = item.icon;
-              const isActive = pathname === item.href;
-              return (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-[11px] font-mono font-semibold tracking-wider transition-all duration-150 ${
-                    isActive
-                      ? 'bg-graphite-800 text-chartreuse border-b-2 border-chartreuse shadow-[inset_0_-1px_0_rgba(200,255,61,0.5)]'
-                      : 'text-paper-dim hover:text-paper hover:bg-graphite-900'
-                  }`}
-                >
-                  <Icon className={`w-3.5 h-3.5 ${isActive ? 'text-chartreuse' : 'text-smoke'}`} />
-                  {item.label}
-                </Link>
-              );
-            })}
-          </nav>
-        </div>
-
-        {/* Right Utility Bar */}
-        <div className="flex items-center gap-3">
-          {/* Live Telemetry Pill */}
-          <div className="hidden sm:flex items-center gap-2 px-2.5 py-1 bg-graphite-900 border border-chartreuse/40 text-[10px] font-mono text-chartreuse font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-chartreuse animate-radar-pulse" />
-            <span className="tracking-wider">LIVE · IMD/NWP 72H</span>
-          </div>
-
-          {/* Alert Notification Button */}
-          <button
-            onClick={() => setShowAlertModal(true)}
-            className="relative p-2 bg-graphite-900 hover:bg-graphite-800 border border-graphite-700 text-paper-dim hover:text-signal-red transition-all duration-150"
-            title="Active Disaster Alerts"
+        {/* Logo */}
+        <Link
+          href="/"
+          aria-label="HazardGuard – home"
+          style={{
+            display:        'flex',
+            alignItems:     'center',
+            justifyContent: 'center',
+            width:          40,
+            height:         LOGO_H,
+            flexShrink:     0,
+            animation:      'popIn 0.70s cubic-bezier(.16,1,.3,1) 0.26s both',
+          }}
+        >
+          <svg
+            width="34" height="34" viewBox="0 0 34 34"
+            fill="none" xmlns="http://www.w3.org/2000/svg"
+            aria-hidden
           >
-            <Bell className="w-4 h-4" />
-            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-signal-red animate-ping" />
-            <span className="absolute top-1 right-1 w-2 h-2 rounded-full bg-signal-red" />
-          </button>
+            <path
+              d="M17 2L4 7.5V17C4 24.18 9.56 30.9 17 32.5C24.44 30.9 30 24.18 30 17V7.5L17 2Z"
+              fill="rgba(255,255,255,0.12)"
+              stroke="rgba(255,255,255,0.60)"
+              strokeWidth="1.5"
+              strokeLinejoin="round"
+            />
+            <path
+              d="M10 19c.8-1.6 1.6-2.4 2.4-2s1.2 2 2 2 1.6-2 2.4-2 1.2 2 2 2 1.6-1.6 2.4-2"
+              stroke="#ffffff"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+            <circle cx="17" cy="13" r="2.2" fill="#ffffff" opacity="0.90" />
+          </svg>
+        </Link>
 
-          {/* Register Official Button */}
+        {/* Nav icons */}
+        <nav
+          aria-label="Main navigation"
+          style={{
+            marginTop:     NAV_MT,
+            display:       'flex',
+            flexDirection: 'column',
+            alignItems:    'center',
+            gap:           NAV_GAP - ICON_H,
+          }}
+        >
+          {NAV_ITEMS.map((item, i) => {
+            const Icon     = item.icon;
+            const isActive = i === activeIdx;
+            const delay    = 0.36 + i * 0.04;
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                ref={(el) => { itemRefs.current[i] = el; }}
+                aria-label={item.label}
+                aria-current={isActive ? 'page' : undefined}
+                onMouseEnter={() => handleMouseEnter(item.label, i)}
+                onMouseLeave={handleMouseLeave}
+                className="hover:opacity-100"
+                style={{
+                  display:        'flex',
+                  alignItems:     'center',
+                  justifyContent: 'center',
+                  width:          ICON_H,
+                  height:         ICON_H,
+                  opacity:        isActive ? 1 : 0.82,
+                  transition:     'opacity 0.18s ease',
+                  animation:      `riseIn 0.55s cubic-bezier(.16,1,.3,1) ${delay}s both`,
+                }}
+              >
+                <Icon
+                  width={ICON_H}
+                  height={ICON_H}
+                  color="#ffffff"
+                  strokeWidth={isActive ? 2.0 : 1.6}
+                />
+              </Link>
+            );
+          })}
+        </nav>
+
+        {/* Bottom utilities */}
+        <div
+          style={{
+            marginTop:     'auto',
+            display:       'flex',
+            flexDirection: 'column',
+            alignItems:    'center',
+            gap:           14,
+          }}
+        >
+          {/* Registration */}
           <Link
             href="/register"
-            className={`px-3 py-1.5 flex items-center gap-1.5 text-[10px] font-mono font-bold tracking-wider transition-all duration-150 border ${
-              pathname === '/register'
-                ? 'bg-chartreuse text-graphite-950 border-chartreuse'
-                : 'bg-graphite-900 hover:bg-graphite-800 border-graphite-700 text-paper-dim hover:text-chartreuse hover:border-chartreuse/60'
-            }`}
+            ref={(el) => { itemRefs.current[NAV_ITEMS.length] = el as any; }}
+            aria-label="Registration"
+            onMouseEnter={() => handleMouseEnter('Registration', NAV_ITEMS.length)}
+            onFocus={() => handleMouseEnter('Registration', NAV_ITEMS.length)}
+            onMouseLeave={handleMouseLeave}
+            onBlur={handleMouseLeave}
+            className="glass-tool"
+            style={{
+              position:       'relative',
+              width:          40,
+              height:         40,
+              display:        'flex',
+              alignItems:     'center',
+              justifyContent: 'center',
+              borderRadius:   '50%',
+              background:     pathname.startsWith('/register') ? 'rgba(255,255,255,0.12)' : 'transparent',
+              opacity:        pathname.startsWith('/register') ? 1 : 0.82,
+              transition:     'all 0.2s ease',
+            }}
           >
-            <UserPlus className="w-3.5 h-3.5" />
-            <span>REGISTER</span>
+            {pathname.startsWith('/register') && (
+              <span
+                aria-hidden
+                style={{
+                  position:        'absolute',
+                  left:            -18,
+                  width:           5,
+                  height:          PIP_H,
+                  borderRadius:    3,
+                  background:      '#ffffff',
+                  boxShadow:       '0 0 10px rgba(255,255,255,.55)',
+                  animation:       'growY 0.50s cubic-bezier(.16,1,.3,1) 0.68s both',
+                  transformOrigin: 'top',
+                }}
+              />
+            )}
+            <UserPlus
+              width={19}
+              height={19}
+              color="#ffffff"
+              strokeWidth={pathname.startsWith('/register') ? 2.0 : 1.6}
+            />
           </Link>
+          {/* Alert bell */}
+          <button
+            onClick={() => setShowAlertModal(true)}
+            aria-label="Active disaster alerts"
+            className="glass-tool"
+            style={{
+              width:          40,
+              height:         40,
+              display:        'flex',
+              alignItems:     'center',
+              justifyContent: 'center',
+              cursor:         'pointer',
+              border:         'none',
+              position:       'relative',
+              transition:     'opacity 0.18s ease',
+            }}
+          >
+            <Bell width={18} height={18} color="#ffffff" strokeWidth={1.6} />
+            {activeAlerts.length > 0 && (
+              <span
+                aria-hidden
+                style={{
+                  position:     'absolute',
+                  top:          7,
+                  right:        7,
+                  width:        7,
+                  height:       7,
+                  borderRadius: '50%',
+                  background:   '#FF3B30',
+                  animation:    'radar-pulse 1.4s ease-in-out infinite',
+                }}
+              />
+            )}
+          </button>
         </div>
-      </header>
+      </aside>
 
-      {/* Tactical Alert Modal */}
+      {/* Tooltip chip */}
+      {tooltip && (
+        <div
+          aria-hidden
+          className="glass-chip"
+          style={{
+            position:      'fixed',
+            left:          104,
+            top:           tooltipY,
+            transform:     'translateY(-50%)',
+            zIndex:        60,
+            padding:       '5px 12px',
+            borderRadius:  10,
+            fontSize:      12,
+            fontWeight:    500,
+            color:         '#ffffff',
+            whiteSpace:    'nowrap',
+            pointerEvents: 'none',
+            animation:     'riseIn 0.22s ease both',
+          }}
+        >
+          {tooltip}
+        </div>
+      )}
+
+      {/* Alert modal */}
       {showAlertModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-graphite-950/80 backdrop-blur-sm p-4">
-          <div className="bg-graphite-900 border-2 border-signal-red max-w-md w-full shadow-[0_0_30px_rgba(255,59,48,0.25)] overflow-hidden animate-in fade-in zoom-in-95 duration-150">
-            <div className="flex items-center justify-between px-4 py-3 bg-signal-red text-graphite-950 font-display font-bold text-base tracking-wider">
-              <div className="flex items-center gap-2">
-                <ShieldAlert className="w-5 h-5" />
-                <span>PRIORITY DISASTER ALERTS // 4 ACTIVE</span>
+        <div
+          style={{
+            position:             'fixed',
+            inset:                0,
+            zIndex:               100,
+            display:              'flex',
+            alignItems:           'center',
+            justifyContent:       'center',
+            background:           'rgba(0,0,0,0.40)',
+            backdropFilter:       'blur(4px)',
+            WebkitBackdropFilter: 'blur(4px)',
+            padding:              16,
+          }}
+          onClick={(e) => { if (e.target === e.currentTarget) setShowAlertModal(false); }}
+        >
+          <div
+            className="glass-card"
+            style={{
+              maxWidth:     448,
+              width:        '100%',
+              borderRadius: 20,
+              overflow:     'hidden',
+              animation:    'riseIn 0.28s cubic-bezier(.16,1,.3,1) both',
+            }}
+          >
+            {/* Header */}
+            <div style={{
+              display:        'flex',
+              alignItems:     'center',
+              justifyContent: 'space-between',
+              padding:        '14px 18px',
+              borderBottom:   '1px solid rgba(255,255,255,0.15)',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                <ShieldAlert width={18} height={18} color="#FF3B30" />
+                <span style={{ color: '#ffffff', fontWeight: 600, fontSize: 13, letterSpacing: '0.04em' }}>
+                  PRIORITY DISASTER ALERTS{' '}
+                  <span style={{ opacity: 0.55 }}>// {activeAlerts.length} ACTIVE</span>
+                </span>
               </div>
               <button
                 onClick={() => setShowAlertModal(false)}
-                className="text-graphite-950 hover:text-white transition"
+                aria-label="Close alerts"
+                className="hover:opacity-100"
+                style={{ background: 'none', border: 'none', cursor: 'pointer', opacity: 0.65, display: 'flex', transition: 'opacity 0.15s ease' }}
               >
-                <X className="w-5 h-5" />
+                <X width={18} height={18} color="#ffffff" />
               </button>
             </div>
-            <div className="p-4 space-y-2.5 text-xs font-mono bg-graphite-950">
-              <div className="p-3 bg-graphite-900 border-l-4 border-signal-red text-paper space-y-1">
-                <div className="font-bold text-signal-red flex items-center justify-between">
-                  <span>PURI, ODISHA</span>
-                  <span className="bg-signal-red/20 text-signal-red px-1.5 py-0.5 text-[10px]">RED ALERT · 245.8 MM</span>
-                </div>
-                <div className="text-[11px] text-paper-dim">
-                  Deep Depression landfall imminent. Mahanadi Delta coastal surge threat.
-                </div>
-              </div>
 
-              <div className="p-3 bg-graphite-900 border-l-4 border-signal-red text-paper space-y-1">
-                <div className="font-bold text-signal-red flex items-center justify-between">
-                  <span>WAYANAD, KERALA</span>
-                  <span className="bg-signal-red/20 text-signal-red px-1.5 py-0.5 text-[10px]">RED ALERT · 228.6 MM</span>
+            {/* Alert rows */}
+            <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 10, maxHeight: '60vh', overflowY: 'auto' }}>
+              {activeAlerts.length === 0 ? (
+                <div style={{ padding: '20px', textAlign: 'center', color: 'rgba(255,255,255,0.5)' }}>
+                  No active priority alerts at this time.
                 </div>
-                <div className="text-[11px] text-paper-dim">
-                  Western Ghats crest orographic deluge. Kabini catchment flash runoff.
-                </div>
-              </div>
-
-              <div className="p-3 bg-graphite-900 border-l-4 border-signal-red text-paper space-y-1">
-                <div className="font-bold text-signal-red flex items-center justify-between">
-                  <span>VALSAD, GUJARAT</span>
-                  <span className="bg-signal-red/20 text-signal-red px-1.5 py-0.5 text-[10px]">RED ALERT · 234.0 MM</span>
-                </div>
-                <div className="text-[11px] text-paper-dim">
-                  Offshore coastal convergence zone. Daman Ganga river watch active.
-                </div>
-              </div>
-
-              <div className="p-3 bg-graphite-900 border-l-4 border-amber text-paper space-y-1">
-                <div className="font-bold text-amber flex items-center justify-between">
-                  <span>PUNE, MAHARASHTRA</span>
-                  <span className="bg-amber/20 text-amber px-1.5 py-0.5 text-[10px]">ORANGE ALERT · 143.0 MM</span>
-                </div>
-                <div className="text-[11px] text-paper-dim">
-                  Catchment spillover into Mutha/Mula channels. Inundation modeling active.
-                </div>
-              </div>
+              ) : (
+                activeAlerts.map(alert => {
+                  const isRed = alert.rainfall.alertLevel === 'RED';
+                  const ac = isRed ? '#FF3B30' : '#FFB347';
+                  const bg = isRed ? 'rgba(255,59,48,0.20)' : 'rgba(255,179,71,0.20)';
+                  const bgBadge = isRed ? 'rgba(255,59,48,0.25)' : 'rgba(255,179,71,0.25)';
+                  
+                  return (
+                    <div key={alert.geography.districtId} style={{ padding: '10px 14px', borderRadius: 12, background: bg, borderLeft: "4px solid " + ac }}>
+                      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 4 }}>
+                        <span style={{ color: ac, fontWeight: 700, fontSize: 12, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+                          {alert.geography.districtName}, {alert.geography.stateName}
+                        </span>
+                        <span style={{ background: bgBadge, color: ac, fontSize: 10, fontWeight: 600, padding: '2px 7px', borderRadius: 6, letterSpacing: '0.06em' }}>
+                          {alert.rainfall.alertLevel} ALERT · {alert.rainfall.correctedMm.toFixed(1)} MM
+                        </span>
+                      </div>
+                      <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 11, margin: 0, fontFamily: 'monospace' }}>
+                        {alert.rainfall?.correctionMethod || 'High risk precipitation crossing operational threshold.'}
+                      </p>
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
@@ -156,3 +404,6 @@ export const Navbar: React.FC = () => {
     </>
   );
 };
+
+
+
