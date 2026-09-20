@@ -75,7 +75,6 @@ export async function POST(request: NextRequest) {
     const pdfBuffer = await renderToBuffer(
       React.createElement(ReportDocument, {
         stateName,
-        districtName,
         forecastId,
         forecasts: scopedForecasts,
         verification,
