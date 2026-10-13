@@ -12,9 +12,19 @@ interface ChatMsg {
 
 interface MeghDootProps {
   mode?: "floating" | "full";
+  /** Mobile override: extra bottom offset above the 72px nav dock (default 0) */
+  mobileBottomExtra?: number;
 }
 
-export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
+// Shared constant for the mobile bottom nav height so all offsets are consistent.
+// Mobile nav = 72px + safe-area-inset-bottom. We handle safe-area in CSS.
+const MOBILE_NAV_H = 72;
+const MOBILE_GAP = 10; // gap between chatbot trigger and top of nav
+
+export const MeghDoot: React.FC<MeghDootProps> = ({
+  mode = "floating",
+  mobileBottomExtra = 0,
+}) => {
   const { selectedDistrictId, activeForecastId } = useShareableState();
   const [isOpen, setIsOpen] = useState(false);
   const [query, setQuery] = useState("");
@@ -80,19 +90,18 @@ export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
       if (res.ok) {
         data = await res.json();
       } else {
-        const errData = await res.json().catch(() => ({}));
-        throw new Error(errData.error || errData.reply || "API Error");
+        throw new Error(`API error ${res.status}`);
       }
 
       setMessages((prev) => [
         ...prev,
         {
           role: "assistant",
-          content: data.reply || "No response generated.",
+          content: data.response || data.message || "No response from MeghDoot.",
           timestamp: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         },
       ]);
-    } catch (err: unknown) {
+    } catch (err) {
       setMessages((prev) => [
         ...prev,
         {
@@ -199,69 +208,80 @@ export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
             >
               <div className="whitespace-pre-line">{msg.content}</div>
             </div>
-            <span style={{ fontSize: 9, color: "rgba(255,255,255,.35)", marginTop: 3, paddingInline: 4 }}>
+            <span style={{ fontSize: 9, color: "rgba(255,255,255,.28)", marginTop: 2, padding: "0 4px" }}>
               {msg.timestamp}
             </span>
           </div>
         ))}
 
-        {/* Loading indicator */}
         {isLoading && (
           <div className="flex items-start">
             <div
-              className="flex items-center gap-2 px-3 py-2.5"
               style={{
-                background: "rgba(255,255,255,.08)",
-                border: "1px solid rgba(255,255,255,.12)",
+                padding: "12px 16px",
                 borderRadius: "18px 18px 18px 4px",
+                background: "rgba(255,255,255,.10)",
+                border: "1px solid rgba(255,255,255,.15)",
+                display: "flex", gap: 4,
               }}
             >
-              <Sparkles size={12} style={{ color: "#a89fff" }} className="animate-signal-blink" />
-              <span style={{ fontSize: 11, color: "#a89fff" }}>Synthesising telemetry…</span>
+              {[0, 1, 2].map((i) => (
+                <span
+                  key={i}
+                  style={{
+                    width: 6, height: 6, borderRadius: "50%",
+                    background: "rgba(255,255,255,.50)",
+                    animation: `dot-bounce 1.2s ease-in-out ${i * 0.2}s infinite`,
+                    display: "inline-block",
+                  }}
+                />
+              ))}
             </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      {/* ── Quick chips ──────────────────────────────────────── */}
-      <div
-        className="px-3 py-2 flex items-center gap-1.5 overflow-x-auto no-scrollbar shrink-0"
-        style={{ borderTop: "1px solid rgba(255,255,255,.08)" }}
-      >
-        {quickChips.map((chip, idx) => (
-          <button
-            key={idx}
-            onClick={() => handleSend(chip)}
-            className="shrink-0 transition hover:brightness-110"
-            style={{
-              padding: "4px 10px",
-              borderRadius: 999,
-              background: "rgba(255,255,255,.08)",
-              border: "1px solid rgba(255,255,255,.15)",
-              color: "rgba(255,255,255,.70)",
-              fontSize: 10,
-              cursor: "pointer",
-              whiteSpace: "nowrap",
-            }}
-          >
-            {chip}
-          </button>
-        ))}
-      </div>
+      {/* ── Quick chip suggestions ────────────────────────────── */}
+      {messages.length <= 1 && !isLoading && (
+        <div
+          className="px-4 pb-2 flex gap-2 overflow-x-auto no-scrollbar shrink-0"
+          style={{ borderTop: "1px solid rgba(255,255,255,.08)" }}
+        >
+          {quickChips.map((chip, i) => (
+            <button
+              key={i}
+              onClick={() => handleSend(chip)}
+              style={{
+                flexShrink: 0,
+                padding: "5px 11px",
+                borderRadius: 999,
+                background: "rgba(255,255,255,.08)",
+                border: "1px solid rgba(255,255,255,.15)",
+                color: "rgba(255,255,255,.75)",
+                fontSize: 10,
+                cursor: "pointer",
+                marginTop: 8,
+                whiteSpace: "nowrap",
+              }}
+            >
+              {chip}
+            </button>
+          ))}
+        </div>
+      )}
 
-      {/* ── Input bar ────────────────────────────────────────── */}
+      {/* ── Input area ────────────────────────────────────────── */}
       <div
-        className="p-3 flex items-center gap-2 shrink-0"
-        style={{ borderTop: "1px solid rgba(255,255,255,.10)", background: "rgba(0,0,0,.10)" }}
+        className="flex items-center gap-2 px-3 py-2.5 shrink-0"
+        style={{ borderTop: "1px solid rgba(255,255,255,.12)", background: "rgba(0,0,0,.12)" }}
       >
         <input
           ref={inputRef}
-          type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleSend()}
-          placeholder="Ask about rainfall, hazards, evacuation…"
+          onKeyDown={(e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); handleSend(); } }}
+          placeholder="Ask MeghDoot about hazard forecast…"
           style={{
             flex: 1,
             background: "rgba(255,255,255,.08)",
@@ -319,15 +339,16 @@ export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
   }
 
   // ─── Floating mode ───────────────────────────────────────────
+  // Responsive positioning handled by .meghdoot-trigger and .meghdoot-drawer in globals.css
   return (
     <>
       {/* Floating trigger button */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="fixed z-50 flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
+        className="meghdoot-trigger fixed z-[55] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
         style={{
-          bottom: 24, right: 24,
-          width: 52, height: 52,
+          width: 52,
+          height: 52,
           borderRadius: "50%",
           background: isOpen ? "rgba(121,104,255,.40)" : "rgba(121,104,255,.22)",
           backdropFilter: "blur(16px) saturate(115%)",
@@ -335,14 +356,15 @@ export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
           border: `1px solid rgba(121,104,255,${isOpen ? ".70" : ".50"})`,
           color: "#ffffff",
           boxShadow: "0 0 24px rgba(121,104,255,.40)",
-        }}
+          ["--meghdoot-bottom-extra" as string]: `${mobileBottomExtra}px`,
+        } as React.CSSProperties}
         title="Open MeghDoot AI Copilot"
       >
         {isOpen ? <X size={20} /> : <Bot size={22} />}
         {!isOpen && (
           <span
-            className="absolute top-0.5 right-0.5 w-2.5 h-2.5 rounded-full animate-radar-pulse"
-            style={{ background: "#C8FF3D" }}
+            className="absolute top-0.5 right-0.5 w-2.5 h-2.5 rounded-full"
+            style={{ background: "#C8FF3D", animation: "radar-pulse 1.4s ease-in-out infinite" }}
           />
         )}
       </button>
@@ -350,12 +372,10 @@ export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
       {/* Floating drawer */}
       {isOpen && (
         <div
-          className="fixed z-50"
+          className="meghdoot-drawer fixed z-[54]"
           style={{
-            bottom: 86,
-            right: 20,
             width: "min(420px, calc(100vw - 40px))",
-            height: "min(560px, calc(100vh - 120px))",
+            height: "min(560px, calc(100dvh - 140px))",
             background:
               "linear-gradient(180deg,rgba(14,24,38,.96) 0%,rgba(10,18,30,.98) 100%)",
             backdropFilter: "blur(28px) saturate(140%)",
@@ -364,7 +384,8 @@ export const MeghDoot: React.FC<MeghDootProps> = ({ mode = "floating" }) => {
             borderRadius: 24,
             overflow: "hidden",
             boxShadow: "0 24px 60px rgba(0,0,0,.50), 0 0 0 1px rgba(121,104,255,.15)",
-          }}
+            ["--meghdoot-bottom-extra" as string]: `${mobileBottomExtra}px`,
+          } as React.CSSProperties}
         >
           {chatBody}
         </div>

@@ -30,7 +30,7 @@ export default function VerificationPage() {
   }, []);
 
   return (
-    <div className="h-screen overflow-y-auto font-mono">
+    <div className="h-screen overflow-y-auto font-mono max-md:pb-[100px] max-md:w-full">
       <VerificationPanel results={results} />
     </div>
   );

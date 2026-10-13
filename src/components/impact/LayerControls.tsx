@@ -19,11 +19,15 @@ import {
 interface LayerControlsProps {
   layers: SceneLayersConfig;
   onChangeLayers: (updated: SceneLayersConfig) => void;
+  mobileOpen?: boolean;
+  onMobileToggle?: () => void;
 }
 
 export const LayerControls: React.FC<LayerControlsProps> = ({
   layers,
-  onChangeLayers
+  onChangeLayers,
+  mobileOpen = false,
+  onMobileToggle,
 }) => {
   const [isExpanded, setIsExpanded] = useState(true);
 
@@ -51,12 +55,29 @@ export const LayerControls: React.FC<LayerControlsProps> = ({
   };
 
   return (
-    <div className="absolute top-[var(--impact-panel-top)] left-4 bottom-[var(--impact-panel-bottom)] z-20 select-none pointer-events-none flex items-start gap-2">
-      {/* Minimized Toggle Button */}
+    <div className="absolute top-[var(--impact-panel-top)] left-4 bottom-[var(--impact-panel-bottom)] max-lg:top-auto max-lg:left-3 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+70px)] z-20 select-none pointer-events-none flex items-start max-lg:items-end gap-2">
+      {/* Mobile mid-left trigger — visible on mobile only */}
+      {onMobileToggle && (
+        <button
+          onClick={onMobileToggle}
+          className="pointer-events-auto lg:hidden flex items-center justify-center rounded-full shadow-xl transition"
+          style={{
+            width: 40, height: 40, flexShrink: 0,
+            background: mobileOpen ? "rgba(200,255,61,.20)" : "rgba(255,255,255,.15)",
+            border: mobileOpen ? "1px solid rgba(200,255,61,.45)" : "1px solid rgba(255,255,255,.22)",
+            backdropFilter: "blur(16px) saturate(115%)",
+          }}
+          title="3D Twin Layers"
+        >
+          <Layers className={`w-4 h-4 ${mobileOpen ? "text-[#C8FF3D]" : "text-white/70"}`} />
+        </button>
+      )}
+
+      {/* Minimized Toggle Button (Desktop Only) */}
       {!isExpanded && (
         <button
           onClick={() => setIsExpanded(true)}
-          className="pointer-events-auto rounded-[20px] p-3 text-white/70 hover:text-white shadow-xl transition"
+          className="pointer-events-auto rounded-[20px] p-3 text-white/70 hover:text-white shadow-xl transition max-lg:hidden"
           style={{ background: "rgba(255,255,255,.15)", backdropFilter: "blur(16px) saturate(115%)", border: "1px solid rgba(255,255,255,.20)" }}
           title="Expand 3D Layer Controls"
         >
@@ -64,19 +85,38 @@ export const LayerControls: React.FC<LayerControlsProps> = ({
         </button>
       )}
 
-      {/* Main Panel */}
+      {/* Main Panel — Desktop uses isExpanded; Mobile uses mobileOpen */}
       <div
-        className={`pointer-events-auto rounded-[24px] shadow-2xl transition-all duration-300 flex flex-col ${isExpanded ? "w-[280px] h-full" : "w-0 h-0 opacity-0 border-none"}`}
-        style={isExpanded ? { background: "linear-gradient(180deg, rgba(255,255,255,.125) 0%, rgba(255,255,255,.135) 13%, rgba(255,255,255,.098) 34%, rgba(255,255,255,.092) 100%)", backdropFilter: "blur(18px) saturate(115%)", WebkitBackdropFilter: "blur(18px) saturate(115%)", border: "1px solid rgba(255,255,255,.20)" } : {}}
+        className={`pointer-events-auto rounded-[24px] shadow-2xl transition-all duration-300 flex flex-col ${
+          isExpanded
+            ? "lg:w-[280px] lg:h-full lg:opacity-100"
+            : "lg:w-0 lg:h-0 lg:opacity-0 lg:border-none lg:overflow-hidden"
+        } ${
+          mobileOpen
+            ? "max-lg:flex max-lg:w-[min(290px,calc(100vw-24px))] max-lg:max-h-[55dvh] max-lg:overflow-hidden max-lg:rounded-2xl"
+            : "max-lg:hidden"
+        }`}
+        style={{
+          background: "linear-gradient(180deg, rgba(255,255,255,.125) 0%, rgba(255,255,255,.135) 13%, rgba(255,255,255,.098) 34%, rgba(255,255,255,.092) 100%)",
+          backdropFilter: "blur(18px) saturate(115%)",
+          WebkitBackdropFilter: "blur(18px) saturate(115%)",
+          border: "1px solid rgba(255,255,255,.20)",
+        }}
       >
-        <div className="p-4 flex flex-col h-full">
+        <div className="p-4 flex flex-col h-full overflow-hidden">
           <div className="flex items-center justify-between pb-2 mb-2.5 border-b border-white/10 shrink-0">
           <div className="flex items-center gap-2 text-xs font-bold font-mono uppercase tracking-wider text-white">
             <Layers className="w-4 h-4 text-[#C8FF3D]" />
             <span>3D Twin Layers</span>
           </div>
           <button
-            onClick={() => setIsExpanded(false)}
+            onClick={() => {
+              if (onMobileToggle && mobileOpen) {
+                onMobileToggle();
+              } else {
+                setIsExpanded(false);
+              }
+            }}
             className="p-1.5 rounded-lg hover:bg-white/10 text-white hover:text-[#C8FF3D] border border-transparent hover:border-white/10 transition flex items-center justify-center bg-white/5"
             title="Hide layers panel"
           >

@@ -86,6 +86,11 @@ export default function ImpactTwinView({
   const [isProvenanceOpen, setIsProvenanceOpen] = useState<boolean>(false);
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
 
+  // Mobile drawer state — all collapsed by default
+  const [mobileToolbarOpen, setMobileToolbarOpen] = useState<boolean>(false);
+  const [mobileLayersOpen, setMobileLayersOpen] = useState<boolean>(false);
+  const [mobileAnalyticsOpen, setMobileAnalyticsOpen] = useState<boolean>(false);
+
   // ---- Fetch Real Impact Simulation ----
   const fetchSimulation = useCallback(async (city: CityId, scenario: ScenarioType, rainVal: number) => {
     setIsSimulating(true);
@@ -209,10 +214,65 @@ export default function ImpactTwinView({
 
 
   return (
-    <div className="absolute inset-y-0 left-[104px] right-0 w-[calc(100vw-104px)] h-full overflow-hidden font-sans text-white flex flex-col select-none">
+    <div className="absolute inset-y-0 left-[104px] max-lg:left-0 right-0 w-[calc(100vw-104px)] max-lg:w-full h-full overflow-hidden font-sans text-white flex flex-col select-none">
       
+      {/* ── MOBILE: compact top-center controls trigger ── */}
+      <div className="hidden max-lg:flex absolute top-3 left-1/2 -translate-x-1/2 z-[35] pointer-events-auto">
+        <button
+          onClick={() => setMobileToolbarOpen(o => !o)}
+          style={{
+            display: "flex", alignItems: "center", gap: 6,
+            padding: "7px 14px", borderRadius: 999, fontSize: 11, fontWeight: 600,
+            background: mobileToolbarOpen ? "rgba(200,255,61,.20)" : "rgba(255,255,255,.15)",
+            border: mobileToolbarOpen ? "1px solid rgba(200,255,61,.45)" : "1px solid rgba(255,255,255,.22)",
+            backdropFilter: "blur(16px) saturate(115%)",
+            color: mobileToolbarOpen ? "#C8FF3D" : "#ffffff",
+          }}
+        >
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+          {currentCity.charAt(0).toUpperCase() + currentCity.slice(1)} · {currentScenario}
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d={mobileToolbarOpen ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"}/></svg>
+        </button>
+      </div>
+
+      {/* ── MOBILE: expanded toolbar sheet ── */}
+      {mobileToolbarOpen && (
+        <div
+          className="hidden max-lg:block absolute top-14 left-2 right-2 z-[34] rounded-2xl overflow-y-auto max-h-[75dvh] shadow-2xl pointer-events-auto"
+          style={{ background: "rgba(10,18,30,.97)", border: "1px solid rgba(255,255,255,.15)", backdropFilter: "blur(20px)" }}
+        >
+          <TwinToolbar
+            currentScenario={currentScenario}
+            customRainfallMm={customRainfallMm}
+            onSelectScenario={(s) => { handleSelectScenario(s); }}
+            onCustomRainfallChange={handleCustomRainfallChange}
+            summary={simulation.summary}
+            provenance={simulation.provenance}
+            cameraPreset={cameraPreset}
+            onSelectCameraPreset={setCameraPreset}
+            onOpenProvenance={() => setIsProvenanceOpen(true)}
+            isSimulating={isSimulating}
+            onRunSimulation={handleRunSimulation}
+            currentCity={currentCity}
+            onSelectCity={handleSelectCity}
+            lowMm={lowMm}
+            baseMm={baseMm}
+            highMm={highMm}
+            p10Mm={pred.p10_mm}
+            p50Mm={pred.p50_mm}
+            p90Mm={pred.p90_mm}
+          />
+          <div style={{ display: "flex", justifyContent: "center", paddingBottom: 8 }}>
+            <button onClick={() => setMobileToolbarOpen(false)}
+              style={{ fontSize: 11, color: "rgba(255,255,255,.45)", padding: "4px 16px" }}>
+              Close
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Top command bar wrapper for Aurora layout */}
-      <div className="w-full px-4 pt-4 z-30 shrink-0 pointer-events-none">
+      <div className="w-full px-4 pt-4 z-30 shrink-0 pointer-events-none max-lg:hidden">
         <TwinToolbar
           currentScenario={currentScenario}
           customRainfallMm={customRainfallMm}
@@ -251,6 +311,12 @@ export default function ImpactTwinView({
         <LayerControls
           layers={layers}
           onChangeLayers={setLayers}
+          mobileOpen={mobileLayersOpen}
+          onMobileToggle={() => {
+            setMobileLayersOpen(o => !o);
+            setMobileAnalyticsOpen(false);
+            setMobileToolbarOpen(false);
+          }}
         />
 
         {/* Impact Analytics Right Drawer */}
@@ -258,6 +324,12 @@ export default function ImpactTwinView({
           simulation={simulation}
           currentState={currentState}
           onSelectEntity={setSelectedEntity}
+          mobileOpen={mobileAnalyticsOpen}
+          onMobileToggle={() => {
+            setMobileAnalyticsOpen(o => !o);
+            setMobileLayersOpen(false);
+            setMobileToolbarOpen(false);
+          }}
         />
 
         {/* Interactive Timeline Scrubber */}

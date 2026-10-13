@@ -73,9 +73,9 @@ export const Navbar: React.FC = () => {
 
   return (
     <>
-      {/* ── Aurora Command Rail Sidebar ──────────────────────────────────── */}
+      {/* ── Desktop Command Rail Sidebar ──────────────────────────────────── */}
       <aside
-        className="glass-sidebar"
+        className="glass-sidebar max-lg:!hidden flex flex-col items-center"
         style={{
           position:      'fixed',
           left:          16,
@@ -84,9 +84,6 @@ export const Navbar: React.FC = () => {
           width:         72,
           borderRadius:  26,
           zIndex:        50,
-          display:       'flex',
-          flexDirection: 'column',
-          alignItems:    'center',
           paddingTop:    SIDEBAR_PT,
           paddingBottom: 52,
           animation:     'slideL 0.92s cubic-bezier(.16,1,.3,1) 0.05s both',
@@ -290,11 +287,71 @@ export const Navbar: React.FC = () => {
         </div>
       </aside>
 
+      {/* ── Mobile Bottom Navigation ──────────────────────────────────────── */}
+      <aside 
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] flex flex-row items-center justify-around px-2 glass-sidebar"
+        style={{
+            height: 'calc(72px + env(safe-area-inset-bottom))',
+            paddingBottom: 'env(safe-area-inset-bottom)',
+            borderTop: '1px solid rgba(255,255,255,0.15)',
+            borderLeft: 'none',
+            borderRight: 'none',
+            borderBottom: 'none',
+            borderRadius: '20px 20px 0 0',
+            background: 'linear-gradient(180deg, rgba(4,18,27,0.7) 0%, rgba(4,18,27,0.9) 100%)',
+            backdropFilter: 'blur(20px)',
+        }}
+      >
+        {NAV_ITEMS.map((item, i) => {
+          const Icon = item.icon;
+          const isActive = i === activeIdx;
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              aria-label={item.label}
+              className="flex flex-col items-center justify-center relative w-12 h-12"
+            >
+              {isActive && (
+                <span className="absolute -top-3 w-10 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
+              )}
+              <Icon
+                width={24}
+                height={24}
+                color={isActive ? "#C8FF3D" : "#ffffff"}
+                strokeWidth={isActive ? 2.0 : 1.6}
+                style={{ opacity: isActive ? 1 : 0.6 }}
+              />
+            </Link>
+          );
+        })}
+        <button
+          onClick={() => setShowAlertModal(true)}
+          className="flex flex-col items-center justify-center relative w-12 h-12"
+          aria-label="Alerts"
+        >
+          <Bell width={24} height={24} color="#ffffff" strokeWidth={1.6} style={{ opacity: 0.6 }} />
+          {activeAlerts.length > 0 && (
+            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#FF3B30] animate-pulse" />
+          )}
+        </button>
+        <Link
+          href="/register"
+          className="flex flex-col items-center justify-center relative w-12 h-12"
+          aria-label="Registration"
+        >
+           {pathname.startsWith('/register') && (
+              <span className="absolute -top-3 w-10 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
+           )}
+          <UserPlus width={24} height={24} color={pathname.startsWith('/register') ? "#C8FF3D" : "#ffffff"} strokeWidth={pathname.startsWith('/register') ? 2.0 : 1.6} style={{ opacity: pathname.startsWith('/register') ? 1 : 0.6 }} />
+        </Link>
+      </aside>
+
       {/* Tooltip chip */}
       {tooltip && (
         <div
           aria-hidden
-          className="glass-chip"
+          className="glass-chip max-lg:hidden"
           style={{
             position:      'fixed',
             left:          104,
@@ -321,19 +378,19 @@ export const Navbar: React.FC = () => {
           style={{
             position:             'fixed',
             inset:                0,
-            zIndex:               100,
+            zIndex:               150,
             display:              'flex',
             alignItems:           'center',
             justifyContent:       'center',
-            background:           'rgba(0,0,0,0.40)',
-            backdropFilter:       'blur(4px)',
-            WebkitBackdropFilter: 'blur(4px)',
+            background:           'rgba(0,0,0,0.60)',
+            backdropFilter:       'blur(6px)',
+            WebkitBackdropFilter: 'blur(6px)',
             padding:              16,
           }}
           onClick={(e) => { if (e.target === e.currentTarget) setShowAlertModal(false); }}
         >
           <div
-            className="glass-card"
+            className="glass-card max-md:m-4"
             style={{
               maxWidth:     448,
               width:        '100%',
@@ -404,6 +461,3 @@ export const Navbar: React.FC = () => {
     </>
   );
 };
-
-
-

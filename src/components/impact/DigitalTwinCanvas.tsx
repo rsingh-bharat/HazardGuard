@@ -264,11 +264,76 @@ export const DigitalTwinCanvas: React.FC<DigitalTwinCanvasProps> = ({
       }
     };
 
+    
+    let initialPinchDistance = -1;
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        isDragging = true;
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      } else if (e.touches.length === 2) {
+        isDragging = false;
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        initialPinchDistance = Math.sqrt(dx * dx + dy * dy);
+      }
+    };
+
+    const onTouchMove = (e: TouchEvent) => {
+      if (e.touches.length === 1 && isDragging) {
+        e.preventDefault();
+        const deltaX = e.touches[0].clientX - previousMousePosition.x;
+        const deltaY = e.touches[0].clientY - previousMousePosition.y;
+
+        if (cameraPreset && cameraPreset.startsWith("street_")) {
+          camera.rotation.y -= deltaX * 0.005;
+          camera.rotation.x = Math.max(-0.6, Math.min(0.6, camera.rotation.x - deltaY * 0.005));
+        } else {
+          spherical.theta -= deltaX * 0.007;
+          spherical.phi = Math.max(0.15, Math.min(Math.PI / 2.05, spherical.phi - deltaY * 0.007));
+          updateCameraPosition();
+        }
+
+        previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      } else if (e.touches.length === 2) {
+        e.preventDefault();
+        const dx = e.touches[0].clientX - e.touches[1].clientX;
+        const dy = e.touches[0].clientY - e.touches[1].clientY;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+        
+        if (initialPinchDistance > 0) {
+          const delta = initialPinchDistance - dist;
+          if (!cameraPreset || !cameraPreset.startsWith("street_")) {
+            spherical.radius = Math.max(20, Math.min(240, spherical.radius + delta * 0.5));
+            updateCameraPosition();
+          }
+        }
+        initialPinchDistance = dist;
+      }
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (e.touches.length < 2) {
+        initialPinchDistance = -1;
+      }
+      if (e.touches.length === 0) {
+        isDragging = false;
+      } else if (e.touches.length === 1) {
+         previousMousePosition = { x: e.touches[0].clientX, y: e.touches[0].clientY };
+      }
+    };
+
     const dom = renderer.domElement;
+    dom.style.touchAction = "none";
+
     dom.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
     dom.addEventListener("wheel", onWheel, { passive: false });
+    dom.addEventListener("touchstart", onTouchStart, { passive: false });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd);
+
 
     // Resize observer
     const resizeObserver = new ResizeObserver((entries) => {
@@ -394,6 +459,10 @@ export const DigitalTwinCanvas: React.FC<DigitalTwinCanvasProps> = ({
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
       dom.removeEventListener("wheel", onWheel);
+      dom.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+
       renderer.dispose();
     };
   }, []);
@@ -914,12 +983,13 @@ export const DigitalTwinCanvas: React.FC<DigitalTwinCanvasProps> = ({
     <div className="relative w-full h-full select-none overflow-hidden bg-graphite-950">
       <div
         ref={mountRef}
-        className="w-full h-full cursor-grab active:cursor-grabbing"
+        className="w-full h-full cursor-grab active:cursor-grabbing touch-none"
+        style={{ touchAction: "none" }}
         onPointerDown={handlePointerDown}
       />
 
       {/* Compass / Orientation Rose */}
-      <div className="absolute top-4 right-4 bg-graphite-900/85 backdrop-blur border border-graphite-800 clipped-br p-2.5 shadow-xl flex flex-col items-center pointer-events-none">
+      <div className="absolute top-4 right-4 bg-graphite-900/85 backdrop-blur border border-graphite-800 clipped-br p-2.5 shadow-xl flex flex-col items-center pointer-events-none max-lg:hidden">
         <div className="text-[10px] font-mono tracking-widest font-semibold text-warm-paper">N</div>
         <div className="w-6 h-6 flex items-center justify-center my-0.5">
           <svg className="w-5 h-5 text-sky-500" viewBox="0 0 24 24" fill="currentColor">
@@ -934,7 +1004,7 @@ export const DigitalTwinCanvas: React.FC<DigitalTwinCanvasProps> = ({
 
       {/* Current Camera Mode Badge */}
       {cameraPreset?.startsWith("street_") && (
-        <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-graphite-900/90 backdrop-blur-md border border-graphite-800 clipped-both px-4 py-1.5 shadow-2xl flex items-center gap-2 pointer-events-none animate-fadeIn">
+        <div className="absolute top-4 left-1/2 -translate-x-1/2 bg-graphite-900/90 backdrop-blur-md border border-graphite-800 clipped-both px-4 py-1.5 shadow-2xl flex items-center gap-2 pointer-events-none animate-fadeIn max-lg:hidden">
           <span className="w-2.5 h-2.5 clipped-both bg-chartreuse animate-pulse" />
           <span className="text-xs font-mono font-bold text-chartreuse uppercase tracking-wide">
             Real Street View: {cityProfile.name.toUpperCase()} • {cameraPreset.replace("street_", "").replace(/_/g, " ").toUpperCase()}
@@ -944,7 +1014,7 @@ export const DigitalTwinCanvas: React.FC<DigitalTwinCanvasProps> = ({
       )}
 
       {/* City Badge Display */}
-      <div className="absolute top-4 left-4 bg-graphite-900/90 backdrop-blur-md border border-graphite-800 clipped-br px-3 py-1.5 shadow-xl flex items-center gap-2 pointer-events-none">
+      <div className="absolute top-4 left-4 bg-graphite-900/90 backdrop-blur-md border border-graphite-800 clipped-br px-3 py-1.5 shadow-xl flex items-center gap-2 pointer-events-none max-lg:hidden">
         <span className="w-2 h-2 clipped-both bg-chartreuse animate-pulse" />
         <div className="flex flex-col">
           <span className="text-xs font-bold text-warm-paper font-mono">{cityProfile.name}</span>
@@ -953,7 +1023,7 @@ export const DigitalTwinCanvas: React.FC<DigitalTwinCanvasProps> = ({
       </div>
 
       {/* Interactive Navigation Hint */}
-      <div className="absolute bottom-4 left-4 bg-graphite-900/85 backdrop-blur border border-graphite-800 clipped-br px-3 py-1.5 text-xs text-paper-dim shadow-lg pointer-events-none flex items-center gap-2">
+      <div className="absolute bottom-4 left-4 bg-graphite-900/85 backdrop-blur border border-graphite-800 clipped-br px-3 py-1.5 text-xs text-paper-dim shadow-lg pointer-events-none flex items-center gap-2 max-lg:hidden">
         <span className="w-2 h-2 clipped-both bg-chartreuse/10 animate-pulse" />
         <span>
           {cameraPreset?.startsWith("street_")

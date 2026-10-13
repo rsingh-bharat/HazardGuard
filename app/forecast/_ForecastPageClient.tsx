@@ -129,7 +129,7 @@ export default function ForecastPageClient() {
       )}
 
       <button
-        className="absolute z-30 flex items-center gap-2 transition hover:brightness-110"
+        className="absolute z-30 hidden md:flex items-center gap-2 transition hover:brightness-110"
         style={{
           bottom: 76,
           left: 16,
@@ -211,65 +211,75 @@ export default function ForecastPageClient() {
       {/* -- RIGHT: District list glass panel ----- */}
       {showList && (
         <div
-          className="absolute z-20 flex flex-col overflow-hidden"
-          style={{ top: 72, right: 16, bottom: 80, width: 340, ...glassCard, borderRadius: 20 }}
+          className={`absolute z-20 flex flex-col overflow-hidden
+            md:top-[72px] md:right-4 md:bottom-[80px] md:w-[340px]
+            max-md:left-2 max-md:right-2 max-md:w-auto ${
+            selectedDistrict
+              /* mobile selected: bottom sheet above nav, scrollable */
+              ? "max-md:top-auto max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:max-h-[70dvh] max-md:z-30"
+              /* mobile list: below the page header, half-screen height */
+              : "max-md:top-[60px] max-md:bottom-auto max-md:max-h-[48dvh]"
+          }`}
+          style={{ ...glassCard, borderRadius: 20 }}
         >
-          {/* Search + filter header */}
-          <div
-            className="p-3 space-y-2"
-            style={{ borderBottom: "1px solid rgba(255,255,255,.13)", flexShrink: 0 }}
-          >
-            {/* Search */}
-            <div className="relative">
-              <Search
-                size={13}
-                className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
-                style={{ color: "rgba(255,255,255,.40)" }}
-              />
-              <input
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search districts..."
-                style={{
-                  width: "100%",
-                  paddingLeft: 32,
-                  paddingRight: 12,
-                  paddingTop: 8,
-                  paddingBottom: 8,
-                  background: "rgba(255,255,255,.08)",
-                  border: "1px solid rgba(255,255,255,.15)",
-                  borderRadius: 10,
-                  color: "#ffffff",
-                  fontSize: 12,
-                  outline: "none",
-                }}
-              />
-            </div>
-
-            {/* State filter + count */}
-            <div className="flex items-center gap-2">
-              <div className="relative flex items-center flex-1" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10, padding: "6px 10px" }}>
-                <Filter size={11} style={{ color: "#C8FF3D", flexShrink: 0 }} />
-                <select
-                  value={selectedState}
-                  onChange={(e) => {
-                    setSelectedState(e.target.value);
-                    updateState({ selectedStateId: e.target.value === "ALL" ? null : e.target.value });
+          {/* Search + filter header — shown only in list mode */}
+          {!selectedDistrict && (
+            <div
+              className="p-3 space-y-2"
+              style={{ borderBottom: "1px solid rgba(255,255,255,.13)", flexShrink: 0 }}
+            >
+              {/* Search */}
+              <div className="relative">
+                <Search
+                  size={13}
+                  className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none"
+                  style={{ color: "rgba(255,255,255,.40)" }}
+                />
+                <input
+                  type="text"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                  placeholder="Search districts..."
+                  style={{
+                    width: "100%",
+                    paddingLeft: 32,
+                    paddingRight: 12,
+                    paddingTop: 8,
+                    paddingBottom: 8,
+                    background: "rgba(255,255,255,.08)",
+                    border: "1px solid rgba(255,255,255,.15)",
+                    borderRadius: 10,
+                    color: "#ffffff",
+                    fontSize: 12,
+                    outline: "none",
                   }}
-                  style={{ background: "transparent", color: "#ffffff", fontSize: 11, fontWeight: 600, border: "none", outline: "none", cursor: "pointer", flex: 1, marginLeft: 6 }}
-                >
-                  {states.map((s) => (
-                    <option key={s.id} value={s.id}>{s.name}</option>
-                  ))}
-                </select>
-                <ChevronDown size={11} style={{ color: "rgba(255,255,255,.40)", flexShrink: 0 }} />
+                />
               </div>
-              <span style={{ color: "rgba(255,255,255,.50)", fontSize: 11, whiteSpace: "nowrap" }}>
-                {filteredForecasts.length} districts
-              </span>
+
+              {/* State filter + count */}
+              <div className="flex items-center gap-2">
+                <div className="relative flex items-center flex-1" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10, padding: "6px 10px" }}>
+                  <Filter size={11} style={{ color: "#C8FF3D", flexShrink: 0 }} />
+                  <select
+                    value={selectedState}
+                    onChange={(e) => {
+                      setSelectedState(e.target.value);
+                      updateState({ selectedStateId: e.target.value === "ALL" ? null : e.target.value });
+                    }}
+                    style={{ background: "transparent", color: "#ffffff", fontSize: 11, fontWeight: 600, border: "none", outline: "none", cursor: "pointer", flex: 1, marginLeft: 6 }}
+                  >
+                    {states.map((s) => (
+                      <option key={s.id} value={s.id}>{s.name}</option>
+                    ))}
+                  </select>
+                  <ChevronDown size={11} style={{ color: "rgba(255,255,255,.40)", flexShrink: 0 }} />
+                </div>
+                <span style={{ color: "rgba(255,255,255,.50)", fontSize: 11, whiteSpace: "nowrap" }}>
+                  {filteredForecasts.length} districts
+                </span>
+              </div>
             </div>
-          </div>
+          )}
 
           {/* District list or detail */}
           <div className="flex-1 overflow-y-auto no-scrollbar p-2">
@@ -340,8 +350,7 @@ export default function ForecastPageClient() {
 
       {/* -- BOTTOM: Timeline strip -- */}
       <div
-        className="absolute z-20"
-        style={{ left: 16, right: 80, bottom: 16 }}
+        className="absolute z-20 md:left-4 md:right-[80px] md:bottom-4 max-md:left-2 max-md:right-[68px] max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:w-auto"
       >
         <div style={{ ...glassSoft, borderRadius: 16, padding: "10px 16px" }}>
           <TimelinePlayer

@@ -25,12 +25,16 @@ interface ImpactAnalyticsPanelProps {
   simulation: ImpactSimulationResult;
   currentState: ImpactTimelineState;
   onSelectEntity?: (entity: { type: string; data: any }) => void;
+  mobileOpen?: boolean;
+  onMobileToggle?: () => void;
 }
 
 export const ImpactAnalyticsPanel: React.FC<ImpactAnalyticsPanelProps> = ({
   simulation,
   currentState,
-  onSelectEntity
+  onSelectEntity,
+  mobileOpen = false,
+  onMobileToggle,
 }) => {
   const [isOpen, setIsOpen] = useState(true);
   const [activeTab, setActiveTab] = useState<"overview" | "exposure" | "warnings" | "comparison">("overview");
@@ -47,13 +51,29 @@ export const ImpactAnalyticsPanel: React.FC<ImpactAnalyticsPanelProps> = ({
   const popData = currentState.exposure?.population || { estimated_total_population_exposure: 0, ward_breakdown: [] };
 
   return (
-    <div className="absolute top-[var(--impact-panel-top)] right-4 bottom-[var(--impact-panel-bottom)] z-20 flex select-none pointer-events-none items-start">
-      
-      {/* Toggle button on side (Minimized State) */}
+    <div className="absolute top-[var(--impact-panel-top)] right-4 bottom-[var(--impact-panel-bottom)] max-lg:top-auto max-lg:right-3 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+70px)] max-lg:left-auto max-lg:w-auto z-20 flex select-none pointer-events-none items-start max-lg:items-end flex-row max-lg:flex-row-reverse gap-2">
+      {/* Mobile mid-right trigger — visible on mobile only */}
+      {onMobileToggle && (
+        <button
+          onClick={onMobileToggle}
+          className="pointer-events-auto lg:hidden flex items-center justify-center rounded-full shadow-xl transition"
+          style={{
+            width: 40, height: 40, flexShrink: 0,
+            background: mobileOpen ? "rgba(200,255,61,.20)" : "rgba(255,255,255,.15)",
+            border: mobileOpen ? "1px solid rgba(200,255,61,.45)" : "1px solid rgba(255,255,255,.22)",
+            backdropFilter: "blur(16px) saturate(115%)",
+          }}
+          title="Impact Intelligence Feed"
+        >
+          <Activity className={`w-4 h-4 ${mobileOpen ? "text-[#C8FF3D]" : "text-white/70"}`} />
+        </button>
+      )}
+
+      {/* Toggle button on side (Minimized State - Desktop Only) */}
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="pointer-events-auto rounded-[20px] p-3 text-white/70 hover:text-white shadow-xl transition mr-2"
+          className="pointer-events-auto rounded-[20px] p-3 text-white/70 hover:text-white shadow-xl transition mr-2 max-lg:hidden"
           style={{ background: "rgba(255,255,255,.15)", backdropFilter: "blur(16px) saturate(115%)", border: "1px solid rgba(255,255,255,.20)" }}
           title="Expand Analytics Panel"
         >
@@ -61,10 +81,18 @@ export const ImpactAnalyticsPanel: React.FC<ImpactAnalyticsPanelProps> = ({
         </button>
       )}
 
-      {/* Main Slide-in Panel */}
+      {/* Main Slide-in Panel — Desktop uses isOpen; Mobile uses mobileOpen */}
       <div 
-        className={`w-[380px] rounded-[24px] shadow-2xl flex flex-col pointer-events-auto transition-all h-full ${isOpen ? "opacity-100" : "w-0 opacity-0 border-none overflow-hidden"}`}
-        style={isOpen ? { background: "linear-gradient(180deg, rgba(255,255,255,.125) 0%, rgba(255,255,255,.135) 13%, rgba(255,255,255,.098) 34%, rgba(255,255,255,.092) 100%)", backdropFilter: "blur(18px) saturate(115%)", WebkitBackdropFilter: "blur(18px) saturate(115%)", border: "1px solid rgba(255,255,255,.20)" } : {}}
+        className={`rounded-[24px] shadow-2xl flex flex-col pointer-events-auto transition-all ${
+          isOpen
+            ? "lg:w-[380px] lg:h-full lg:opacity-100"
+            : "lg:w-0 lg:opacity-0 lg:border-none lg:overflow-hidden"
+        } ${
+          mobileOpen
+            ? "max-lg:flex max-lg:w-[min(340px,calc(100vw-24px))] max-lg:max-h-[60dvh] max-lg:overflow-hidden"
+            : "max-lg:hidden"
+        }`}
+        style={isOpen || mobileOpen ? { background: "linear-gradient(180deg, rgba(255,255,255,.125) 0%, rgba(255,255,255,.135) 13%, rgba(255,255,255,.098) 34%, rgba(255,255,255,.092) 100%)", backdropFilter: "blur(18px) saturate(115%)", WebkitBackdropFilter: "blur(18px) saturate(115%)", border: "1px solid rgba(255,255,255,.20)" } : {}}
       >
         
         {/* Header & Tabs */}
@@ -81,14 +109,20 @@ export const ImpactAnalyticsPanel: React.FC<ImpactAnalyticsPanelProps> = ({
                 {currentState.timestamp}
               </span>
               <button
-                onClick={() => setIsOpen(false)}
+                onClick={() => {
+                  if (onMobileToggle && mobileOpen) {
+                    onMobileToggle();
+                  } else {
+                    setIsOpen(false);
+                  }
+                }}
                 className="p-1.5 rounded-lg hover:bg-white/10 text-white hover:text-[#C8FF3D] border border-transparent hover:border-white/10 transition flex items-center justify-center bg-white/5"
                 title="Hide analytics panel"
               >
                 <ChevronRight className="w-4 h-4" />
               </button>
             </div>
-            </div>
+          </div>
 
             {/* Navigation Tabs */}
             <div className="grid grid-cols-4 gap-1 p-1 rounded-xl border border-white/10 text-xs bg-white/5">
@@ -469,7 +503,7 @@ export const ImpactAnalyticsPanel: React.FC<ImpactAnalyticsPanelProps> = ({
           </div>
 
       </div>
-
     </div>
   );
 };
+

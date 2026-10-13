@@ -61,12 +61,11 @@ function DistrictDetailPanel({
 
   return (
     <div
-      className="animate-slide-r"
+      className="animate-slide-r w-[360px] max-md:w-full"
       style={{
         ...glassCard,
         borderRadius: 24,
         overflow: "hidden",
-        width: 360,
       }}
     >
       {/* Alert banner */}
@@ -352,12 +351,10 @@ export default function HomePageClient() {
         />
       )}
 
-      {/* Floating Layers button — sits above the timeline strip */}
+      {/* Floating Layers button — sits above the timeline strip on desktop, floats top-right on mobile */}
       <button
-        className="absolute z-30 flex items-center gap-2 transition hover:brightness-110"
+        className="absolute z-30 flex items-center gap-2 transition hover:brightness-110 left-4 bottom-[76px] max-md:left-auto max-md:right-4 max-md:bottom-auto max-md:top-4"
         style={{
-          bottom: 76,
-          left: 16,
           ...glassSoft,
           borderRadius: 14,
           padding: "9px 14px",
@@ -375,11 +372,42 @@ export default function HomePageClient() {
         {showLayerPanel && <X size={11} />}
       </button>
 
+      {/* ── TOP-LEFT: Compact Home heading for mobile ── */}
+      {!selectedDistrict && (
+        <div className="absolute z-20 left-4 top-4 pointer-events-none md:hidden flex flex-col gap-1">
+          <div
+            className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full w-fit"
+            style={{
+              background: "rgba(200,255,61,.14)",
+              border: "1px solid rgba(200,255,61,.35)",
+              backdropFilter: "blur(12px)",
+            }}
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-[#C8FF3D] animate-pulse" />
+            <span style={{ color: "#C8FF3D", fontSize: 10, fontWeight: 700, letterSpacing: "0.06em" }}>
+              LIVE 72H NWP
+            </span>
+          </div>
+          <h1
+            style={{
+              fontFamily: "'Inter Tight', Inter, sans-serif",
+              fontWeight: 600,
+              fontSize: 18,
+              color: "#ffffff",
+              letterSpacing: "-0.3px",
+              lineHeight: 1.1,
+              textShadow: "0 2px 10px rgba(4,18,27,.80)",
+            }}
+          >
+            INDIA RAINFALL
+          </h1>
+        </div>
+      )}
+
       {/* ── TOP-LEFT: Command Hero ────────────────────────── */}
       {!selectedDistrict && (
         <div
-          className="absolute z-20"
-          style={{ left: 16, top: 40, maxWidth: 440, pointerEvents: "none" }}
+          className="absolute z-20 left-4 top-10 max-w-[440px] pointer-events-none max-md:hidden"
         >
           {/* Status chip */}
           <div
@@ -405,11 +433,10 @@ export default function HomePageClient() {
           {/* Headline */}
           <div style={{ overflow: "hidden" }}>
             <h1
-              className="animate-line-up"
+              className="animate-line-up text-[52px]"
               style={{
                 fontFamily: "'Inter Tight', Inter, sans-serif",
                 fontWeight: 500,
-                fontSize: 52,
                 lineHeight: 1.1,
                 color: "#ffffff",
                 letterSpacing: "-0.5px",
@@ -436,116 +463,226 @@ export default function HomePageClient() {
         </div>
       )}
 
-      {/* ── RIGHT: Glass Telemetry Rail — Top 5 Critical Districts ── */}
+      {/* ── RIGHT: Glass Telemetry Rail — Top 5 Critical Districts (desktop) ── */}
+      {/* ── BOTTOM: Top 3 District cards (mobile only) ── */}
       {!selectedDistrict && (
-        <div
-          className="absolute z-20 flex flex-col gap-2"
-          style={{ right: 16, top: 40, width: 292, maxHeight: "calc(100vh - 130px)", overflowY: "auto" }}
-        >
-          {/* Primary big card — #1 district */}
-          {topDistricts[0] && (
-            <div
-              className="relative overflow-hidden p-4 cursor-pointer animate-slide-r"
-              style={{ ...glassCard, borderRadius: 20 }}
-              onClick={() => updateState({ selectedDistrictId: topDistricts[0].geography.districtId })}
-            >
-              <span
-                className="absolute inset-0 pointer-events-none animate-sheen"
-                style={{
-                  width: "38%",
-                  background: "linear-gradient(100deg,transparent 0%,rgba(255,255,255,.17) 50%,transparent 100%)",
-                  transform: "skewX(-18deg)",
-                }}
-              />
-              <div className="flex items-start justify-between mb-1">
-                <div>
-                  <p style={{ color: "rgba(255,255,255,.55)", fontSize: 10, letterSpacing: "0.10em", textTransform: "uppercase" }}>
-                    {topDistricts[0].geography.stateName}
-                  </p>
-                  <p style={{ color: "#ffffff", fontSize: 14, fontWeight: 600 }}>
-                    {topDistricts[0].geography.districtName}
-                  </p>
-                </div>
+        <>
+          {/* DESKTOP: vertical right rail — exactly as before */}
+          <div className="absolute z-20 hidden md:flex flex-col gap-2 right-4 top-10 w-[292px] max-h-[calc(100dvh-130px)] overflow-y-auto pb-2">
+            {/* Primary big card — #1 district */}
+            {topDistricts[0] && (
+              <div
+                className="relative overflow-hidden p-4 cursor-pointer animate-slide-r shrink-0"
+                style={{ ...glassCard, borderRadius: 20 }}
+                onClick={() => updateState({ selectedDistrictId: topDistricts[0].geography.districtId })}
+              >
                 <span
+                  className="absolute inset-0 pointer-events-none animate-sheen"
                   style={{
-                    padding: "2px 8px", borderRadius: 999,
-                    background: alertColor(topDistricts[0].rainfall.alertLevel).bg,
-                    border: `1px solid ${alertColor(topDistricts[0].rainfall.alertLevel).border}`,
-                    color: alertColor(topDistricts[0].rainfall.alertLevel).text,
-                    fontSize: 9, fontWeight: 700, letterSpacing: "0.08em",
+                    width: "38%",
+                    background: "linear-gradient(100deg,transparent 0%,rgba(255,255,255,.17) 50%,transparent 100%)",
+                    transform: "skewX(-18deg)",
                   }}
-                >
-                  {topDistricts[0].rainfall.alertLevel}
-                </span>
-              </div>
-              <div
-                style={{
-                  fontFamily: "'Inter Tight', Inter, sans-serif",
-                  fontWeight: 500, fontSize: 60, lineHeight: 1,
-                  color: "#ffffff", letterSpacing: "-3px", margin: "8px 0 6px",
-                }}
-              >
-                {topDistricts[0].rainfall.correctedMm.toFixed(0)}
-                <span style={{ fontSize: 26, verticalAlign: "super", marginLeft: 4, color: "rgba(255,255,255,.65)" }}>mm</span>
-              </div>
-              <div className="flex justify-between pt-2.5" style={{ borderTop: "1px solid rgba(255,255,255,.15)" }}>
-                {[
-                  { label: "P10", val: topDistricts[0].rainfall.p10Mm },
-                  { label: "P50", val: topDistricts[0].rainfall.p50Mm },
-                  { label: "P90", val: topDistricts[0].rainfall.p90Mm },
-                ].map(({ label, val }) => (
-                  <div key={label} className="flex flex-col items-center gap-0.5">
-                    <span style={{ color: "#ffffff", fontSize: 11, fontWeight: 600 }}>{(val ?? 0).toFixed(0)}mm</span>
-                    <span style={{ color: "rgba(255,255,255,.45)", fontSize: 9, letterSpacing: "0.08em" }}>{label}</span>
+                />
+                <div className="flex items-start justify-between mb-1">
+                  <div>
+                    <p style={{ color: "rgba(255,255,255,.55)", fontSize: 10, letterSpacing: "0.10em", textTransform: "uppercase" }}>
+                      {topDistricts[0].geography.stateName}
+                    </p>
+                    <p style={{ color: "#ffffff", fontSize: 14, fontWeight: 600 }}>
+                      {topDistricts[0].geography.districtName}
+                    </p>
                   </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* Compact row cards — districts #2 to #5 */}
-          {topDistricts.slice(1).map((d) => {
-            const ac = alertColor(d.rainfall.alertLevel);
-            return (
-              <div
-                key={d.geography.districtId}
-                className="flex items-center justify-between px-4 cursor-pointer animate-slide-r hover:brightness-110 transition"
-                style={{ ...glassCard, borderRadius: 14, height: 66 }}
-                onClick={() => updateState({ selectedDistrictId: d.geography.districtId })}
-              >
-                <div>
-                  <p style={{ color: "rgba(255,255,255,.45)", fontSize: 9, letterSpacing: "0.08em", textTransform: "uppercase" }}>
-                    {d.geography.stateName}
-                  </p>
-                  <p style={{ color: "#ffffff", fontSize: 12, fontWeight: 600 }}>{d.geography.districtName}</p>
                   <span
                     style={{
-                      marginTop: 2, display: "inline-block",
-                      fontSize: 9, padding: "1px 6px",
-                      background: ac.bg, border: `1px solid ${ac.border}`,
-                      borderRadius: 999, color: ac.text, fontWeight: 700,
+                      padding: "2px 8px", borderRadius: 999,
+                      background: alertColor(topDistricts[0].rainfall.alertLevel).bg,
+                      border: `1px solid ${alertColor(topDistricts[0].rainfall.alertLevel).border}`,
+                      color: alertColor(topDistricts[0].rainfall.alertLevel).text,
+                      fontSize: 9, fontWeight: 700, letterSpacing: "0.08em",
                     }}
                   >
-                    {d.rainfall.alertLevel}
+                    {topDistricts[0].rainfall.alertLevel}
                   </span>
                 </div>
-                <div className="flex items-end gap-0.5">
-                  <span style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 500, fontSize: 26, color: "#ffffff", letterSpacing: "-1px" }}>
-                    {d.rainfall.correctedMm.toFixed(0)}
-                  </span>
-                  <span style={{ fontSize: 11, color: "rgba(255,255,255,.55)", marginBottom: 2 }}>mm</span>
+                <div
+                  style={{
+                    fontFamily: "'Inter Tight', Inter, sans-serif",
+                    fontWeight: 500, fontSize: 60, lineHeight: 1,
+                    color: "#ffffff", letterSpacing: "-3px", margin: "8px 0 6px",
+                  }}
+                >
+                  {topDistricts[0].rainfall.correctedMm.toFixed(0)}
+                  <span style={{ fontSize: 26, verticalAlign: "super", marginLeft: 4, color: "rgba(255,255,255,.65)" }}>mm</span>
+                </div>
+                <div className="flex justify-between pt-2.5" style={{ borderTop: "1px solid rgba(255,255,255,.15)" }}>
+                  {[
+                    { label: "P10", val: topDistricts[0].rainfall.p10Mm },
+                    { label: "P50", val: topDistricts[0].rainfall.p50Mm },
+                    { label: "P90", val: topDistricts[0].rainfall.p90Mm },
+                  ].map(({ label, val }) => (
+                    <div key={label} className="flex flex-col items-center gap-0.5">
+                      <span style={{ color: "#ffffff", fontSize: 11, fontWeight: 600 }}>{(val ?? 0).toFixed(0)}mm</span>
+                      <span style={{ color: "rgba(255,255,255,.45)", fontSize: 9, letterSpacing: "0.08em" }}>{label}</span>
+                    </div>
+                  ))}
                 </div>
               </div>
-            );
-          })}
-        </div>
+            )}
+
+            {/* Compact row cards — districts #2 to #5 */}
+            {topDistricts.slice(1).map((d) => {
+              const ac = alertColor(d.rainfall.alertLevel);
+              return (
+                <div
+                  key={d.geography.districtId}
+                  className="flex items-center justify-between px-4 cursor-pointer animate-slide-r hover:brightness-110 transition"
+                  style={{ ...glassCard, borderRadius: 14, height: 66 }}
+                  onClick={() => updateState({ selectedDistrictId: d.geography.districtId })}
+                >
+                  <div>
+                    <p style={{ color: "rgba(255,255,255,.45)", fontSize: 9, letterSpacing: "0.08em", textTransform: "uppercase" }}>
+                      {d.geography.stateName}
+                    </p>
+                    <p style={{ color: "#ffffff", fontSize: 12, fontWeight: 600 }}>{d.geography.districtName}</p>
+                    <span
+                      style={{
+                        marginTop: 2, display: "inline-block",
+                        fontSize: 9, padding: "1px 6px",
+                        background: ac.bg, border: `1px solid ${ac.border}`,
+                        borderRadius: 999, color: ac.text, fontWeight: 700,
+                      }}
+                    >
+                      {d.rainfall.alertLevel}
+                    </span>
+                  </div>
+                  <div className="flex items-end gap-0.5">
+                    <span style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 500, fontSize: 26, color: "#ffffff", letterSpacing: "-1px" }}>
+                      {d.rainfall.correctedMm.toFixed(0)}
+                    </span>
+                    <span style={{ fontSize: 11, color: "rgba(255,255,255,.55)", marginBottom: 2 }}>mm</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* MOBILE: top-3 grid at bottom of viewport, above timeline + nav */}
+          <div
+            className="absolute z-20 md:hidden left-2 right-2 grid gap-2"
+            style={{
+              bottom: "calc(72px + env(safe-area-inset-bottom) + 64px)", /* above nav + timeline */
+              gridTemplateColumns: "1fr 1fr",
+              gridTemplateRows: "auto",
+            }}
+          >
+            {/* Card 1 — spans left column, taller (rows 1-2) */}
+            {topDistricts[0] && (
+              <div
+                className="relative overflow-hidden p-3 cursor-pointer row-span-2"
+                style={{ ...glassCard, borderRadius: 16 }}
+                onClick={() => updateState({ selectedDistrictId: topDistricts[0].geography.districtId })}
+              >
+                <div className="flex items-start justify-between mb-1">
+                  <div style={{ minWidth: 0, overflow: "hidden" }}>
+                    <p style={{ color: "rgba(255,255,255,.55)", fontSize: 9, letterSpacing: "0.08em", textTransform: "uppercase", whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {topDistricts[0].geography.stateName}
+                    </p>
+                    <p style={{ color: "#ffffff", fontSize: 12, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {topDistricts[0].geography.districtName}
+                    </p>
+                  </div>
+                  <span
+                    style={{
+                      marginLeft: 4, flexShrink: 0,
+                      padding: "2px 6px", borderRadius: 999,
+                      background: alertColor(topDistricts[0].rainfall.alertLevel).bg,
+                      border: `1px solid ${alertColor(topDistricts[0].rainfall.alertLevel).border}`,
+                      color: alertColor(topDistricts[0].rainfall.alertLevel).text,
+                      fontSize: 9, fontWeight: 700,
+                    }}
+                  >
+                    {topDistricts[0].rainfall.alertLevel}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    fontFamily: "'Inter Tight', Inter, sans-serif",
+                    fontWeight: 500, fontSize: 40, lineHeight: 1,
+                    color: "#ffffff", letterSpacing: "-2px", margin: "6px 0 4px",
+                  }}
+                >
+                  {topDistricts[0].rainfall.correctedMm.toFixed(0)}
+                  <span style={{ fontSize: 16, verticalAlign: "super", marginLeft: 2, color: "rgba(255,255,255,.65)" }}>mm</span>
+                </div>
+                <div className="flex justify-between pt-2" style={{ borderTop: "1px solid rgba(255,255,255,.15)" }}>
+                  {[
+                    { label: "P10", val: topDistricts[0].rainfall.p10Mm },
+                    { label: "P50", val: topDistricts[0].rainfall.p50Mm },
+                    { label: "P90", val: topDistricts[0].rainfall.p90Mm },
+                  ].map(({ label, val }) => (
+                    <div key={label} className="flex flex-col items-center gap-0.5">
+                      <span style={{ color: "#ffffff", fontSize: 10, fontWeight: 600 }}>{(val ?? 0).toFixed(0)}mm</span>
+                      <span style={{ color: "rgba(255,255,255,.45)", fontSize: 8, letterSpacing: "0.06em" }}>{label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* Cards 2 and 3 — right column */}
+            {topDistricts.slice(1, 3).map((d) => {
+              const ac = alertColor(d.rainfall.alertLevel);
+              return (
+                <div
+                  key={d.geography.districtId}
+                  className="flex items-center justify-between px-3 py-2 cursor-pointer hover:brightness-110 transition"
+                  style={{ ...glassCard, borderRadius: 12 }}
+                  onClick={() => updateState({ selectedDistrictId: d.geography.districtId })}
+                >
+                  <div style={{ minWidth: 0, overflow: "hidden" }}>
+                    <p style={{ color: "rgba(255,255,255,.45)", fontSize: 8, letterSpacing: "0.06em", textTransform: "uppercase" }}>
+                      {d.geography.stateName}
+                    </p>
+                    <p style={{ color: "#ffffff", fontSize: 11, fontWeight: 600, whiteSpace: "nowrap", overflow: "hidden", textOverflow: "ellipsis" }}>
+                      {d.geography.districtName}
+                    </p>
+                    <span
+                      style={{
+                        marginTop: 2, display: "inline-block",
+                        fontSize: 8, padding: "1px 5px",
+                        background: ac.bg, border: `1px solid ${ac.border}`,
+                        borderRadius: 999, color: ac.text, fontWeight: 700,
+                      }}
+                    >
+                      {d.rainfall.alertLevel}
+                    </span>
+                  </div>
+                  <div className="flex items-end gap-0.5 ml-2 shrink-0">
+                    <span style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 500, fontSize: 20, color: "#ffffff", letterSpacing: "-1px" }}>
+                      {d.rainfall.correctedMm.toFixed(0)}
+                    </span>
+                    <span style={{ fontSize: 9, color: "rgba(255,255,255,.55)", marginBottom: 1 }}>mm</span>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </>
       )}
 
       {/* Fix #3: District detail panel — full Aurora glass, animated ──── */}
       {selectedDistrict && (
         <div
-          className="absolute z-30"
-          style={{ right: 16, top: 40, maxHeight: "calc(100vh - 120px)", overflowY: "auto" }}
+          className={[
+            "absolute z-30",
+            /* Desktop: right rail, top-aligned, scrollable */
+            "right-4 top-10 max-h-[calc(100dvh-120px)] overflow-y-auto",
+            /* Mobile: full-width bottom sheet above nav + safe-area */
+            "max-md:left-2 max-md:right-2 max-md:top-auto",
+            "max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+8px)]",
+            "max-md:max-h-[65dvh] max-md:overflow-y-auto",
+          ].join(" ")}
         >
           <DistrictDetailPanel
             district={selectedDistrict}
@@ -556,9 +693,9 @@ export default function HomePageClient() {
 
       {/* When district selected: show district name on left */}
       {selectedDistrict && (
-        <div className="absolute z-20" style={{ left: 16, top: 40, maxWidth: 420, pointerEvents: "none" }}>
+        <div className="absolute z-20 left-4 top-10 max-w-[420px] pointer-events-none max-md:left-4 max-md:right-4 max-md:top-4 max-md:max-w-none">
           <div
-            className="inline-flex items-center gap-2 mb-4 animate-wipe-right"
+            className="inline-flex items-center gap-2 mb-4 animate-wipe-right max-md:mb-2"
             style={{
               padding: "4px 14px", borderRadius: 999,
               background: alertColor(selectedDistrict.rainfall.alertLevel).bg,
@@ -573,23 +710,23 @@ export default function HomePageClient() {
             </span>
           </div>
           <div style={{ overflow: "hidden" }}>
-            <h1 className="animate-line-up" style={{
+            <h1 className="animate-line-up text-[52px] max-md:text-[32px]" style={{
               fontFamily: "'Inter Tight', Inter, sans-serif",
-              fontWeight: 500, fontSize: 52, lineHeight: 1.1,
+              fontWeight: 500, lineHeight: 1.1,
               color: "#ffffff", letterSpacing: "-0.5px",
               textShadow: "0 2px 20px rgba(4,18,27,.60)",
             }}>
               {selectedDistrict.geography.districtName}
             </h1>
           </div>
-          <p style={{ color: "rgba(255,255,255,.65)", fontSize: 13, marginTop: 6 }}>
+          <p className="max-md:hidden" style={{ color: "rgba(255,255,255,.65)", fontSize: 13, marginTop: 6 }}>
             {selectedDistrict.geography.stateName} · AI Corrected: {selectedDistrict.rainfall.correctedMm.toFixed(1)} mm
           </p>
         </div>
       )}
 
-      {/* ── BOTTOM: Timeline Strip — leave 72px right gap for chatbot ── */}
-      <div className="absolute z-20" style={{ left: 16, right: 80, bottom: 16 }}>
+      {/* ── BOTTOM: Timeline Strip — leave right gap for chatbot on desktop and mobile ── */}
+      <div className="absolute z-20 left-4 right-[80px] bottom-4 max-md:left-2 max-md:right-[68px] max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:overflow-x-auto">
         <div style={{ ...glassSoft, borderRadius: 16, padding: "10px 16px" }}>
           <TimelinePlayer
             activeLeadHours={activeLeadHours}
@@ -600,6 +737,7 @@ export default function HomePageClient() {
     </div>
   );
 }
+
 
 
 

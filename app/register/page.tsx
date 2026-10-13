@@ -208,7 +208,7 @@ export default function RegisterPage() {
 
   return (
     <div className="h-screen overflow-y-auto w-full font-mono">
-      <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-16">
+      <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-[120px]">
 
         {/* Header Panel */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"

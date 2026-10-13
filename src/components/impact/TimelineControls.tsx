@@ -1,6 +1,6 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { ImpactTimelineState } from "@/lib/contracts/impact";
-import { Play, Pause, SkipBack, SkipForward, Clock, CloudRain } from "lucide-react";
+import { Play, Pause, SkipBack, SkipForward, Clock, CloudRain, ChevronDown, ChevronUp } from "lucide-react";
 
 interface TimelineControlsProps {
   timeline: ImpactTimelineState[];
@@ -21,6 +21,8 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
   playbackSpeed,
   onToggleSpeed
 }) => {
+  const [isMinimized, setIsMinimized] = useState(false);
+
   // Auto-advance timer when playing
   useEffect(() => {
     if (!isPlaying) return;
@@ -33,10 +35,40 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
 
   const currentState = timeline[currentStepIndex] || timeline[0];
 
+  const glassStyle: React.CSSProperties = {
+    background: "linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.258) 24%, rgba(255,255,255,.252) 78%, rgba(255,255,255,.232) 100%)",
+    backdropFilter: "blur(26px) saturate(118%)",
+    WebkitBackdropFilter: "blur(26px) saturate(118%)",
+    border: "1px solid rgba(255,255,255,.20)"
+  };
+
+  if (isMinimized) {
+    return (
+      <div 
+        className="absolute bottom-6 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] left-1/2 -translate-x-1/2 max-lg:left-2 max-lg:right-[68px] max-lg:translate-x-0 max-lg:w-auto px-4 py-2 shadow-2xl z-30 select-none pointer-events-auto rounded-full flex items-center justify-between gap-3"
+        style={glassStyle}
+      >
+        <div className="flex items-center gap-2 text-xs font-mono">
+          <Clock className="w-3.5 h-3.5 text-[#C8FF3D]" />
+          <span className="text-[#C8FF3D] font-bold">{currentState.timestamp}</span>
+          <span className="text-white/60">({currentState.rainfall_accum_mm}mm)</span>
+        </div>
+        <button
+          onClick={() => setIsMinimized(false)}
+          className="text-xs text-[#C8FF3D] font-bold flex items-center gap-1 hover:brightness-110 transition px-2.5 py-1 rounded-full bg-white/10"
+          title="Restore full timeline"
+        >
+          <span>TIMELINE</span>
+          <ChevronUp className="w-3.5 h-3.5" />
+        </button>
+      </div>
+    );
+  }
+
   return (
     <div 
-      className="absolute bottom-6 left-1/2 -translate-x-1/2 w-[92%] max-w-4xl p-4 shadow-2xl z-30 select-none pointer-events-auto rounded-[24px]"
-      style={{ background: "linear-gradient(180deg, rgba(255,255,255,.20) 0%, rgba(255,255,255,.258) 24%, rgba(255,255,255,.252) 78%, rgba(255,255,255,.232) 100%)", backdropFilter: "blur(26px) saturate(118%)", WebkitBackdropFilter: "blur(26px) saturate(118%)", border: "1px solid rgba(255,255,255,.20)" }}
+      className="absolute bottom-6 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] left-1/2 -translate-x-1/2 max-lg:left-2 max-lg:right-[68px] max-lg:translate-x-0 w-[92%] max-w-4xl max-lg:w-auto p-4 shadow-2xl z-30 select-none pointer-events-auto rounded-[24px] max-lg:rounded-2xl max-lg:p-2.5"
+      style={glassStyle}
     >
       <div className="flex flex-col gap-3">
         
@@ -103,6 +135,14 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
             <span>Warnings: <strong className={currentState.warnings.length > 0 ? "text-[#FFB347] font-bold" : "text-white/70"}>{currentState.warnings.length}</strong></span>
           </div>
 
+          {/* Minimize Button */}
+          <button
+            onClick={() => setIsMinimized(true)}
+            className="p-1.5 rounded-full hover:bg-white/10 text-white/50 hover:text-white transition flex items-center justify-center shrink-0"
+            title="Minimize timeline"
+          >
+            <ChevronDown className="w-4 h-4" />
+          </button>
         </div>
 
         {/* Lower Row: Hyetograph & Slider Track */}

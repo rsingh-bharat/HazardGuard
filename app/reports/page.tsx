@@ -103,7 +103,7 @@ export default function ReportsPage() {
 
   return (
     <div className="h-screen overflow-y-auto w-full font-mono">
-      <div className="max-w-6xl mx-auto p-6 pt-20 space-y-6 select-none pb-16">
+      <div className="max-w-7xl mx-auto p-6 pt-20 space-y-6 select-none pb-16 max-md:pb-[100px]">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"
         style={{
@@ -133,179 +133,188 @@ export default function ReportsPage() {
         </div>
       </div>
 
-      {/* Generator Configuration Card */}
-      <div className="p-5 shadow-xl space-y-4" style={{
-          background: "rgba(255,255,255,.10)",
-          backdropFilter: "blur(20px) saturate(115%)",
-          WebkitBackdropFilter: "blur(20px) saturate(115%)",
-          border: "1px solid rgba(255,255,255,.18)",
-          borderRadius: 16,
-        }}>
-        <h2 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-          BULLETIN PARAMETERS — STATE &amp; DISTRICT SELECTION
-        </h2>
+      {/* Main 2-column layout */}
+      <div className="grid grid-cols-1 md:grid-cols-[380px_1fr] gap-6 items-start">
+        <div className="space-y-6 flex flex-col">
+          {/* Generator Configuration Card */}
+          <div className="p-5 shadow-xl space-y-4" style={{
+              background: "rgba(255,255,255,.10)",
+              backdropFilter: "blur(20px) saturate(115%)",
+              WebkitBackdropFilter: "blur(20px) saturate(115%)",
+              border: "1px solid rgba(255,255,255,.18)",
+              borderRadius: 16,
+            }}>
+            <h2 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+              BULLETIN PARAMETERS — STATE &amp; DISTRICT SELECTION
+            </h2>
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {/* State Selection */}
-          <div>
-            <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
-              TARGET STATE / UT
-            </label>
-            <div className="relative">
-              <select
-                value={selectedStateId}
-                onChange={(e) => handleStateChange(e.target.value)}
-                className="w-full appearance-none p-2.5 text-xs text-white font-bold focus:outline-none pr-8 cursor-pointer" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}
-              >
-                {states.map((s) => (
-                  <option key={s.id} value={s.id} style={{ background: "#04121b", color: "#ffffff" }}>
-                    {s.name.toUpperCase()} ({s.id})
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
-          </div>
-
-          {/* District Selection */}
-          <div>
-            <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
-              TARGET DISTRICT
-            </label>
-            <div className="relative">
-              <select
-                value={selectedDistrictId}
-                onChange={(e) => setSelectedDistrictId(e.target.value)}
-                className="w-full appearance-none p-2.5 text-xs text-white font-bold focus:outline-none pr-8 disabled:opacity-40 cursor-pointer" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}
-                disabled={availableDistricts.length === 0}
-              >
-                <option value="" style={{ background: "#04121b", color: "rgba(255,255,255,0.6)" }}>
-                  {availableDistricts.length > 0 ? 'ENTIRE STATE (ALL DISTRICTS)' : 'No districts in mock data'}
-                </option>
-                {availableDistricts.map((d) => (
-                  <option key={d.id} value={d.id} style={{ background: "#04121b", color: "#ffffff" }}>
-                    {d.name.toUpperCase()}
-                  </option>
-                ))}
-              </select>
-              <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
-            </div>
-          </div>
-
-          {/* Forecast Window */}
-          <div>
-            <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
-              FORECAST CYCLE WINDOW
-            </label>
-            <input
-              type="text"
-              disabled
-              value="72-HOUR ENSEMBLE (forecast_20260901_00z)"
-              className="w-full p-2.5 text-xs text-white/50 font-mono" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10 }}
-            />
-          </div>
-
-          {/* Download Button */}
-          <div className="flex flex-col justify-end">
-            <ReportDownload
-              stateId={selectedStateId}
-              stateName={selectedStateName}
-              districtId={selectedDistrictId || undefined}
-              districtName={selectedDistrictName || undefined}
-              forecastId="forecast_20260901_00z"
-              includeImpact={includeImpact}
-              includeVerification={includeVerification}
-              forecasts={forecasts}
-            />
-          </div>
-        </div>
-
-        {/* Selected scope indicator */}
-        <div className="flex items-center gap-2 p-2.5 text-[10px] font-mono mt-4" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10 }}>
-          <span className="text-smoke">BULLETIN SCOPE:</span>
-          <span className="text-chartreuse font-bold">
-            {selectedDistrictId && selectedDistrictName
-              ? `${selectedDistrictName.toUpperCase()}, ${selectedStateName.toUpperCase()} (DISTRICT-LEVEL)`
-              : `${selectedStateName.toUpperCase()} — ALL DISTRICTS (STATE-LEVEL)`}
-          </span>
-        </div>
-
-        {/* Section Inclusions */}
-        <div className="flex items-center gap-6 pt-3 border-t border-white/10 text-xs text-white/75">
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={includeVerification}
-              onChange={(e) => setIncludeVerification(e.target.checked)}
-              className="accent-chartreuse rounded-none cursor-pointer"
-            />
-            <span>Include Model Verification Skill Table (Page 3)</span>
-          </label>
-
-          <label className="flex items-center gap-2 cursor-pointer">
-            <input
-              type="checkbox"
-              checked={includeImpact}
-              onChange={(e) => setIncludeImpact(e.target.checked)}
-              className="accent-chartreuse rounded-none cursor-pointer"
-            />
-            <span>Include 3D Digital Twin Exposure Snapshot (Page 4)</span>
-          </label>
-        </div>
-      </div>
-
-      {/* 5-Page PDF Breakdown Preview */}
-      <ReportPreview
-        stateName={selectedDistrictName ? `${selectedDistrictName}, ${selectedStateName}` : selectedStateName}
-        forecastId="forecast_20260901_00z"
-      />
-
-      {/* Audit History */}
-      <div className="shadow-xl overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)", backdropFilter: "blur(26px) saturate(118%)", WebkitBackdropFilter: "blur(26px) saturate(118%)", borderRadius: 20, border: "1px solid rgba(255,255,255,.15)" }}>
-        <div className="px-5 py-3.5 flex items-center justify-between" style={{ background: "rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.15)" }}>
-          <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-chartreuse" />
-            <h3 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
-              OFFICIAL BULLETIN ARCHIVE // REPOSITORY
-            </h3>
-          </div>
-          <span className="text-[10px] text-smoke font-mono">03 ARCHIVED PUBLICATIONS</span>
-        </div>
-
-        <div className="text-xs">
-          {samplePastReports.map((rep) => (
-            <div
-              key={rep.id}
-              className="p-4 flex items-center justify-between hover:bg-white/5 transition" style={{ borderBottom: "1px solid rgba(255,255,255,.10)" }}
-            >
-              <div className="flex items-center gap-3">
-                <div className="p-2 border border-chartreuse/30 text-chartreuse rounded-lg">
-                  <FileText className="w-4 h-4" />
-                </div>
-                <div>
-                  <div style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 14, color: "#ffffff" }}>
-                    {rep.district}, {rep.state.toUpperCase()} — MONSOON OUTLOOK BULLETIN
-                  </div>
-                  <div className="text-[10px] text-smoke font-mono">
-                    REF: {rep.forecastId} · GENERATED: {rep.date}
-                  </div>
+            <div className="grid grid-cols-1 gap-4">
+              {/* State Selection */}
+              <div>
+                <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
+                  TARGET STATE / UT
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedStateId}
+                    onChange={(e) => handleStateChange(e.target.value)}
+                    className="w-full appearance-none p-2.5 text-xs text-white font-bold focus:outline-none pr-8 cursor-pointer" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}
+                  >
+                    {states.map((s) => (
+                      <option key={s.id} value={s.id} style={{ background: "#04121b", color: "#ffffff" }}>
+                        {s.name.toUpperCase()} ({s.id})
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
                 </div>
               </div>
 
-              <div className="flex items-center gap-4">
-                <span className="text-[10px] text-smoke font-mono">
-                  {rep.pages} PAGES · {rep.size}
-                </span>
-                <button
-                  onClick={() => alert(`Downloading archived bulletin: ${rep.id}`)}
-                  className="p-2 hover:bg-white/10 border border-white/20 text-white/60 hover:text-white transition rounded-lg"
-                  title="Download Archived Bulletin"
+              {/* District Selection */}
+              <div>
+                <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
+                  TARGET DISTRICT
+                </label>
+                <div className="relative">
+                  <select
+                    value={selectedDistrictId}
+                    onChange={(e) => setSelectedDistrictId(e.target.value)}
+                    className="w-full appearance-none p-2.5 text-xs text-white font-bold focus:outline-none pr-8 disabled:opacity-40 cursor-pointer" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}
+                    disabled={availableDistricts.length === 0}
+                  >
+                    <option value="" style={{ background: "#04121b", color: "rgba(255,255,255,0.6)" }}>
+                      {availableDistricts.length > 0 ? 'ENTIRE STATE (ALL DISTRICTS)' : 'No districts in mock data'}
+                    </option>
+                    {availableDistricts.map((d) => (
+                      <option key={d.id} value={d.id} style={{ background: "#04121b", color: "#ffffff" }}>
+                        {d.name.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                  <ChevronDown className="w-3.5 h-3.5 text-smoke absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Forecast Window */}
+              <div>
+                <label className="block text-[10px] text-white/55 mb-1.5 font-bold uppercase">
+                  FORECAST CYCLE WINDOW
+                </label>
+                <input
+                  type="text"
+                  disabled
+                  value="72-HOUR ENSEMBLE (forecast_20260901_00z)"
+                  className="w-full p-2.5 text-xs text-white/50 font-mono" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10 }}
+                />
+              </div>
+
+              {/* Download Button */}
+              <div className="flex flex-col justify-end mt-2">
+                <ReportDownload
+                  stateId={selectedStateId}
+                  stateName={selectedStateName}
+                  districtId={selectedDistrictId || undefined}
+                  districtName={selectedDistrictName || undefined}
+                  forecastId="forecast_20260901_00z"
+                  includeImpact={includeImpact}
+                  includeVerification={includeVerification}
+                  forecasts={forecasts}
+                />
+              </div>
+            </div>
+
+            {/* Selected scope indicator */}
+            <div className="flex items-center gap-2 p-2.5 text-[10px] font-mono mt-4" style={{ background: "rgba(255,255,255,.05)", border: "1px solid rgba(255,255,255,.10)", borderRadius: 10 }}>
+              <span className="text-smoke">BULLETIN SCOPE:</span>
+              <span className="text-chartreuse font-bold">
+                {selectedDistrictId && selectedDistrictName
+                  ? `${selectedDistrictName.toUpperCase()}, ${selectedStateName.toUpperCase()} (DISTRICT-LEVEL)`
+                  : `${selectedStateName.toUpperCase()} — ALL DISTRICTS (STATE-LEVEL)`}
+              </span>
+            </div>
+
+            {/* Section Inclusions */}
+            <div className="flex flex-col gap-3 pt-3 border-t border-white/10 text-xs text-white/75">
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={includeVerification}
+                  onChange={(e) => setIncludeVerification(e.target.checked)}
+                  className="accent-chartreuse rounded-none cursor-pointer"
+                />
+                <span>Include Model Verification Skill Table (Page 3)</span>
+              </label>
+
+              <label className="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  checked={includeImpact}
+                  onChange={(e) => setIncludeImpact(e.target.checked)}
+                  className="accent-chartreuse rounded-none cursor-pointer"
+                />
+                <span>Include 3D Digital Twin Exposure Snapshot (Page 4)</span>
+              </label>
+            </div>
+          </div>
+
+          {/* Audit History */}
+          <div className="shadow-xl overflow-hidden" style={{ background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)", backdropFilter: "blur(26px) saturate(118%)", WebkitBackdropFilter: "blur(26px) saturate(118%)", borderRadius: 20, border: "1px solid rgba(255,255,255,.15)" }}>
+            <div className="px-5 py-3.5 flex items-center justify-between" style={{ background: "rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.15)" }}>
+              <div className="flex items-center gap-2">
+                <Clock className="w-4 h-4 text-chartreuse" />
+                <h3 style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff", letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                  OFFICIAL BULLETIN ARCHIVE // REPOSITORY
+                </h3>
+              </div>
+              <span className="text-[10px] text-smoke font-mono">03 ARCHIVED PUBLICATIONS</span>
+            </div>
+
+            <div className="text-xs max-h-[300px] overflow-y-auto">
+              {samplePastReports.map((rep) => (
+                <div
+                  key={rep.id}
+                  className="p-4 flex flex-col gap-3 hover:bg-white/5 transition" style={{ borderBottom: "1px solid rgba(255,255,255,.10)" }}
                 >
-                  <Download className="w-3.5 h-3.5" />
-                </button>
-              </div>
+                  <div className="flex items-start gap-3">
+                    <div className="p-2 border border-chartreuse/30 text-chartreuse rounded-lg shrink-0 mt-1">
+                      <FileText className="w-4 h-4" />
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: "\'Inter Tight\', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: "#ffffff", lineHeight: 1.4 }}>
+                        {rep.district}, {rep.state.toUpperCase()} — MONSOON OUTLOOK BULLETIN
+                      </div>
+                      <div className="text-[10px] text-smoke font-mono mt-1">
+                        REF: {rep.forecastId}<br/>GENERATED: {rep.date}
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between mt-1 pl-11">
+                    <span className="text-[10px] text-smoke font-mono">
+                      {rep.pages} PAGES · {rep.size}
+                    </span>
+                    <button
+                      onClick={() => alert(`Downloading archived bulletin: ${rep.id}`)}
+                      className="p-1.5 hover:bg-white/10 border border-white/20 text-white/60 hover:text-white transition rounded-lg flex items-center justify-center"
+                      title="Download Archived Bulletin"
+                    >
+                      <Download className="w-3.5 h-3.5" />
+                    </button>
+                  </div>
+                </div>
+              ))}
             </div>
-          ))}
+          </div>
+        </div>
+
+        <div className="max-md:overflow-x-auto w-full pb-4">
+          {/* 5-Page PDF Breakdown Preview */}
+          <div className="min-w-[600px] md:min-w-0">
+            <ReportPreview
+              stateName={selectedDistrictName ? `${selectedDistrictName}, ${selectedStateName}` : selectedStateName}
+              forecastId="forecast_20260901_00z"
+            />
+          </div>
         </div>
       </div>
     </div>

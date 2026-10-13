@@ -18,7 +18,7 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({ results })
     results.find((r) => r.scope.leadHours === selectedLeadHours) || results[0] || null;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-6 pt-20 select-none font-mono">
+    <div className="space-y-6 max-w-7xl mx-auto p-6 pt-20 max-md:p-4 max-md:pt-20 max-md:pb-[100px] select-none font-mono max-md:w-full max-md:overflow-x-hidden">
       {/* Page Header */}
       <div
         className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"
@@ -54,38 +54,44 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({ results })
         </div>
 
         {/* Filters */}
-        <div className="flex items-center gap-3">
-          <div className="flex items-center gap-1.5 px-3 py-1.5" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}>
-            <Clock className="w-3.5 h-3.5 text-[#C8FF3D]" />
-            <select
-              value={selectedLeadHours}
-              onChange={(e) => setSelectedLeadHours(parseInt(e.target.value, 10))}
-              className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer" style={{ appearance: "none" }}
-            >
-              <option style={{ background: "#04121b", color: "#ffffff" }} value={0}>T+0H ANALYSIS</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value={6}>T+6H FORECAST</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value={12}>T+12H FORECAST</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value={24}>T+24H FORECAST</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value={48}>T+48H FORECAST</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value={72}>T+72H FORECAST</option>
-            </select><ChevronDown size={14} style={{ color: "rgba(255,255,255,.40)", marginLeft: -18, pointerEvents: "none" }}/>
+        <div className="flex items-center gap-3 max-md:flex-col max-md:w-full">
+          <div className="flex items-center justify-between gap-1.5 px-3 py-1.5 max-md:w-full" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}>
+            <div className="flex items-center gap-1.5">
+              <Clock className="w-3.5 h-3.5 text-[#C8FF3D]" />
+              <select
+                value={selectedLeadHours}
+                onChange={(e) => setSelectedLeadHours(parseInt(e.target.value, 10))}
+                className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer max-md:w-full" style={{ appearance: "none" }}
+              >
+                <option style={{ background: "#04121b", color: "#ffffff" }} value={0}>T+0H ANALYSIS</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value={6}>T+6H FORECAST</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value={12}>T+12H FORECAST</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value={24}>T+24H FORECAST</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value={48}>T+48H FORECAST</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value={72}>T+72H FORECAST</option>
+              </select>
+            </div>
+            <ChevronDown size={14} style={{ color: "rgba(255,255,255,.40)", pointerEvents: "none" }}/>
           </div>
 
-          <div className="flex items-center gap-1.5 px-3 py-1.5" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}>
-            <Layers className="w-3.5 h-3.5 text-violet" />
-            <select
-              value={selectedRegime}
-              onChange={(e) => setSelectedRegime(e.target.value)}
-              className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer" style={{ appearance: "none" }}
-            >
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="ALL_REGIMES">ALL WEATHER REGIMES</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="ACTIVE_MONSOON">ACTIVE MONSOON</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="BREAK_MONSOON">BREAK MONSOON</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="MONSOON_DEPRESSION">MONSOON DEPRESSION</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="OROGRAPHIC">OROGRAPHIC GHATS</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="COASTAL_CONVECTION">COASTAL CONVECTION</option>
-              <option style={{ background: "#04121b", color: "#ffffff" }} value="WESTERN_DISTURBANCE">WESTERN DISTURBANCE</option>
-            </select><ChevronDown size={14} style={{ color: "rgba(255,255,255,.40)", marginLeft: -18, pointerEvents: "none" }}/>
+          <div className="flex items-center justify-between gap-1.5 px-3 py-1.5 max-md:w-full" style={{ background: "rgba(255,255,255,.08)", border: "1px solid rgba(255,255,255,.15)", borderRadius: 10 }}>
+            <div className="flex items-center gap-1.5">
+              <Layers className="w-3.5 h-3.5 text-violet" />
+              <select
+                value={selectedRegime}
+                onChange={(e) => setSelectedRegime(e.target.value)}
+                className="bg-transparent text-white font-bold text-xs focus:outline-none cursor-pointer max-md:w-full" style={{ appearance: "none" }}
+              >
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="ALL_REGIMES">ALL WEATHER REGIMES</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="ACTIVE_MONSOON">ACTIVE MONSOON</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="BREAK_MONSOON">BREAK MONSOON</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="MONSOON_DEPRESSION">MONSOON DEPRESSION</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="OROGRAPHIC">OROGRAPHIC GHATS</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="COASTAL_CONVECTION">COASTAL CONVECTION</option>
+                <option style={{ background: "#04121b", color: "#ffffff" }} value="WESTERN_DISTURBANCE">WESTERN DISTURBANCE</option>
+              </select>
+            </div>
+            <ChevronDown size={14} style={{ color: "rgba(255,255,255,.40)", pointerEvents: "none" }}/>
           </div>
         </div>
       </div>
@@ -141,7 +147,7 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({ results })
           }}
         >
           <div
-            className="px-4 py-3 flex items-center justify-between"
+            className="px-4 py-3 flex items-center justify-between max-md:flex-col max-md:items-start max-md:gap-2"
             style={{ background: "rgba(255,255,255,.08)", borderBottom: "1px solid rgba(255,255,255,.15)" }}
           >
             <span style={{ fontFamily: "'Inter Tight', Inter, sans-serif", fontWeight: 600, fontSize: 13, color: '#ffffff', letterSpacing: '0.05em', textTransform: 'uppercase' }}>
