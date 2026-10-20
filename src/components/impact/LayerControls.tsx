@@ -55,7 +55,7 @@ export const LayerControls: React.FC<LayerControlsProps> = ({
   };
 
   return (
-    <div className="absolute top-[var(--impact-panel-top)] left-4 bottom-[var(--impact-panel-bottom)] max-lg:top-auto max-lg:left-3 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+70px)] z-20 select-none pointer-events-none flex items-start max-lg:items-end gap-2">
+    <div className="absolute top-[var(--impact-panel-top)] left-4 bottom-[var(--impact-panel-bottom)] max-lg:top-1/2 max-lg:-translate-y-1/2 max-lg:left-2 max-lg:bottom-auto z-20 select-none pointer-events-none flex items-start max-lg:items-center gap-2">
       {/* Mobile mid-left trigger — visible on mobile only */}
       {onMobileToggle && (
         <button

@@ -47,6 +47,7 @@ export const Map: React.FC<MapProps> = ({
   useEffect(() => {
     if (!mapContainerRef.current) return;
 
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 1024;
     const instance = new maplibregl.Map({
       container: mapContainerRef.current,
       style: MAP_CONFIG.darkStyle,
@@ -55,10 +56,12 @@ export const Map: React.FC<MapProps> = ({
       pitch,
       bearing,
       antialias: true,
+      attributionControl: false,
     });
 
     instance.addControl(new maplibregl.NavigationControl({ showCompass: false, visualizePitch: false }), 'bottom-left');
     instance.addControl(new maplibregl.ScaleControl({ unit: 'metric' }), 'bottom-right');
+    instance.addControl(new maplibregl.AttributionControl({ compact: isMobile }), 'bottom-right');
 
     instance.on('load', () => {
       setIsLoaded(true);
@@ -191,9 +194,9 @@ export const Map: React.FC<MapProps> = ({
       <div className="relative w-full h-full overflow-hidden select-none" style={{ background: '#04121b' }}>
         <div ref={mapContainerRef} className="w-full h-full" />
 
-        {/* Aurora glass coordinate indicator */}
+        {/* Aurora glass coordinate indicator — hidden on mobile to avoid overlap */}
         <div
-          className="absolute top-3 right-16 z-10 pointer-events-none flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono"
+          className="absolute top-3 right-16 z-10 pointer-events-none hidden md:flex items-center gap-1.5 px-2 py-1 text-[9px] font-mono"
           style={{
             background: 'rgba(255,255,255,0.10)',
             backdropFilter: 'blur(12px)',
@@ -204,7 +207,7 @@ export const Map: React.FC<MapProps> = ({
           }}
         >
           <Crosshair className="w-3 h-3" style={{ color: '#C8FF3D' }} />
-          <span>GEO Â· EPSG:4326</span>
+          <span>GEO · EPSG:4326</span>
         </div>
 
         {/* Aurora loading state */}

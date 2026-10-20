@@ -301,13 +301,15 @@ select option:checked, select option:hover {
 
 @media (max-width: 1023px) {
   .meghdoot-trigger {
-    bottom: calc(var(--mobile-nav-h, 72px) + 10px + var(--meghdoot-bottom-extra, 0px) + env(safe-area-inset-bottom)) !important;
-    right: 16px !important;
+    display: none !important;
   }
   .meghdoot-drawer {
-    bottom: calc(var(--mobile-nav-h, 72px) + 72px + var(--meghdoot-bottom-extra, 0px) + env(safe-area-inset-bottom)) !important;
-    max-height: calc(100dvh - 182px) !important;
-    right: 12px !important;
+    bottom: calc(var(--mobile-nav-h, 72px) + 8px + env(safe-area-inset-bottom)) !important;
+    max-height: calc(100dvh - 96px - env(safe-area-inset-bottom)) !important;
+    right: 8px !important;
+    left: 8px !important;
+    width: auto !important;
+    margin: 0 !important;
   }
 }
 

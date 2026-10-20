@@ -51,7 +51,7 @@ export const ImpactAnalyticsPanel: React.FC<ImpactAnalyticsPanelProps> = ({
   const popData = currentState.exposure?.population || { estimated_total_population_exposure: 0, ward_breakdown: [] };
 
   return (
-    <div className="absolute top-[var(--impact-panel-top)] right-4 bottom-[var(--impact-panel-bottom)] max-lg:top-auto max-lg:right-3 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+70px)] max-lg:left-auto max-lg:w-auto z-20 flex select-none pointer-events-none items-start max-lg:items-end flex-row max-lg:flex-row-reverse gap-2">
+    <div className="absolute top-[var(--impact-panel-top)] right-4 bottom-[var(--impact-panel-bottom)] max-lg:top-1/2 max-lg:-translate-y-1/2 max-lg:right-2 max-lg:bottom-auto max-lg:left-auto max-lg:w-auto z-20 flex select-none pointer-events-none items-start max-lg:items-center flex-row max-lg:flex-row-reverse gap-2">
       {/* Mobile mid-right trigger — visible on mobile only */}
       {onMobileToggle && (
         <button

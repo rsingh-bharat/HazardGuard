@@ -121,7 +121,7 @@ export default function RegisterPage() {
   if (submitted) {
     return (
       <div className="h-screen overflow-y-auto w-full font-mono">
-        <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-16">
+        <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-16 max-md:pb-[calc(72px+env(safe-area-inset-bottom)+32px)]">
           <div className="p-8 space-y-6 font-mono text-center shadow-2xl" style={{
             background: "linear-gradient(180deg,rgba(255,255,255,.10) 0%,rgba(255,255,255,.05) 100%)",
             backdropFilter: "blur(26px) saturate(118%)",
@@ -208,7 +208,7 @@ export default function RegisterPage() {
 
   return (
     <div className="h-screen overflow-y-auto w-full font-mono">
-      <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-[120px]">
+      <div className="max-w-2xl mx-auto p-6 pt-20 space-y-6 select-none pb-20 max-md:pb-[calc(72px+env(safe-area-inset-bottom)+32px)]">
 
         {/* Header Panel */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"

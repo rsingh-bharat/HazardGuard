@@ -86,10 +86,9 @@ export default function ImpactTwinView({
   const [isProvenanceOpen, setIsProvenanceOpen] = useState<boolean>(false);
   const [isSimulating, setIsSimulating] = useState<boolean>(false);
 
-  // Mobile drawer state — all collapsed by default
-  const [mobileToolbarOpen, setMobileToolbarOpen] = useState<boolean>(false);
-  const [mobileLayersOpen, setMobileLayersOpen] = useState<boolean>(false);
-  const [mobileAnalyticsOpen, setMobileAnalyticsOpen] = useState<boolean>(false);
+  // Mobile drawer state — unified mutual-exclusion model (all collapsed by default)
+  type MobileTwinPanel = 'none' | 'controls' | 'layers' | 'impact';
+  const [activeMobilePanel, setActiveMobilePanel] = useState<MobileTwinPanel>('none');
 
   // ---- Fetch Real Impact Simulation ----
   const fetchSimulation = useCallback(async (city: CityId, scenario: ScenarioType, rainVal: number) => {
@@ -219,24 +218,24 @@ export default function ImpactTwinView({
       {/* ── MOBILE: compact top-center controls trigger ── */}
       <div className="hidden max-lg:flex absolute top-3 left-1/2 -translate-x-1/2 z-[35] pointer-events-auto">
         <button
-          onClick={() => setMobileToolbarOpen(o => !o)}
+          onClick={() => setActiveMobilePanel(p => p === 'controls' ? 'none' : 'controls')}
           style={{
             display: "flex", alignItems: "center", gap: 6,
             padding: "7px 14px", borderRadius: 999, fontSize: 11, fontWeight: 600,
-            background: mobileToolbarOpen ? "rgba(200,255,61,.20)" : "rgba(255,255,255,.15)",
-            border: mobileToolbarOpen ? "1px solid rgba(200,255,61,.45)" : "1px solid rgba(255,255,255,.22)",
+            background: activeMobilePanel === 'controls' ? "rgba(200,255,61,.20)" : "rgba(255,255,255,.15)",
+            border: activeMobilePanel === 'controls' ? "1px solid rgba(200,255,61,.45)" : "1px solid rgba(255,255,255,.22)",
             backdropFilter: "blur(16px) saturate(115%)",
-            color: mobileToolbarOpen ? "#C8FF3D" : "#ffffff",
+            color: activeMobilePanel === 'controls' ? "#C8FF3D" : "#ffffff",
           }}
         >
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
           {currentCity.charAt(0).toUpperCase() + currentCity.slice(1)} · {currentScenario}
-          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d={mobileToolbarOpen ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"}/></svg>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d={activeMobilePanel === 'controls' ? "M18 15l-6-6-6 6" : "M6 9l6 6 6-6"}/></svg>
         </button>
       </div>
 
-      {/* ── MOBILE: expanded toolbar sheet ── */}
-      {mobileToolbarOpen && (
+      {/* ── MOBILE: expanded toolbar sheet (mutually exclusive) ── */}
+      {activeMobilePanel === 'controls' && (
         <div
           className="hidden max-lg:block absolute top-14 left-2 right-2 z-[34] rounded-2xl overflow-y-auto max-h-[75dvh] shadow-2xl pointer-events-auto"
           style={{ background: "rgba(10,18,30,.97)", border: "1px solid rgba(255,255,255,.15)", backdropFilter: "blur(20px)" }}
@@ -263,7 +262,7 @@ export default function ImpactTwinView({
             p90Mm={pred.p90_mm}
           />
           <div style={{ display: "flex", justifyContent: "center", paddingBottom: 8 }}>
-            <button onClick={() => setMobileToolbarOpen(false)}
+            <button onClick={() => setActiveMobilePanel('none')}
               style={{ fontSize: 11, color: "rgba(255,255,255,.45)", padding: "4px 16px" }}>
               Close
             </button>
@@ -307,28 +306,24 @@ export default function ImpactTwinView({
           selectedEntity={selectedEntity}
         />
 
-        {/* Floating Layer Controls */}
+        {/* Floating Layer Controls (mutually exclusive with controls/impact) */}
         <LayerControls
           layers={layers}
           onChangeLayers={setLayers}
-          mobileOpen={mobileLayersOpen}
+          mobileOpen={activeMobilePanel === 'layers'}
           onMobileToggle={() => {
-            setMobileLayersOpen(o => !o);
-            setMobileAnalyticsOpen(false);
-            setMobileToolbarOpen(false);
+            setActiveMobilePanel(p => p === 'layers' ? 'none' : 'layers');
           }}
         />
 
-        {/* Impact Analytics Right Drawer */}
+        {/* Impact Analytics Right Drawer (mutually exclusive with controls/layers) */}
         <ImpactAnalyticsPanel
           simulation={simulation}
           currentState={currentState}
           onSelectEntity={setSelectedEntity}
-          mobileOpen={mobileAnalyticsOpen}
+          mobileOpen={activeMobilePanel === 'impact'}
           onMobileToggle={() => {
-            setMobileAnalyticsOpen(o => !o);
-            setMobileLayersOpen(false);
-            setMobileToolbarOpen(false);
+            setActiveMobilePanel(p => p === 'impact' ? 'none' : 'impact');
           }}
         />
 

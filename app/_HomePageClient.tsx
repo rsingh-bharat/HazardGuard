@@ -725,8 +725,8 @@ export default function HomePageClient() {
         </div>
       )}
 
-      {/* ── BOTTOM: Timeline Strip — leave right gap for chatbot on desktop and mobile ── */}
-      <div className="absolute z-20 left-4 right-[80px] bottom-4 max-md:left-2 max-md:right-[68px] max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:overflow-x-auto">
+      {/* ── BOTTOM: Timeline Strip (desktop leaves right gap for floating chatbot; mobile spans full width above dock) ── */}
+      <div className="absolute z-20 left-4 right-[80px] bottom-4 max-md:left-2 max-md:right-2 max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:overflow-x-auto">
         <div style={{ ...glassSoft, borderRadius: 16, padding: "10px 16px" }}>
           <TimelinePlayer
             activeLeadHours={activeLeadHours}

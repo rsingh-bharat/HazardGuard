@@ -3,6 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { Bot, Send, X, Sparkles } from "lucide-react";
 import { useShareableState } from "@/lib/state/useShareableState";
+import { useLiveForecast } from "@/lib/state/LiveForecastContext";
 
 interface ChatMsg {
   role: "user" | "assistant";
@@ -26,7 +27,16 @@ export const MeghDoot: React.FC<MeghDootProps> = ({
   mobileBottomExtra = 0,
 }) => {
   const { selectedDistrictId, activeForecastId } = useShareableState();
-  const [isOpen, setIsOpen] = useState(false);
+  const liveCtx = useLiveForecast();
+  const [localIsOpen, setLocalIsOpen] = useState(false);
+  const isOpen = liveCtx ? liveCtx.isChatOpen : localIsOpen;
+  const setIsOpen = (val: boolean | ((prev: boolean) => boolean)) => {
+    if (liveCtx && liveCtx.setIsChatOpen) {
+      liveCtx.setIsChatOpen(val);
+    } else {
+      setLocalIsOpen(val);
+    }
+  };
   const [query, setQuery] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [messages, setMessages] = useState<ChatMsg[]>([
@@ -342,10 +352,10 @@ export const MeghDoot: React.FC<MeghDootProps> = ({
   // Responsive positioning handled by .meghdoot-trigger and .meghdoot-drawer in globals.css
   return (
     <>
-      {/* Floating trigger button */}
+      {/* Floating trigger button (desktop only; mobile uses bottom navbar launcher) */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="meghdoot-trigger fixed z-[55] flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
+        className="meghdoot-trigger fixed z-[55] hidden lg:flex items-center justify-center transition-all duration-200 hover:scale-105 active:scale-95"
         style={{
           width: 52,
           height: 52,

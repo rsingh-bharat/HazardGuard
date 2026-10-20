@@ -45,7 +45,7 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
   if (isMinimized) {
     return (
       <div 
-        className="absolute bottom-6 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] left-1/2 -translate-x-1/2 max-lg:left-2 max-lg:right-[68px] max-lg:translate-x-0 max-lg:w-auto px-4 py-2 shadow-2xl z-30 select-none pointer-events-auto rounded-full flex items-center justify-between gap-3"
+        className="absolute bottom-6 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] left-1/2 -translate-x-1/2 max-lg:left-2 max-lg:right-2 max-lg:translate-x-0 max-lg:w-auto px-4 py-2 shadow-2xl z-30 select-none pointer-events-auto rounded-full flex items-center justify-between gap-3"
         style={glassStyle}
       >
         <div className="flex items-center gap-2 text-xs font-mono">
@@ -67,10 +67,20 @@ export const TimelineControls: React.FC<TimelineControlsProps> = ({
 
   return (
     <div 
-      className="absolute bottom-6 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] left-1/2 -translate-x-1/2 max-lg:left-2 max-lg:right-[68px] max-lg:translate-x-0 w-[92%] max-w-4xl max-lg:w-auto p-4 shadow-2xl z-30 select-none pointer-events-auto rounded-[24px] max-lg:rounded-2xl max-lg:p-2.5"
+      className="absolute bottom-6 max-lg:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] left-1/2 -translate-x-1/2 max-lg:left-2 max-lg:right-2 max-lg:translate-x-0 w-[92%] max-w-4xl max-lg:w-auto p-4 shadow-2xl z-30 select-none pointer-events-auto rounded-[24px] max-lg:rounded-2xl max-lg:p-2.5"
       style={glassStyle}
     >
       <div className="flex flex-col gap-3">
+        {/* Mobile top center minimize drag handle */}
+        <div className="hidden max-lg:flex justify-center -mt-1 pb-0.5">
+          <button
+            onClick={() => setIsMinimized(true)}
+            className="flex items-center justify-center py-1 px-4 text-white/40 hover:text-white"
+            title="Minimize timeline"
+          >
+            <span className="w-10 h-1 rounded-full bg-white/30" />
+          </button>
+        </div>
         
         {/* Upper Row: Status, Current Time, Rainfall Metrics, and Playback Controls */}
         <div className="flex items-center justify-between gap-4">

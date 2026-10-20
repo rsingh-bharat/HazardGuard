@@ -217,8 +217,8 @@ export default function ForecastPageClient() {
             selectedDistrict
               /* mobile selected: bottom sheet above nav, scrollable */
               ? "max-md:top-auto max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:max-h-[70dvh] max-md:z-30"
-              /* mobile list: below the page header, half-screen height */
-              : "max-md:top-[60px] max-md:bottom-auto max-md:max-h-[48dvh]"
+              /* mobile list: below the page header with distinct gap, comfortable scrollable height */
+              : "max-md:top-[68px] max-md:bottom-auto max-md:max-h-[42dvh]"
           }`}
           style={{ ...glassCard, borderRadius: 20 }}
         >
@@ -348,9 +348,9 @@ export default function ForecastPageClient() {
         </div>
       )}
 
-      {/* -- BOTTOM: Timeline strip -- */}
+      {/* -- BOTTOM: Timeline strip (desktop leaves room for floating chatbot; mobile spans full width) -- */}
       <div
-        className="absolute z-20 md:left-4 md:right-[80px] md:bottom-4 max-md:left-2 max-md:right-[68px] max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:w-auto"
+        className="absolute z-20 md:left-4 md:right-[80px] md:bottom-4 max-md:left-2 max-md:right-2 max-md:bottom-[calc(72px+env(safe-area-inset-bottom)+4px)] max-md:w-auto"
       >
         <div style={{ ...glassSoft, borderRadius: 16, padding: "10px 16px" }}>
           <TimelinePlayer

@@ -8,12 +8,18 @@ interface LiveForecastContextType {
   forecasts: ForecastSnapshot[];
   isLoading: boolean;
   error: string | null;
+  isChatOpen: boolean;
+  setIsChatOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  toggleChat: () => void;
 }
 
 const LiveForecastContext = createContext<LiveForecastContextType>({
   forecasts: [],
   isLoading: true,
   error: null,
+  isChatOpen: false,
+  setIsChatOpen: () => {},
+  toggleChat: () => {},
 });
 
 export const useLiveForecast = () => useContext(LiveForecastContext);
@@ -52,8 +58,20 @@ export const LiveForecastProvider: React.FC<{ children: React.ReactNode }> = ({ 
     loadForecast();
   }, [activeLeadHours]);
 
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const toggleChat = React.useCallback(() => setIsChatOpen((prev) => !prev), []);
+
   return (
-    <LiveForecastContext.Provider value={{ forecasts, isLoading, error }}>
+    <LiveForecastContext.Provider
+      value={{
+        forecasts,
+        isLoading,
+        error,
+        isChatOpen,
+        setIsChatOpen,
+        toggleChat,
+      }}
+    >
       {children}
     </LiveForecastContext.Provider>
   );

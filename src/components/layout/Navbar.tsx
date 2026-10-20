@@ -15,6 +15,7 @@ import {
   ShieldAlert,
   LogOut,
   UserPlus,
+  Bot,
 } from 'lucide-react';
 
 // ─── Route definitions ────────────────────────────────────────────────────────
@@ -47,7 +48,7 @@ export const Navbar: React.FC = () => {
   const [tooltipY, setTooltipY]             = useState(0);
   const itemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
-  const { forecasts } = useLiveForecast();
+  const { forecasts, isChatOpen, toggleChat } = useLiveForecast();
   
   const activeAlerts = forecasts.filter(f => 
     f.rainfall.alertLevel === 'RED' || f.rainfall.alertLevel === 'ORANGE'
@@ -289,7 +290,7 @@ export const Navbar: React.FC = () => {
 
       {/* ── Mobile Bottom Navigation ──────────────────────────────────────── */}
       <aside 
-        className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] flex flex-row items-center justify-around px-2 glass-sidebar"
+        className="lg:hidden fixed bottom-0 left-0 right-0 z-[60] flex flex-row items-center justify-between px-1.5 sm:px-3 glass-sidebar"
         style={{
             height: 'calc(72px + env(safe-area-inset-bottom))',
             paddingBottom: 'env(safe-area-inset-bottom)',
@@ -310,14 +311,14 @@ export const Navbar: React.FC = () => {
               key={item.href}
               href={item.href}
               aria-label={item.label}
-              className="flex flex-col items-center justify-center relative w-12 h-12"
+              className="flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[48px] h-12"
             >
               {isActive && (
-                <span className="absolute -top-3 w-10 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
+                <span className="absolute -top-3 w-7 sm:w-9 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
               )}
               <Icon
-                width={24}
-                height={24}
+                width={21}
+                height={21}
                 color={isActive ? "#C8FF3D" : "#ffffff"}
                 strokeWidth={isActive ? 2.0 : 1.6}
                 style={{ opacity: isActive ? 1 : 0.6 }}
@@ -325,26 +326,48 @@ export const Navbar: React.FC = () => {
             </Link>
           );
         })}
+        {/* Alert bell */}
         <button
           onClick={() => setShowAlertModal(true)}
-          className="flex flex-col items-center justify-center relative w-12 h-12"
+          className="flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[48px] h-12"
           aria-label="Alerts"
         >
-          <Bell width={24} height={24} color="#ffffff" strokeWidth={1.6} style={{ opacity: 0.6 }} />
+          <Bell width={21} height={21} color="#ffffff" strokeWidth={1.6} style={{ opacity: 0.6 }} />
           {activeAlerts.length > 0 && (
-            <span className="absolute top-2 right-2 w-2 h-2 rounded-full bg-[#FF3B30] animate-pulse" />
+            <span className="absolute top-2 right-1 sm:right-2 w-2 h-2 rounded-full bg-[#FF3B30] animate-pulse" />
           )}
         </button>
+        {/* Registration */}
         <Link
           href="/register"
-          className="flex flex-col items-center justify-center relative w-12 h-12"
+          className="flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[48px] h-12"
           aria-label="Registration"
         >
            {pathname.startsWith('/register') && (
-              <span className="absolute -top-3 w-10 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
+              <span className="absolute -top-3 w-7 sm:w-9 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
            )}
-          <UserPlus width={24} height={24} color={pathname.startsWith('/register') ? "#C8FF3D" : "#ffffff"} strokeWidth={pathname.startsWith('/register') ? 2.0 : 1.6} style={{ opacity: pathname.startsWith('/register') ? 1 : 0.6 }} />
+          <UserPlus width={21} height={21} color={pathname.startsWith('/register') ? "#C8FF3D" : "#ffffff"} strokeWidth={pathname.startsWith('/register') ? 2.0 : 1.6} style={{ opacity: pathname.startsWith('/register') ? 1 : 0.6 }} />
         </Link>
+        {/* AI Assistant Chatbot launcher — integrated into mobile bottom nav */}
+        <button
+          onClick={toggleChat}
+          className="flex flex-col items-center justify-center relative flex-1 min-w-0 max-w-[48px] h-12"
+          aria-label="Open AI assistant"
+        >
+          {isChatOpen && (
+            <span className="absolute -top-3 w-7 sm:w-9 h-1 bg-[#ffffff] rounded-b-md shadow-[0_0_10px_rgba(255,255,255,0.55)]" />
+          )}
+          <Bot
+            width={21}
+            height={21}
+            color={isChatOpen ? "#C8FF3D" : "#ffffff"}
+            strokeWidth={isChatOpen ? 2.0 : 1.6}
+            style={{ opacity: isChatOpen ? 1 : 0.6 }}
+          />
+          {!isChatOpen && (
+            <span className="absolute top-2 right-1 sm:right-2 w-2 h-2 rounded-full bg-[#C8FF3D] animate-pulse" />
+          )}
+        </button>
       </aside>
 
       {/* Tooltip chip */}

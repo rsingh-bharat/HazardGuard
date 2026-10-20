@@ -18,7 +18,7 @@ export const VerificationPanel: React.FC<VerificationPanelProps> = ({ results })
     results.find((r) => r.scope.leadHours === selectedLeadHours) || results[0] || null;
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto p-6 pt-20 max-md:p-4 max-md:pt-20 max-md:pb-[100px] select-none font-mono max-md:w-full max-md:overflow-x-hidden">
+    <div className="space-y-6 max-w-7xl mx-auto p-6 pt-20 max-md:p-4 max-md:pt-20 max-md:pb-[calc(72px+env(safe-area-inset-bottom)+32px)] select-none font-mono max-md:w-full max-md:overflow-x-hidden">
       {/* Page Header */}
       <div
         className="flex flex-col md:flex-row md:items-center justify-between gap-4 p-5 shadow-2xl"
